@@ -10,6 +10,7 @@ const navItems = [
   { label: "Simulations", href: "/onboarding/simulations" },
   { label: "Conflits", href: "/onboarding/conflits" },
   { label: "Incendie", href: "/onboarding/incendie" },
+  { label: "EPI", href: "/onboarding/epi" },
 ];
 
 type PrimaryHeaderProps = {
