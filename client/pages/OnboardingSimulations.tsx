@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
+import { CountdownScenario } from "@/components/interactive/CountdownScenario";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getPreviousModule } from "@/lib/moduleProgress";
@@ -57,6 +58,12 @@ const escalationFlowItems = [
 const escalationFlowOrder = ["detect", "alerter", "communiquer", "closer"];
 
 const simulationsIllustration = "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=900&q=80";
+
+const reactionOptions = [
+  { id: "evac", label: "Lancer évac ciblée", impact: "PulseFlow déclenché, sortie 2min40", status: "success" as const },
+  { id: "attendre", label: "Attendre la confirmation", impact: "Retard de décision, congestion escalier", status: "warning" as const },
+  { id: "full", label: "Évacuer tout le campus", impact: "Activité stoppée 40 min", status: "risk" as const },
+];
 
 const simulationsChecklist = [
   { id: "badges", label: "Je sais réagir à un badge refusé" },
@@ -198,6 +205,14 @@ export default function OnboardingSimulations() {
               Les squads sécurité s'entraînent dans un centre immersif avec bornes interactives.
             </figcaption>
           </figure>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <CountdownScenario
+            title="Mode urgence"
+            prompt="Un capteur déclenche une alarme ciblée · choisissez la réaction en moins de 20s"
+            options={reactionOptions}
+          />
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
