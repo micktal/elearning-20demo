@@ -6,7 +6,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import Onboarding from "./pages/Onboarding";
+import OnboardingIntro from "./pages/Onboarding";
+import OnboardingProtocols from "./pages/OnboardingProtocols";
+import OnboardingSimulations from "./pages/OnboardingSimulations";
+import OnboardingIndex from "./pages/OnboardingIndex";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +21,10 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/onboarding" element={<OnboardingIndex />} />
+          <Route path="/onboarding/intro" element={<OnboardingIntro />} />
+          <Route path="/onboarding/protocoles" element={<OnboardingProtocols />} />
+          <Route path="/onboarding/simulations" element={<OnboardingSimulations />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
