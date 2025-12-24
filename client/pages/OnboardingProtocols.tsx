@@ -1,5 +1,5 @@
 import React from "react";
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
@@ -45,7 +45,7 @@ const safetyProtocols = [
 ];
 
 export default function OnboardingProtocols() {
-  const [activeProtocol, setActiveProtocol] = React.useState(safetyProtocols[0].id);
+  const [activeProtocol, setActiveProtocol] = useState(safetyProtocols[0].id);
   const protocol = safetyProtocols.find((item) => item.id === activeProtocol) ?? safetyProtocols[0];
 
   return (
