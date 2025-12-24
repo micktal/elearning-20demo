@@ -190,6 +190,9 @@ export default function OnboardingConflicts() {
                   <Link to="/onboarding/simulations">← Simulations</Link>
                 </Button>
                 <Button size="lg" asChild>
+                  <Link to="/onboarding/incendie">Module incendie →</Link>
+                </Button>
+                <Button variant="secondary" size="lg" asChild>
                   <Link to="/">Clore le parcours</Link>
                 </Button>
               </div>
