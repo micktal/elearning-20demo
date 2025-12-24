@@ -1,7 +1,11 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useMemo, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
+import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
+import { useModuleProgress } from "@/providers/ModuleProgressProvider";
+import { getPreviousModule } from "@/lib/moduleProgress";
 import { cn } from "@/lib/utils";
 
 const governanceStats = [
