@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
 import { CountdownScenario } from "@/components/interactive/CountdownScenario";
+import { PersonaComparison } from "@/components/interactive/PersonaComparison";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getPreviousModule } from "@/lib/moduleProgress";
@@ -63,6 +64,30 @@ const reactionOptions = [
   { id: "evac", label: "Lancer évac ciblée", impact: "PulseFlow déclenché, sortie 2min40", status: "success" as const },
   { id: "attendre", label: "Attendre la confirmation", impact: "Retard de décision, congestion escalier", status: "warning" as const },
   { id: "full", label: "Évacuer tout le campus", impact: "Activité stoppée 40 min", status: "risk" as const },
+];
+
+const personaData = [
+  {
+    id: "manager",
+    label: "Manager site",
+    role: "Coordonne les équipes",
+    recommendedAction: "Informer les guides-file et confirmer la zone sécurisée",
+    rationale: "Priorise la fluidité humaine et les relais terrain.",
+  },
+  {
+    id: "secops",
+    label: "SecOps",
+    role: "Supervise la sûreté",
+    recommendedAction: "Déclencher PulseFlow et remonter l'incident dans Nova Bleu",
+    rationale: "Garantit la traçabilité et l'analyse post-incident.",
+  },
+  {
+    id: "comex",
+    label: "Sponsor Comex",
+    role: "Pilote communication",
+    recommendedAction: "Préparer le message client avec faits + prochaine mise à jour",
+    rationale: "Rassure les partenaires stratégiques en moins de 90s.",
+  },
 ];
 
 const simulationsChecklist = [
@@ -205,6 +230,14 @@ export default function OnboardingSimulations() {
               Les squads sécurité s'entraînent dans un centre immersif avec bornes interactives.
             </figcaption>
           </figure>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <PersonaComparison
+            title="Comparatif personas"
+            intro="Analysez la décision selon différents rôles pour comprendre les attentes métiers."
+            personas={personaData}
+          />
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
