@@ -149,6 +149,17 @@ const playbookSteps = [
   },
 ];
 
+const mediationFlowItems = [
+  { id: "signal", label: "Identifier les signaux", detail: "Observer tensions et langage corporel" },
+  { id: "cadre", label: "Poser le cadre", detail: "Choisir un espace neutre et fixer les règles" },
+  { id: "options", label: "Explorer les options", detail: "Co-construire des engagements mesurables" },
+  { id: "suivi", label: "Organiser le suivi", detail: "Programmer un point J+1 et consigner" },
+];
+
+const mediationFlowOrder = ["signal", "cadre", "options", "suivi"];
+
+const conflictsIllustration = "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80";
+
 export default function OnboardingConflicts() {
   const [activeScenario, setActiveScenario] = useState(branchingScenarios[0].id);
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
