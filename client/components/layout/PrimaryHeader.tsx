@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
 import { LogoMark } from "@/components/branding/LogoMark";
 import { Button } from "@/components/ui/button";
-import { moduleSequence, type ModuleKey } from "@/lib/moduleProgress";
+import { type ModuleKey } from "@/lib/moduleProgress";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { cn } from "@/lib/utils";
 
