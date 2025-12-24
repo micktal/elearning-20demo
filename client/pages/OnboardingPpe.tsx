@@ -351,6 +351,14 @@ export default function OnboardingPpe() {
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
+          <ModuleCompletionCard
+            moduleId="epi"
+            checklist={epiChecklist}
+            description="Confirmez les compétences clés EPI pour débloquer la gouvernance éthique."
+          />
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
