@@ -175,6 +175,12 @@ const evacTimeline = [
   },
 ];
 
+const fireChecklist = [
+  { id: "capteurs", label: "Je peux lire et prioriser une cartographie capteurs" },
+  { id: "evac", label: "Je sélectionne la bonne stratégie PulseFlow" },
+  { id: "comm", label: "Je sais rédiger un brief client/presse" },
+];
+
 export default function OnboardingFire() {
   const [activeZone, setActiveZone] = useState(smartBeacons[0].id);
   const [activeTrack, setActiveTrack] = useState(responseTracks[0].id);
