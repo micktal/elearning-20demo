@@ -48,7 +48,7 @@ export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
 
         <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
           {navItems.map((item) => {
-            const unlocked = initialized ? isModuleUnlocked(item.moduleId) : item.moduleId === "intro";
+            const unlocked = item.moduleId ? (initialized ? isModuleUnlocked(item.moduleId) : item.moduleId === "intro") : true;
             if (!unlocked) {
               return (
                 <span key={item.label} className={cn("flex items-center gap-1 text-slate-500/70", baseText)}>
