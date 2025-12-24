@@ -58,7 +58,7 @@ const safetyHighlights = [
   },
   {
     title: "Reflexe alerte",
-    detail: "Utiliser le code "Nova Bleu" pour signaler discrètement une anomalie via Teams ou interphone.",
+    detail: "Utiliser le code \"Nova Bleu\" pour signaler discrètement une anomalie via Teams ou interphone.",
   },
 ];
 
@@ -84,11 +84,11 @@ const microGames = [
   {
     id: "cyber",
     title: "Jeu cyber calme",
-    prompt: "Vous recevez un mail interne "Urgent" qui demande vos accès VPN.",
+    prompt: "Vous recevez un mail interne \"Urgent\" qui demande vos accès VPN.",
     answers: [
       { id: "repondre", label: "Répondre rapidement pour débloquer la situation" },
       { id: "transfert", label: "Transférer au mentor pour validation" },
-      { id: "signal2", label: "Cliquer sur "Signaler" dans Outlook + notifier SecOps" },
+      { id: "signal2", label: "Cliquer sur \"Signaler\" dans Outlook + notifier SecOps" },
     ],
     correct: "signal2",
     tip: "Signaler = +5 points dans le score vigilance HelioNova Pulse.",
@@ -98,8 +98,8 @@ const microGames = [
     title: "Jeu culture Pulse",
     prompt: "Un client visite l'espace atelier. Quelle est la formule d'accueil Pulse ?",
     answers: [
-      { id: "bonjour", label: ""Bienvenue chez HelioNova, je vous accompagne."" },
-      { id: "question", label: ""Puis-je prendre votre badge ?"" },
+      { id: "bonjour", label: "\"Bienvenue chez HelioNova, je vous accompagne.\"" },
+      { id: "question", label: "\"Puis-je prendre votre badge ?\"" },
       { id: "silence", label: "Attendre qu'il pose une question" },
     ],
     correct: "bonjour",
