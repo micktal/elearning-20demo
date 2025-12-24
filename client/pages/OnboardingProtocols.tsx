@@ -1,8 +1,11 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
+import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
+import { useModuleProgress } from "@/providers/ModuleProgressProvider";
+import { getPreviousModule } from "@/lib/moduleProgress";
 import { cn } from "@/lib/utils";
 
 const safetyProtocols = [
@@ -55,9 +58,27 @@ const protocolDrillOrder = ["alerte", "isoler", "brief", "journal"];
 
 const protocolIllustration = "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80";
 
+const protocolChecklist = [
+  { id: "matrice", label: "Je sais à qui m'adresser pour chaque consigne" },
+  { id: "checklist", label: "Je peux restituer une checklist en 3 points" },
+  { id: "journal", label: "Je maîtrise la procédure de journalisation" },
+];
+
 export default function OnboardingProtocols() {
   const [activeProtocol, setActiveProtocol] = useState(safetyProtocols[0].id);
   const protocol = safetyProtocols.find((item) => item.id === activeProtocol) ?? safetyProtocols[0];
+  const navigate = useNavigate();
+  const { initialized, isModuleUnlocked } = useModuleProgress();
+  const moduleId = "protocoles" as const;
+  const nextUnlocked = initialized && isModuleUnlocked("simulations");
+
+  useEffect(() => {
+    if (!initialized) return;
+    if (!isModuleUnlocked(moduleId)) {
+      const previous = getPreviousModule(moduleId);
+      navigate(previous?.path ?? "/onboarding/intro", { replace: true });
+    }
+  }, [initialized, isModuleUnlocked, moduleId, navigate]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
@@ -77,8 +98,11 @@ export default function OnboardingProtocols() {
               <Button variant="ghost" asChild>
                 <Link to="/onboarding/intro">← Introduction</Link>
               </Button>
-              <Button asChild>
-                <Link to="/onboarding/simulations">Simulations opérationnelles →</Link>
+              <Button
+                disabled={!nextUnlocked}
+                onClick={() => nextUnlocked && navigate("/onboarding/simulations")}
+              >
+                {nextUnlocked ? "Simulations opérationnelles →" : "Validez ce module pour continuer"}
               </Button>
             </div>
           </div>
@@ -121,8 +145,9 @@ export default function OnboardingProtocols() {
                 <Button size="sm" variant="outline" asChild>
                   <Link to="/onboarding/intro">Revenir à l'introduction</Link>
                 </Button>
-                <Button size="sm" asChild>
-                  <Link to="/onboarding/simulations">Continuer vers les simulations</Link>
+                <Button size="sm" disabled={!nextUnlocked} onClick={() => nextUnlocked && navigate("/onboarding/simulations")}
+                >
+                  {nextUnlocked ? "Continuer vers les simulations" : "En attente de validation"}
                 </Button>
               </div>
             </article>
@@ -153,6 +178,14 @@ export default function OnboardingProtocols() {
               Les responsables sûreté utilisent un studio immersif pour simuler les scénarios réglementaires.
             </figcaption>
           </figure>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <ModuleCompletionCard
+            moduleId="protocoles"
+            checklist={protocolChecklist}
+            description="Confirmez la bonne appropriation des politiques avant de débloquer les simulations."
+          />
         </section>
       </main>
     </div>
