@@ -157,10 +157,10 @@ export default function Index() {
 
             <div className="flex flex-col gap-4 sm:flex-row">
               <Button size="lg" asChild>
-                <Link to="/onboarding">Démarrer le module</Link>
+                <Link to="/onboarding/intro">Démarrer le module</Link>
               </Button>
               <Button variant="secondary" size="lg" asChild>
-                <Link to="/onboarding">Consulter la documentation</Link>
+                <Link to="/onboarding/intro">Consulter la documentation</Link>
               </Button>
             </div>
 
