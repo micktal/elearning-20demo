@@ -192,6 +192,9 @@ export default function OnboardingPpe() {
                   <Link to="/onboarding/incendie">← Module incendie</Link>
                 </Button>
                 <Button size="lg" asChild>
+                  <Link to="/onboarding/ethique">Module éthique →</Link>
+                </Button>
+                <Button variant="secondary" size="lg" asChild>
                   <Link to="/">Clore le parcours</Link>
                 </Button>
               </div>
