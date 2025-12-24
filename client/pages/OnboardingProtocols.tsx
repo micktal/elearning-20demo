@@ -128,6 +128,32 @@ export default function OnboardingProtocols() {
             </article>
           </div>
         </section>
+
+        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
+            <h2 className="mt-2 text-3xl font-semibold">Reconstituez la procédure officielle</h2>
+            <p className="mt-3 text-slate-300">
+              Faites glisser les actions clés pour retrouver l'ordre attendu lors d'une alerte sûreté. La validation confirme votre maîtrise du référentiel.
+            </p>
+            <div className="mt-6">
+              <DragReorderBoard
+                title="Plan d'action Pulse"
+                description="Organisez les étapes du signalement à la capitalisation."
+                items={protocolDrillItems}
+                correctOrder={protocolDrillOrder}
+                successCopy="Procédure maîtrisée"
+                accent="amber"
+              />
+            </div>
+          </div>
+          <figure className="overflow-hidden rounded-3xl border border-white/10">
+            <img src={protocolIllustration} alt="Brief sécurité HelioNova" className="h-full w-full object-cover" loading="lazy" />
+            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">
+              Les responsables sûreté utilisent un studio immersif pour simuler les scénarios réglementaires.
+            </figcaption>
+          </figure>
+        </section>
       </main>
     </div>
   );
