@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
+import { InteractiveCampusMap } from "@/components/interactive/InteractiveCampusMap";
+import { AnomalySpotter } from "@/components/interactive/AnomalySpotter";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getPreviousModule } from "@/lib/moduleProgress";
@@ -57,6 +59,54 @@ const protocolDrillItems = [
 const protocolDrillOrder = ["alerte", "isoler", "brief", "journal"];
 
 const protocolIllustration = "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80";
+
+const campusZones = [
+  {
+    id: "atrium",
+    label: "Atrium",
+    description: "Point d'accueil, briefing badge et orientation des visiteurs.",
+    access: "Accès badge + hôte",
+  },
+  {
+    id: "lab",
+    label: "Laboratoire",
+    description: "Zone restreinte, équipements sensibles et procédures renforcées.",
+    access: "Autorisations SecOps",
+  },
+  {
+    id: "command",
+    label: "PC sécurité",
+    description: "Supervision 24/7, escalade des incidents et plan Delta.",
+    access: "Sûreté uniquement",
+  },
+  {
+    id: "studio",
+    label: "Studio visiteurs",
+    description: "Brief express des partenaires et enregistrement des badges invités.",
+    access: "Badge invité + sponsor",
+  },
+];
+
+const anomalyPoints = [
+  {
+    id: "porte",
+    label: "Porte ouverte",
+    description: "Issue coupe-feu non refermée",
+    position: { top: "30%", left: "40%" },
+  },
+  {
+    id: "badge",
+    label: "Badge absent",
+    description: "Collaborateur sans badge visible",
+    position: { top: "55%", left: "65%" },
+  },
+  {
+    id: "document",
+    label: "Document sensible",
+    description: "Plan d'intervention laissé sur une table",
+    position: { top: "75%", left: "35%" },
+  },
+];
 
 const protocolChecklist = [
   { id: "matrice", label: "Je sais à qui m'adresser pour chaque consigne" },
@@ -156,6 +206,23 @@ export default function OnboardingProtocols() {
 
         <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
+            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Plan interactif</p>
+            <h2 className="mt-2 text-3xl font-semibold">Comprendre les flux du campus</h2>
+            <p className="mt-3 text-slate-300">Cliquez sur chaque zone pour identifier les accès autorisés / interdits et les flux critiques.</p>
+            <div className="mt-6">
+              <InteractiveCampusMap title="Cartographie HelioNova" zones={campusZones} intro="Repérez-vous avant d'accompagner vos équipes." />
+            </div>
+          </div>
+          <figure className="overflow-hidden rounded-3xl border border-white/10">
+            <img src={protocolIllustration} alt="Brief sécurité HelioNova" className="h-full w-full object-cover" loading="lazy" />
+            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">
+              Les responsables sûreté utilisent un studio immersif pour simuler les scénarios réglementaires.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
             <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
             <h2 className="mt-2 text-3xl font-semibold">Reconstituez la procédure officielle</h2>
             <p className="mt-3 text-slate-300">
@@ -178,6 +245,15 @@ export default function OnboardingProtocols() {
               Les responsables sûreté utilisent un studio immersif pour simuler les scénarios réglementaires.
             </figcaption>
           </figure>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <AnomalySpotter
+            title="Image interactive"
+            intro="Repérez toutes les anomalies de sûreté avant de valider la zone."
+            imageUrl="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1100&q=80"
+            points={anomalyPoints}
+          />
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
