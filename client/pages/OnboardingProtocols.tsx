@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
+import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
 import { cn } from "@/lib/utils";
 
 const safetyProtocols = [
