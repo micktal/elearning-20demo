@@ -169,6 +169,9 @@ export default function OnboardingEthics() {
   const [activeFeed, setActiveFeed] = useState(alertFeeds[0].id);
   const [activeScenario, setActiveScenario] = useState(branchingScenarios[0].id);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { initialized, isModuleUnlocked } = useModuleProgress();
+  const moduleId = "ethique" as const;
 
   const feed = useMemo(() => alertFeeds.find((item) => item.id === activeFeed) ?? alertFeeds[0], [activeFeed]);
   const scenario = useMemo(
@@ -176,6 +179,14 @@ export default function OnboardingEthics() {
     [activeScenario],
   );
   const currentOption = scenario.options.find((option) => option.id === selectedOption);
+
+  useEffect(() => {
+    if (!initialized) return;
+    if (!isModuleUnlocked(moduleId)) {
+      const previous = getPreviousModule(moduleId);
+      navigate(previous?.path ?? "/onboarding/epi", { replace: true });
+    }
+  }, [initialized, isModuleUnlocked, moduleId, navigate]);
 
   const handleScenarioChange = (id: string) => {
     setActiveScenario(id);
