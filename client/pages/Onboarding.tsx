@@ -1,7 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
+import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
+import { useModuleProgress } from "@/providers/ModuleProgressProvider";
+import { getPreviousModule } from "@/lib/moduleProgress";
 
 const timeline = [
   { slot: "00:00 — 00:45", title: "Accueil institutionnel", detail: "Message du Comité Exécutif et rappel de la mission HelioNova." },
@@ -33,7 +37,26 @@ const introCorrectOrder = ["message", "repere", "valeurs", "brief"];
 
 const introIllustration = "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80";
 
+const introChecklist = [
+  { id: "vision", label: "J'ai assimilé la vision Pulse 2030" },
+  { id: "gouvernance", label: "Je peux retranscrire les repères corporate" },
+  { id: "brief", label: "J'ai identifié les livrables et prochaines étapes" },
+];
+
 export default function OnboardingIntro() {
+  const navigate = useNavigate();
+  const { isModuleUnlocked, initialized } = useModuleProgress();
+  const moduleId = "intro" as const;
+  const nextUnlocked = isModuleUnlocked("protocoles");
+
+  useEffect(() => {
+    if (!initialized) return;
+    if (!isModuleUnlocked(moduleId)) {
+      const previous = getPreviousModule(moduleId);
+      navigate(previous?.path ?? "/", { replace: true });
+    }
+  }, [initialized, isModuleUnlocked, moduleId, navigate]);
+
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <PrimaryHeader theme="dark" />
@@ -62,8 +85,12 @@ export default function OnboardingIntro() {
               ))}
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button size="lg" asChild>
-                <Link to="/onboarding/protocoles">Lecture terminée · Consignes</Link>
+              <Button
+                size="lg"
+                disabled={!nextUnlocked}
+                onClick={() => nextUnlocked && navigate("/onboarding/protocoles")}
+              >
+                {nextUnlocked ? "Lecture terminée · Consignes" : "Validez le module pour continuer"}
               </Button>
               <Button variant="ghost" size="lg" asChild>
                 <Link to="/">Revenir à l'accueil</Link>
@@ -117,6 +144,14 @@ export default function OnboardingIntro() {
               Les nouveaux collaborateurs découvrent l'écosystème Pulse dans un espace immersif.
             </figcaption>
           </figure>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <ModuleCompletionCard
+            moduleId="intro"
+            checklist={introChecklist}
+            description="Cochez chaque item lorsque vous maîtrisez les informations clés. Une fois validé, le module Consignes se débloque."
+          />
         </section>
       </main>
     </div>
