@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
+import { ClassificationBoard } from "@/components/interactive/ClassificationBoard";
+import { AssemblyGame } from "@/components/interactive/AssemblyGame";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getPreviousModule } from "@/lib/moduleProgress";
 import { cn } from "@/lib/utils";
@@ -162,6 +164,20 @@ const ethicsChecklist = [
   { id: "flux", label: "Je sais router chaque type d'alerte" },
   { id: "scenario", label: "J'identifie la bonne réponse pour chaque cas" },
   { id: "timeline", label: "Je respecte le timing T0/T+24h/T+5j" },
+];
+
+const ethicsClassificationItems = [
+  { id: "cadeau", label: "Cadeau >150€", detail: "LegalOps" },
+  { id: "fraude", label: "Soupçon fraude", detail: "SecOps + Finance" },
+  { id: "ia", label: "Usage IA non référencée", detail: "Data Privacy" },
+  { id: "harcelement", label: "Comportement inapproprié", detail: "People & Culture" },
+];
+
+const ethicsDilemmaCards = [
+  { id: "transparence", title: "Transparence client", description: "Informer immédiatement le client du risque" },
+  { id: "enquete", title: "Enquête interne", description: "Isoler l'équipe et collecter les preuves" },
+  { id: "media", title: "Réponse presse", description: "Préparer un point si fuite" },
+  { id: "ignorer", title: "Attendre", description: "Reporter la décision" },
 ];
 
 export default function OnboardingEthics() {
@@ -343,6 +359,29 @@ export default function OnboardingEthics() {
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <ClassificationBoard
+            title="Signalement simulé"
+            prompt="Trier les situations selon le canal approprié."
+            categories={[
+              { id: "legal", label: "LegalOps" },
+              { id: "people", label: "People & Culture" },
+            ]}
+            items={ethicsClassificationItems}
+          />
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <AssemblyGame
+            title="Dilemme professionnel"
+            prompt="Choisissez 3 leviers pour répondre à un signalement sensible."
+            cards={ethicsDilemmaCards}
+            targetIds={["transparence", "enquete", "media"]}
+            successCopy="Arbitrage cohérent"
+            accent="amber"
+          />
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
