@@ -10,6 +10,7 @@ import OnboardingIntro from "./pages/Onboarding";
 import OnboardingProtocols from "./pages/OnboardingProtocols";
 import OnboardingSimulations from "./pages/OnboardingSimulations";
 import OnboardingConflicts from "./pages/OnboardingConflicts";
+import OnboardingFire from "./pages/OnboardingFire";
 import OnboardingIndex from "./pages/OnboardingIndex";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/onboarding/protocoles" element={<OnboardingProtocols />} />
           <Route path="/onboarding/simulations" element={<OnboardingSimulations />} />
           <Route path="/onboarding/conflits" element={<OnboardingConflicts />} />
+          <Route path="/onboarding/incendie" element={<OnboardingFire />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
