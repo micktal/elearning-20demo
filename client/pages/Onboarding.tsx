@@ -64,6 +64,9 @@ const introAssemblyCards = [
   { id: "off", title: "Afterwork", description: "Moment informel", category: "Optionnel" },
 ];
 
+const introVideoUrl = "https://cdn.coverr.co/videos/coverr-a-business-lady-looking-at-a-monitor-5175/1080p.mp4";
+const introAudioUrl = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_4cf0ee5537.mp3?filename=corporate-presentation-112973.mp3";
+
 const introChecklist = [
   { id: "vision", label: "J'ai assimilé la vision Pulse 2030" },
   { id: "gouvernance", label: "Je peux retranscrire les repères corporate" },
@@ -112,17 +115,18 @@ export default function OnboardingIntro() {
               ))}
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button
-                size="lg"
-                disabled={!nextUnlocked}
-                onClick={() => nextUnlocked && navigate("/onboarding/protocoles")}
-              >
-                {nextUnlocked ? "Lecture terminée · Consignes" : "Validez le module pour continuer"}
-              </Button>
-              <Button variant="ghost" size="lg" asChild>
-                <Link to="/">Revenir à l'accueil</Link>
-              </Button>
-            </div>
+            <Button
+              size="lg"
+              disabled={!nextUnlocked}
+              onClick={() => nextUnlocked && navigate("/onboarding/protocoles")}
+              className="transition duration-300 hover:-translate-y-0.5"
+            >
+              {nextUnlocked ? "Lecture terminée · Consignes" : "Validez le module pour continuer"}
+            </Button>
+            <Button variant="ghost" size="lg" asChild>
+              <Link to="/">Revenir à l'accueil</Link>
+            </Button>
+          </div>
           </article>
 
           <aside className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-cyan-500/20">
@@ -149,8 +153,44 @@ export default function OnboardingIntro() {
 
         <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
+            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Capsule vidéo</p>
+            <h2 className="mt-2 text-3xl font-semibold">Message d'ouverture du Comex</h2>
+            <p className="mt-3 text-slate-300">
+              Cette capsule présente les ambitions 2030, les relais de croissance et les partenariats clés. L'audio complémentaire détaille la posture Pulse attendue.
+            </p>
+            <div className="mt-6 space-y-4">
+              <div className="overflow-hidden rounded-3xl border border-white/10">
+                <video src={introVideoUrl} className="w-full" autoPlay loop muted playsInline controls poster={introIllustration} />
+              </div>
+              <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-4">
+                <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Capsule audio</p>
+                <p className="text-sm text-slate-300">Guide vocal “Posture Pulse”</p>
+                <audio controls className="mt-2 w-full">
+                  <source src={introAudioUrl} type="audio/mpeg" />
+                </audio>
+              </div>
+            </div>
+          </div>
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
             <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Découverte guidée</p>
-            <h2 className="mt-2 text-3xl font-semibold">Explorez les espaces Pulse</h2>
+            <h3 className="mt-2 text-2xl font-semibold">Explorez les espaces Pulse</h3>
+            <p className="mt-3 text-slate-300">
+              Chaque zone dévoile un message clé : orientation stratégique, immersion dans les valeurs puis accompagnement terrain. Suivez l'ordre imposé pour
+              éviter la surcharge d'informations.
+            </p>
+            <div className="mt-6">
+              <GuidedDiscovery
+                title="Parcours découverte"
+                intro="Cliquez dans l'ordre proposé pour débloquer toutes les informations."
+                steps={introDiscoverySteps}
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
             <p className="mt-3 text-slate-300">
               Chaque zone dévoile un message clé : orientation stratégique, immersion dans les valeurs puis accompagnement terrain. Suivez l'ordre imposé pour
               éviter la surcharge d'informations.
