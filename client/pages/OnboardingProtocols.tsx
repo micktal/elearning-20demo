@@ -44,6 +44,17 @@ const safetyProtocols = [
   },
 ];
 
+const protocolDrillItems = [
+  { id: "alerte", label: "Déclarer l'alerte", detail: "Signalement Nova Bleu ou hotline sécurité" },
+  { id: "isoler", label: "Isoler la zone", detail: "Couper l'accès et informer le PC sécurité" },
+  { id: "brief", label: "Briefer les équipes", detail: "Partager les consignes officielles aux managers" },
+  { id: "journal", label: "Journaliser", detail: "Reporter l'incident et les actions correctives" },
+];
+
+const protocolDrillOrder = ["alerte", "isoler", "brief", "journal"];
+
+const protocolIllustration = "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80";
+
 export default function OnboardingProtocols() {
   const [activeProtocol, setActiveProtocol] = useState(safetyProtocols[0].id);
   const protocol = safetyProtocols.find((item) => item.id === activeProtocol) ?? safetyProtocols[0];
