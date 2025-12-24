@@ -73,6 +73,9 @@ export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
           <Button variant={isDark ? "secondary" : "ghost"} size="sm" asChild>
             <Link to="/onboarding/intro">Lancer le module</Link>
           </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/onboarding/dashboard">Tableau de bord</Link>
+          </Button>
           <Button variant={isDark ? "default" : "default"} size="sm" asChild>
             <Link to="/">Portail HelioNova</Link>
           </Button>
