@@ -22,6 +22,17 @@ const statBlocks = [
   { label: "Livrables", value: "Brief + consignes" },
 ];
 
+const introInteractiveItems = [
+  { id: "message", label: "Message du Comex", detail: "Aligner la vision Pulse 2030" },
+  { id: "repere", label: "Repères corporate", detail: "Comprendre la gouvernance et les implantations" },
+  { id: "valeurs", label: "Valeurs & posture", detail: "Intégrer les attentes managériales" },
+  { id: "brief", label: "Brief opérationnel", detail: "Préparer la consultation des consignes" },
+];
+
+const introCorrectOrder = ["message", "repere", "valeurs", "brief"];
+
+const introIllustration = "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80";
+
 export default function OnboardingIntro() {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
