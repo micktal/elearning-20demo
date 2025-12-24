@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
@@ -76,7 +75,7 @@ const safetyProtocols = [
     summary:
       "Badge nominatif, zones contrôlées et consignes d'accompagnement visiteurs constituent le premier niveau de protection.",
     checklist: [
-      "Declaration instantanée sur Nova Bleu",
+      "Déclaration instantanée sur Nova Bleu",
       "Jamais de prêt de badge",
       "Visiteur toujours accompagné",
     ],
@@ -128,7 +127,7 @@ const gameBank = [
     answers: [
       { id: "repondre", label: "Répondre rapidement pour rassurer l'expéditeur" },
       { id: "mentor", label: "Transmettre au mentor pour avis" },
-      { id: "signal\", label: \"Utiliser le bouton \"Signaler\" puis prévenir SecOps" },
+      { id: "signal", label: "Utiliser le bouton \"Signaler\" puis prévenir SecOps" },
     ],
     correct: "signal",
     tip: "Les signalements alimentent le reporting cybersécurité présenté au Comité Audit.",
