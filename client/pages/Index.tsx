@@ -61,7 +61,7 @@ const safetyHighlights = [
   },
   {
     title: "Procédure d'alerte",
-    detail: "Code "Nova Bleu" pour toute situation sensible et points de rassemblement rappelés lors de la prise de poste.",
+    detail: "Code \"Nova Bleu\" pour toute situation sensible et points de rassemblement rappelés lors de la prise de poste.",
   },
 ];
 
@@ -87,11 +87,11 @@ const microGames = [
   {
     id: "cyber",
     title: "Protection des identifiants",
-    prompt: "Un courriel interne "URGENT" demande vos codes VPN. Quelle conduite adoptez-vous ?",
+    prompt: "Un courriel interne \"URGENT\" demande vos codes VPN. Quelle conduite adoptez-vous ?",
     answers: [
       { id: "repondre", label: "Répondre pour accélérer le traitement" },
       { id: "mentor", label: "Transférer au mentor" },
-      { id: "signal", label: "Utiliser le bouton "Signaler" puis alerter SecOps" },
+      { id: "signal", label: "Utiliser le bouton \"Signaler\" puis alerter SecOps" },
     ],
     correct: "signal",
     tip: "Tout signalement qualifié est consolidé dans l'indicateur vigilance du Comité Sécurité.",
