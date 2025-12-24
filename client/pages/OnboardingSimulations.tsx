@@ -152,6 +152,32 @@ export default function OnboardingSimulations() {
             </article>
           </div>
         </section>
+
+        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
+            <h2 className="mt-2 text-3xl font-semibold">Ordonnez l'escalade SecOps</h2>
+            <p className="mt-3 text-slate-300">
+              Complétez la séquence officielle de traitement d'une alerte en déplaçant les blocs. Ce mini-jeu vient compléter les scénarios à embranchements.
+            </p>
+            <div className="mt-6">
+              <DragReorderBoard
+                title="Chaîne d'escalade"
+                description="Positionnez les actions de la détection à la capitalisation."
+                items={escalationFlowItems}
+                correctOrder={escalationFlowOrder}
+                successCopy="Escalade validée"
+                accent="emerald"
+              />
+            </div>
+          </div>
+          <figure className="overflow-hidden rounded-3xl border border-white/10">
+            <img src={simulationsIllustration} alt="Salle de crise HelioNova" className="h-full w-full object-cover" loading="lazy" />
+            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">
+              Les squads sécurité s'entraînent dans un centre immersif avec bornes interactives.
+            </figcaption>
+          </figure>
+        </section>
       </main>
     </div>
   );
