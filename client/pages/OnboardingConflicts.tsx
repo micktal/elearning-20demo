@@ -1,8 +1,11 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useMemo, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
+import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
+import { useModuleProgress } from "@/providers/ModuleProgressProvider";
+import { getPreviousModule } from "@/lib/moduleProgress";
 import { cn } from "@/lib/utils";
 
 const conflictStats = [
@@ -160,9 +163,27 @@ const mediationFlowOrder = ["signal", "cadre", "options", "suivi"];
 
 const conflictsIllustration = "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80";
 
+const conflictsChecklist = [
+  { id: "phases", label: "Je restitue les 3 phases de désescalade" },
+  { id: "scenario", label: "Je choisis la bonne issue pour chaque scénario" },
+  { id: "plan", label: "Je sais formaliser un plan de suivi" },
+];
+
 export default function OnboardingConflicts() {
   const [activeScenario, setActiveScenario] = useState(branchingScenarios[0].id);
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { initialized, isModuleUnlocked } = useModuleProgress();
+  const moduleId = "conflits" as const;
+  const nextUnlocked = initialized && isModuleUnlocked("incendie");
+
+  useEffect(() => {
+    if (!initialized) return;
+    if (!isModuleUnlocked(moduleId)) {
+      const previous = getPreviousModule(moduleId);
+      navigate(previous?.path ?? "/onboarding/simulations", { replace: true });
+    }
+  }, [initialized, isModuleUnlocked, moduleId, navigate]);
 
   const scenario = useMemo(
     () => branchingScenarios.find((item) => item.id === activeScenario) ?? branchingScenarios[0],
@@ -201,8 +222,8 @@ export default function OnboardingConflicts() {
                 <Button variant="outline" size="lg" asChild>
                   <Link to="/onboarding/simulations">← Simulations</Link>
                 </Button>
-                <Button size="lg" asChild>
-                  <Link to="/onboarding/incendie">Module incendie →</Link>
+                <Button size="lg" disabled={!nextUnlocked} onClick={() => nextUnlocked && navigate("/onboarding/incendie")}>
+                  {nextUnlocked ? "Module incendie →" : "Validez pour débloquer"}
                 </Button>
                 <Button variant="secondary" size="lg" asChild>
                   <Link to="/">Clore le parcours</Link>
@@ -225,6 +246,31 @@ export default function OnboardingConflicts() {
               </div>
             </aside>
           </div>
+        </section>
+
+        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
+            <h2 className="mt-2 text-3xl font-semibold">Préparez votre médiation</h2>
+            <p className="mt-3 text-slate-300">
+              Reconstituez les étapes du protocole de médiation Pulse pour entraîner votre posture avant les jeux de rôles.
+            </p>
+            <div className="mt-6">
+              <DragReorderBoard
+                title="Séquence de médiation"
+                description="Glissez pour retrouver la chronologie signal → suivi."
+                items={mediationFlowItems}
+                correctOrder={mediationFlowOrder}
+                successCopy="Protocole maîtrisé"
+              />
+            </div>
+          </div>
+          <figure className="overflow-hidden rounded-3xl border border-white/10">
+            <img src={conflictsIllustration} alt="Salle de médiation" className="h-full w-full object-cover" loading="lazy" />
+            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">
+              Des sessions immersives permettent de s'entraîner aux conversations sensibles.
+            </figcaption>
+          </figure>
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
@@ -324,6 +370,14 @@ export default function OnboardingConflicts() {
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <ModuleCompletionCard
+            moduleId="conflits"
+            checklist={conflictsChecklist}
+            description="Validez que vous maîtrisez les réflexes de médiation pour débloquer le module incendie."
+          />
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
