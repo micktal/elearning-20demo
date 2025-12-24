@@ -45,7 +45,7 @@ export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
 
         <div className="flex items-center gap-3">
           <Button variant={isDark ? "secondary" : "ghost"} size="sm" asChild>
-            <Link to="/onboarding">Lancer le module</Link>
+            <Link to="/onboarding/intro">Lancer le module</Link>
           </Button>
           <Button variant={isDark ? "default" : "default"} size="sm" asChild>
             <Link to="/">Portail HelioNova</Link>
