@@ -92,6 +92,32 @@ export default function OnboardingIntro() {
             </div>
           </aside>
         </section>
+
+        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
+            <h2 className="mt-2 text-3xl font-semibold">Ordonnez la séquence d'onboarding</h2>
+            <p className="mt-3 text-slate-300">
+              Faites glisser chaque étape pour reconstituer la chronologie officielle. Une fois l'ordre validé, la pastille cyan confirme la maîtrise du fil
+              directeur HelioNova.
+            </p>
+            <div className="mt-6">
+              <DragReorderBoard
+                title="Étapes institutionnelles"
+                description="Glissez-déposez les blocs pour retrouver la progression officielle."
+                items={introInteractiveItems}
+                correctOrder={introCorrectOrder}
+                successCopy="Chronologie validée"
+              />
+            </div>
+          </div>
+          <figure className="overflow-hidden rounded-3xl border border-white/10">
+            <img src={introIllustration} alt="Accueil HelioNova" className="h-full w-full object-cover" loading="lazy" />
+            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">
+              Les nouveaux collaborateurs découvrent l'écosystème Pulse dans un espace immersif.
+            </figcaption>
+          </figure>
+        </section>
       </main>
     </div>
   );
