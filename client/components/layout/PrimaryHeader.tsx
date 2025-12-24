@@ -11,6 +11,7 @@ const navItems = [
   { label: "Conflits", href: "/onboarding/conflits" },
   { label: "Incendie", href: "/onboarding/incendie" },
   { label: "EPI", href: "/onboarding/epi" },
+  { label: "Éthique", href: "/onboarding/ethique" },
 ];
 
 type PrimaryHeaderProps = {
