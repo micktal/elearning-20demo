@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "Introduction", href: "/#intro" },
-  { label: "Sécurité", href: "/#securite" },
-  { label: "Jeux", href: "/#jeux" },
+  { label: "Introduction", href: "/onboarding/intro" },
+  { label: "Consignes", href: "/onboarding/protocoles" },
+  { label: "Simulations", href: "/onboarding/simulations" },
 ];
 
 type PrimaryHeaderProps = {
