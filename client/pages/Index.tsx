@@ -6,115 +6,118 @@ import { cn } from "@/lib/utils";
 
 const scenarioOptions = [
   {
-    id: "immersion",
-    label: "Immersion express",
-    summary: "Vidéo manifeste + check-in interactif",
-    focus: "Les nouveaux arrivants découvrent l'histoire HelioNova et partagent leurs premières attentes.",
+    id: "orientation",
+    label: "Orientation stratégique",
+    summary: "Panorama du groupe et priorités 2025.",
+    focus:
+      "Les nouveaux collaborateurs identifient les ambitions HelioNova et les indicateurs suivis par le Comex avant leur arrivée sur site.",
     actions: [
-      "Capsule vidéo 45 s avec sous-titres",
-      "Question miroir à voix haute",
-      "Réaction emoji pour briser la glace",
+      "Vidéo d'ouverture du Directeur Général",
+      "Repères de gouvernance et empreinte internationale",
+      "Points de contact RH et managers référents",
     ],
   },
   {
-    id: "surete",
-    label: "Sécurité & sûreté",
-    summary: "Micro-scénarios et checklist",
-    focus: "Les règles vitales sont jouées en situation pour ancrer les réflexes badge et comportement.",
+    id: "conformite",
+    label: "Cadre conformité",
+    summary: "Règles de sûreté, sécurité et éthique.",
+    focus:
+      "Les obligations réglementaires et les réflexes de protection sont rappelés à l'aide de scénarios opérationnels et de checklists officielles.",
     actions: [
-      "Matching des pictogrammes d'alerte",
-      "Checklist badge + coffre IT",
-      "Micro-pause respiration pour mémoriser",
+      "Procédure badge & accès sensibles",
+      "Référentiel sécurité numérique et SecOps",
+      "Processus d'escalade et numéro Nova Bleu",
     ],
   },
   {
     id: "culture",
-    label: "Culture HelioNova",
-    summary: "Quiz tonalité + engagements",
-    focus: "On traduit les valeurs Pulse en gestes concrets du quotidien et on signe un pacte d'équipe.",
+    label: "Culture clients Pulse",
+    summary: "Expérience client et posture de service.",
+    focus:
+      "Chaque valeur Pulse est traduite en comportements attendus auprès des clients et partenaires industriels.",
     actions: [
-      "Quiz tonalité (3 questions)",
-      "Carte d'engagement à glisser",
-      "Message audio du CEO",
+      "Engagement clients HelioNova",
+      "Rituels d'équipe et codes relationnels",
+      "Message audio du sponsor métier",
     ],
   },
 ];
 
 const timeline = [
-  { slot: "00:00 — 00:40", title: "Opening cinématique", detail: "Logo HelioNova, manifeste et annonce du mentor." },
-  { slot: "00:40 — 02:30", title: "Trio d'expériences", detail: "Immersion, sécurité, culture : chaque capsule dure 50 secondes." },
-  { slot: "02:30 — 03:30", title: "Jeu express", detail: "Scénario badge + réaction immédiate pour évaluer la vigilance." },
-  { slot: "03:30 — 04:30", title: "Consignes finales", detail: "Checklist sûreté + ressources à consulter." },
+  { slot: "00:00 — 00:45", title: "Accueil exécutif", detail: "Message institutionnel, rappel de la mission et de la raison d'être." },
+  { slot: "00:45 — 02:15", title: "Repères corporate", detail: "Organisation, gouvernance et enjeux prioritaires expliqués de manière synthétique." },
+  { slot: "02:15 — 03:30", title: "Dispositif conformité", detail: "Zoom sur sûreté, sécurité numérique et posture responsable." },
+  { slot: "03:30 — 04:30", title: "Mise en pratique", detail: "Cas d'usage et prochaines étapes avec le manager référent." },
 ];
 
 const safetyHighlights = [
   {
-    title: "Badge & zones sensibles",
-    detail: "Jamais de badge laissé visible hors site. Déclarer toute perte dans les 15 min au canal Sûreté.",
+    title: "Badge & périmètres", 
+    detail: "Le badge reste sur soi en permanence. Toute perte se déclare immédiatement sur le canal Nova Bleu avec confirmation managériale.",
   },
   {
-    title: "Sécurité numérique",
-    detail: "Double authentification obligatoire et verrouillage de session dès que vous vous éloignez.",
+    title: "Protection des systèmes",
+    detail: "Sessions verrouillées dès que vous quittez votre poste, MFA obligatoire et remontée instantanée des emails suspects à SecOps.",
   },
   {
-    title: "Reflexe alerte",
-    detail: "Utiliser le code \"Nova Bleu\" pour signaler discrètement une anomalie via Teams ou interphone.",
+    title: "Procédure d'alerte",
+    detail: "Code "Nova Bleu" pour toute situation sensible et points de rassemblement rappelés lors de la prise de poste.",
   },
 ];
 
 const readingPrompts = [
-  "Pourquoi HelioNova Pulse existe et comment chaque rôle contribue à la vision 2030.",
-  "Les trois réflexes sécurité à appliquer dès votre première heure dans les bureaux.",
-  "Comment valider votre onboarding en 3 à 5 minutes grâce aux micro-jeux intégrés.",
+  "Vision HelioNova Pulse : comment chaque équipe contribue au plan stratégique 2030.",
+  "Référentiel sûreté & conformité : trois réflexes à appliquer dès la première journée.",
+  "Plan d'intégration : livrables attendus après le module digital et la rencontre manager.",
 ];
 
 const microGames = [
   {
     id: "badge",
-    title: "Jeu réflexe badge",
-    prompt: "Votre badge clignote rouge à l'entrée data center. Quelle est votre première action ?",
+    title: "Procédure d'accès",
+    prompt: "Votre badge clignote rouge devant une zone réglementée. Quel réflexe appliquez-vous ?",
     answers: [
-      { id: "force", label: "Insister en re-badgant jusqu'à ouverture" },
-      { id: "signal", label: "Signaler l'anomalie sur le canal Nova Bleu" },
-      { id: "pret", label: "Demander le badge d'un collègue" },
+      { id: "forcer", label: "Insister jusqu'à l'ouverture" },
+      { id: "pret", label: "Emprunter le badge d'un collègue" },
+      { id: "alerte", label: "Signaler via Nova Bleu et attendre la sûreté" },
     ],
-    correct: "signal",
-    tip: "Le canal Nova Bleu déclenche la cellule sûreté en moins de 90 secondes.",
+    correct: "alerte",
+    tip: "Déclarer l'incident via Nova Bleu active la traçabilité conformité et protège les accès critiques.",
   },
   {
     id: "cyber",
-    title: "Jeu cyber calme",
-    prompt: "Vous recevez un mail interne \"Urgent\" qui demande vos accès VPN.",
+    title: "Protection des identifiants",
+    prompt: "Un courriel interne "URGENT" demande vos codes VPN. Quelle conduite adoptez-vous ?",
     answers: [
-      { id: "repondre", label: "Répondre rapidement pour débloquer la situation" },
-      { id: "transfert", label: "Transférer au mentor pour validation" },
-      { id: "signal2", label: "Cliquer sur \"Signaler\" dans Outlook + notifier SecOps" },
+      { id: "repondre", label: "Répondre pour accélérer le traitement" },
+      { id: "mentor", label: "Transférer au mentor" },
+      { id: "signal", label: "Utiliser le bouton "Signaler" puis alerter SecOps" },
     ],
-    correct: "signal2",
-    tip: "Signaler = +5 points dans le score vigilance HelioNova Pulse.",
+    correct: "signal",
+    tip: "Tout signalement qualifié est consolidé dans l'indicateur vigilance du Comité Sécurité.",
   },
   {
-    id: "culture",
-    title: "Jeu culture Pulse",
-    prompt: "Un client visite l'espace atelier. Quelle est la formule d'accueil Pulse ?",
+    id: "client",
+    title: "Accueil visiteur",
+    prompt: "Un client arrive en atelier sans accompagnement. Comment appliquez-vous le protocole Pulse ?",
     answers: [
-      { id: "bonjour", label: "\"Bienvenue chez HelioNova, je vous accompagne.\"" },
-      { id: "question", label: "\"Puis-je prendre votre badge ?\"" },
-      { id: "silence", label: "Attendre qu'il pose une question" },
+      { id: "attente", label: "Attendre qu'il se présente" },
+      { id: "badge", label: "Exiger le badge invité immédiatement" },
+      { id: "accompagnement", label: "Proposer un accueil et l'accompagner jusqu'à l'hôte référent" },
     ],
-    correct: "bonjour",
-    tip: "Toujours proposer un accompagnement actif, c'est l'une des promesses Pulse.",
+    correct: "accompagnement",
+    tip: "Un accueil proactif garantit la conformité visiteurs et renforce l'expérience client HelioNova.",
   },
 ];
 
 const statBlocks = [
-  { label: "Durée totale", value: "3 — 5 min" },
-  { label: "Interactions", value: "12 micro-actions" },
-  { label: "Score sécurité", value: "+96% vigilance" },
+  { label: "Durée cible", value: "4 minutes" },
+  { label: "Points de contact", value: "5 séquences" },
+  { label: "Conformité visée", value: "100% signé" },
 ];
 
 export default function Index() {
-  const [activeScenario, setActiveScenario] = useState(scenarioOptions[1].id);
+  const [activeScenario, setActiveScenario] = useState(scenarioOptions[0].id);
   const [selectedGame, setSelectedGame] = useState(microGames[0].id);
   const [chosenAnswer, setChosenAnswer] = useState<string | null>(null);
 
@@ -145,19 +148,19 @@ export default function Index() {
           <div className="space-y-8">
             <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">HelioNova Pulse</p>
             <h1 className="text-4xl font-semibold leading-tight text-white md:text-5xl">
-              Un eLearning d'onboarding immersif pour chaque nouveau talent
+              Un programme d'onboarding corporate clair et opérationnel
             </h1>
             <p className="text-lg text-slate-200">
-              Nous condensons l'univers HelioNova, les consignes de sûreté et un jeu express en un format de 3 à 5 minutes.
-              Le module Pulse accompagne chaque nouvel arrivant dès son premier badge.
+              Le module digital Pulse formalise les messages institutionnels, les obligations de conformité et les attentes managériales en moins de cinq minutes.
+              Il sert de fil rouge avant la rencontre avec le manager.
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
               <Button size="lg" asChild>
-                <Link to="/onboarding">Commencer maintenant</Link>
+                <Link to="/onboarding">Démarrer le module</Link>
               </Button>
               <Button variant="secondary" size="lg" asChild>
-                <Link to="/onboarding">Voir la narration complète</Link>
+                <Link to="/onboarding">Consulter la documentation</Link>
               </Button>
             </div>
 
@@ -176,9 +179,9 @@ export default function Index() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-[0.4em] text-slate-400">Introduction du module</p>
-                  <h2 className="mt-2 text-xl font-semibold text-white">Timeline Pulse</h2>
+                  <h2 className="mt-2 text-xl font-semibold text-white">Feuille de route Pulse</h2>
                 </div>
-                <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">3-5 min</div>
+                <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">4 min</div>
               </div>
               <div className="mt-5 space-y-4">
                 {timeline.map((item) => (
@@ -197,10 +200,11 @@ export default function Index() {
       <section id="intro" className="mx-auto max-w-6xl px-6 pb-20">
         <div className="grid gap-10 md:grid-cols-2">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-            <p className="text-sm uppercase tracking-[0.4em] text-cyan-200">À lire</p>
+            <p className="text-sm uppercase tracking-[0.4em] text-cyan-200">Parcours corporate</p>
             <h2 className="mt-3 text-3xl font-semibold text-white">Briefing de bienvenue HelioNova</h2>
             <p className="mt-2 text-slate-300">
-              Ce module guide les nouveaux arrivants dès leurs premières minutes sur site. Chaque bloc se lit ou se joue en moins d'une minute.
+              Ce module digital prépare la prise de poste, structure les messages clés et dirige vers les ressources officielles.
+              Chaque séquence se lit ou se joue en moins d'une minute.
             </p>
             <ul className="mt-6 space-y-4">
               {readingPrompts.map((prompt) => (
@@ -231,7 +235,7 @@ export default function Index() {
               ))}
             </div>
             <div className="mt-6 rounded-2xl border border-white/5 bg-slate-900/60 p-5">
-              <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Focus</p>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Focus opérationnel</p>
               <h3 className="mt-2 text-2xl font-semibold">{scenario.label}</h3>
               <p className="mt-2 text-slate-300">{scenario.focus}</p>
               <ul className="mt-4 space-y-3">
@@ -250,15 +254,15 @@ export default function Index() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-10 md:grid-cols-2">
             <div>
-              <p className="text-xs uppercase tracking-[0.5em] text-cyan-600">Consignes sûreté + sécurité</p>
-              <h2 className="mt-3 text-3xl font-semibold text-slate-900">Réflexes immédiats pour les nouveaux badges</h2>
+              <p className="text-xs uppercase tracking-[0.5em] text-cyan-600">Dispositifs sûreté & sécurité</p>
+              <h2 className="mt-3 text-3xl font-semibold text-slate-900">Réflexes essentiels dès la première journée</h2>
               <p className="mt-4 text-lg text-slate-600">
-                HelioNova Pulse rappelle les mesures critiques avant même l'installation de poste. Les micro-consignes sont intégrées dans les jeux et la lecture guidée.
+                Le module rappelle les responsabilités individuelles, les canaux d'escalade et les outils mis à disposition pour sécuriser notre environnement de travail.
               </p>
               <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-600">
-                <span className="rounded-full bg-slate-100 px-4 py-2">Badge nominatif</span>
-                <span className="rounded-full bg-slate-100 px-4 py-2">Canal Nova Bleu</span>
+                <span className="rounded-full bg-slate-100 px-4 py-2">Nova Bleu</span>
                 <span className="rounded-full bg-slate-100 px-4 py-2">SecOps 24/7</span>
+                <span className="rounded-full bg-slate-100 px-4 py-2">Charte visiteur</span>
               </div>
             </div>
             <div className="space-y-4">
@@ -277,14 +281,14 @@ export default function Index() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Jeux & interactions</p>
-              <h2 className="mt-2 text-3xl font-semibold">Mini-jeux pour valider les réflexes</h2>
+              <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Simulations opérationnelles</p>
+              <h2 className="mt-2 text-3xl font-semibold">Validez les réflexes attendus</h2>
               <p className="text-slate-300">
-                Chaque micro-jeu dure 45 secondes et attribue des points vigilance. Choisissez un jeu pour tester vos réactions.
+                Les simulations de 45 secondes confirment la bonne appropriation des consignes et alimentent les indicateurs de conformité.
               </p>
             </div>
             <Button variant="secondary" asChild>
-              <Link to="/onboarding">Lancer le parcours complet</Link>
+              <Link to="/onboarding">Explorer le module complet</Link>
             </Button>
           </div>
 
@@ -302,7 +306,7 @@ export default function Index() {
                       : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10",
                   )}
                 >
-                  <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Jeu express</p>
+                  <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Exercice express</p>
                   <p className="text-base font-semibold text-white">{game.title}</p>
                 </button>
               ))}
@@ -340,7 +344,7 @@ export default function Index() {
                 >
                   {chosenAnswer === currentGame.correct
                     ? currentGame.tip
-                    : "Réessayez : cherchez le réflexe officiel HelioNova."}
+                    : "Consultez les guides conformité pour sélectionner le bon réflexe."}
                 </p>
               )}
             </div>
