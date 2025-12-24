@@ -288,7 +288,7 @@ export default function Index() {
               </p>
             </div>
             <Button variant="secondary" asChild>
-              <Link to="/onboarding">Explorer le module complet</Link>
+              <Link to="/onboarding/intro">Explorer le module complet</Link>
             </Button>
           </div>
 
