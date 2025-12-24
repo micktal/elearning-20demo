@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
+import { GuidedDiscovery } from "@/components/interactive/GuidedDiscovery";
+import { AssemblyGame } from "@/components/interactive/AssemblyGame";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getPreviousModule } from "@/lib/moduleProgress";
@@ -36,6 +38,31 @@ const introInteractiveItems = [
 const introCorrectOrder = ["message", "repere", "valeurs", "brief"];
 
 const introIllustration = "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80";
+
+const introDiscoverySteps = [
+  {
+    id: "hall",
+    label: "Hall Pulse",
+    content: "Message de bienvenue, repères de gouvernance et vidéo d'embarquement de la direction.",
+  },
+  {
+    id: "studio",
+    label: "Studio immersion",
+    content: "Capsules interactives sur la mission 2030 et les partenaires clés.",
+  },
+  {
+    id: "brief",
+    label: "Espace mentor",
+    content: "Rituels, attentes managériales et outils à maîtriser dès la première semaine.",
+  },
+];
+
+const introAssemblyCards = [
+  { id: "bonjour", title: "Message Comex", description: "Annonce officielle et ambitions", category: "Communication" },
+  { id: "qna", title: "Session Q&A", description: "Questions avec les RH", category: "Engagement" },
+  { id: "mentor", title: "Mentor Pulse", description: "Binôme de suivi", category: "Accompagnement" },
+  { id: "off", title: "Afterwork", description: "Moment informel", category: "Optionnel" },
+];
 
 const introChecklist = [
   { id: "vision", label: "J'ai assimilé la vision Pulse 2030" },
@@ -122,6 +149,30 @@ export default function OnboardingIntro() {
 
         <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
+            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Découverte guidée</p>
+            <h2 className="mt-2 text-3xl font-semibold">Explorez les espaces Pulse</h2>
+            <p className="mt-3 text-slate-300">
+              Chaque zone dévoile un message clé : orientation stratégique, immersion dans les valeurs puis accompagnement terrain. Suivez l'ordre imposé pour
+              éviter la surcharge d'informations.
+            </p>
+            <div className="mt-6">
+              <GuidedDiscovery
+                title="Parcours découverte"
+                intro="Cliquez dans l'ordre proposé pour débloquer toutes les informations."
+                steps={introDiscoverySteps}
+              />
+            </div>
+          </div>
+          <figure className="overflow-hidden rounded-3xl border border-white/10">
+            <img src={introIllustration} alt="Accueil HelioNova" className="h-full w-full object-cover" loading="lazy" />
+            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">
+              Les nouveaux collaborateurs découvrent l'écosystème Pulse dans un espace immersif.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
             <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
             <h2 className="mt-2 text-3xl font-semibold">Ordonnez la séquence d'onboarding</h2>
             <p className="mt-3 text-slate-300">
@@ -144,6 +195,17 @@ export default function OnboardingIntro() {
               Les nouveaux collaborateurs découvrent l'écosystème Pulse dans un espace immersif.
             </figcaption>
           </figure>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <AssemblyGame
+            title="Jeu d'assemblage"
+            prompt="Composez la routine idéale de la première journée (3 éléments maximum)."
+            cards={introAssemblyCards}
+            targetIds={["bonjour", "qna", "mentor"]}
+            maxSelection={3}
+            successCopy="Routine validée"
+          />
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
