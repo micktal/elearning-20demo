@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
+import { CountdownScenario } from "@/components/interactive/CountdownScenario";
+import { AnomalySpotter } from "@/components/interactive/AnomalySpotter";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getPreviousModule } from "@/lib/moduleProgress";
 import { cn } from "@/lib/utils";
@@ -179,6 +181,33 @@ const fireChecklist = [
   { id: "capteurs", label: "Je peux lire et prioriser une cartographie capteurs" },
   { id: "evac", label: "Je sélectionne la bonne stratégie PulseFlow" },
   { id: "comm", label: "Je sais rédiger un brief client/presse" },
+];
+
+const fireReactionOptions = [
+  { id: "isoler", label: "Isoler la zone", impact: "Propagation contenue", status: "success" as const },
+  { id: "attente", label: "Attendre un second signal", impact: "Retard d'intervention", status: "warning" as const },
+  { id: "panique", label: "Évacuation massive", impact: "Congestion et stress inutile", status: "risk" as const },
+];
+
+const fireAnomalies = [
+  {
+    id: "extincteur",
+    label: "Extincteur absent",
+    description: "Matériel manquant dans le couloir",
+    position: { top: "30%", left: "70%" },
+  },
+  {
+    id: "cable",
+    label: "Câble au sol",
+    description: "Obstacle dans l'issue",
+    position: { top: "60%", left: "40%" },
+  },
+  {
+    id: "porte",
+    label: "Porte bloquée",
+    description: "Matériel devant la sortie",
+    position: { top: "75%", left: "20%" },
+  },
 ];
 
 export default function OnboardingFire() {
@@ -360,6 +389,24 @@ export default function OnboardingFire() {
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <CountdownScenario
+            title="Activité chronométrée"
+            prompt="Alarme ciblée au laboratoire cryo · choisissez la conduite en 15s"
+            options={fireReactionOptions}
+            duration={15}
+          />
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <AnomalySpotter
+            title="Jeu des erreurs"
+            intro="Identifiez les non-conformités incendie sur cette zone d'expédition."
+            imageUrl="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80"
+            points={fireAnomalies}
+          />
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
