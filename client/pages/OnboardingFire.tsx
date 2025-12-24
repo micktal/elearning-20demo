@@ -212,6 +212,9 @@ export default function OnboardingFire() {
                   <Link to="/onboarding/conflits">← Module conflits</Link>
                 </Button>
                 <Button size="lg" asChild>
+                  <Link to="/onboarding/epi">Module EPI →</Link>
+                </Button>
+                <Button variant="secondary" size="lg" asChild>
                   <Link to="/">Clore le parcours</Link>
                 </Button>
               </div>
