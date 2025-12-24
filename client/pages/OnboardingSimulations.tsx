@@ -1,8 +1,11 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useMemo, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
+import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
+import { useModuleProgress } from "@/providers/ModuleProgressProvider";
+import { getPreviousModule } from "@/lib/moduleProgress";
 import { cn } from "@/lib/utils";
 
 const gameBank = [
@@ -55,10 +58,28 @@ const escalationFlowOrder = ["detect", "alerter", "communiquer", "closer"];
 
 const simulationsIllustration = "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=900&q=80";
 
+const simulationsChecklist = [
+  { id: "badges", label: "Je sais réagir à un badge refusé" },
+  { id: "phishing", label: "Je détecte un email suspect et connais la réponse" },
+  { id: "visiteur", label: "Je maîtrise la procédure visiteur" },
+];
+
 export default function OnboardingSimulations() {
   const [activeGame, setActiveGame] = useState(gameBank[0].id);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const game = useMemo(() => gameBank.find((item) => item.id === activeGame) ?? gameBank[0], [activeGame]);
+  const navigate = useNavigate();
+  const { initialized, isModuleUnlocked } = useModuleProgress();
+  const moduleId = "simulations" as const;
+  const nextUnlocked = initialized && isModuleUnlocked("conflits");
+
+  useEffect(() => {
+    if (!initialized) return;
+    if (!isModuleUnlocked(moduleId)) {
+      const previous = getPreviousModule(moduleId);
+      navigate(previous?.path ?? "/onboarding/protocoles", { replace: true });
+    }
+  }, [initialized, isModuleUnlocked, moduleId, navigate]);
 
   const handleSelectGame = (id: string) => {
     setActiveGame(id);
@@ -83,8 +104,8 @@ export default function OnboardingSimulations() {
               <Button variant="ghost" asChild>
                 <Link to="/onboarding/protocoles">← Consignes</Link>
               </Button>
-              <Button asChild>
-                <Link to="/onboarding/conflits">Module conflits →</Link>
+              <Button disabled={!nextUnlocked} onClick={() => nextUnlocked && navigate("/onboarding/conflits")}>
+                {nextUnlocked ? "Module conflits →" : "Débloquez après validation"}
               </Button>
               <Button variant="secondary" asChild>
                 <Link to="/">Clore le parcours</Link>
@@ -177,6 +198,14 @@ export default function OnboardingSimulations() {
               Les squads sécurité s'entraînent dans un centre immersif avec bornes interactives.
             </figcaption>
           </figure>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <ModuleCompletionCard
+            moduleId="simulations"
+            checklist={simulationsChecklist}
+            description="Cochez chaque scénario lorsque vous êtes capable d'expliquer la conduite à tenir."
+          />
         </section>
       </main>
     </div>
