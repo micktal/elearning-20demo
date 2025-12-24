@@ -7,14 +7,21 @@ import { type ModuleKey } from "@/lib/moduleProgress";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { cn } from "@/lib/utils";
 
-const navItems = [
-  { label: "Introduction", href: "/onboarding/intro", moduleId: "intro" as ModuleKey },
-  { label: "Consignes", href: "/onboarding/protocoles", moduleId: "protocoles" as ModuleKey },
-  { label: "Simulations", href: "/onboarding/simulations", moduleId: "simulations" as ModuleKey },
-  { label: "Conflits", href: "/onboarding/conflits", moduleId: "conflits" as ModuleKey },
-  { label: "Incendie", href: "/onboarding/incendie", moduleId: "incendie" as ModuleKey },
-  { label: "EPI", href: "/onboarding/epi", moduleId: "epi" as ModuleKey },
-  { label: "Éthique", href: "/onboarding/ethique", moduleId: "ethique" as ModuleKey },
+type NavItem = {
+  label: string;
+  href: string;
+  moduleId?: ModuleKey;
+};
+
+const navItems: NavItem[] = [
+  { label: "Introduction", href: "/onboarding/intro", moduleId: "intro" },
+  { label: "Consignes", href: "/onboarding/protocoles", moduleId: "protocoles" },
+  { label: "Simulations", href: "/onboarding/simulations", moduleId: "simulations" },
+  { label: "Conflits", href: "/onboarding/conflits", moduleId: "conflits" },
+  { label: "Incendie", href: "/onboarding/incendie", moduleId: "incendie" },
+  { label: "EPI", href: "/onboarding/epi", moduleId: "epi" },
+  { label: "Éthique", href: "/onboarding/ethique", moduleId: "ethique" },
+  { label: "Tableau de bord", href: "/onboarding/dashboard" },
 ];
 
 type PrimaryHeaderProps = {
