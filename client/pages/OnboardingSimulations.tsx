@@ -44,6 +44,17 @@ const gameBank = [
   },
 ];
 
+const escalationFlowItems = [
+  { id: "detect", label: "Détecter l'incident", detail: "Analyser le signal primaire" },
+  { id: "alerter", label: "Alerter SecOps", detail: "Partager le contexte sur Nova Bleu" },
+  { id: "communiquer", label: "Communiquer équipe", detail: "Informer le manager référent" },
+  { id: "closer", label: "Clore", detail: "Consigner les preuves et les enseignements" },
+];
+
+const escalationFlowOrder = ["detect", "alerter", "communiquer", "closer"];
+
+const simulationsIllustration = "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=900&q=80";
+
 export default function OnboardingSimulations() {
   const [activeGame, setActiveGame] = useState(gameBank[0].id);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
