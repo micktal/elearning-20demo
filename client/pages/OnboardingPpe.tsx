@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
+import { ClassificationBoard } from "@/components/interactive/ClassificationBoard";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getPreviousModule } from "@/lib/moduleProgress";
@@ -159,6 +160,13 @@ const epiChecklist = [
   { id: "selection", label: "Je choisis le kit adapté à chaque zone" },
   { id: "usage", label: "Je connais la bonne réaction pendant l'audit" },
   { id: "cycle", label: "Je déclenche PulseCycle pour la maintenance" },
+];
+
+const epiClassificationItems = [
+  { id: "casque", label: "Casque MIPS", detail: "Mission chantier" },
+  { id: "gants", label: "Gants nitrile", detail: "Manipulation chimie douce" },
+  { id: "badge", label: "Badge invité", detail: "Non conforme pour atelier" },
+  { id: "chaussure", label: "Chaussures ville", detail: "Aucune protection" },
 ];
 
 export default function OnboardingPpe() {
@@ -346,6 +354,18 @@ export default function OnboardingPpe() {
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <ClassificationBoard
+            title="Classement express"
+            prompt="Glissez mentalement chaque élément dans la bonne catégorie en cliquant sur le bloc correspondant."
+            categories={[
+              { id: "autorise", label: "Autorisé" },
+              { id: "interdit", label: "Interdit" },
+            ]}
+            items={epiClassificationItems}
+          />
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
