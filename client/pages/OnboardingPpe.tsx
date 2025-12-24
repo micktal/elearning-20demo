@@ -214,8 +214,8 @@ export default function OnboardingPpe() {
                 <Button variant="ghost" size="lg" asChild>
                   <Link to="/onboarding/incendie">← Module incendie</Link>
                 </Button>
-                <Button size="lg" asChild>
-                  <Link to="/onboarding/ethique">Module éthique →</Link>
+                <Button size="lg" disabled={!nextUnlocked} onClick={() => nextUnlocked && navigate("/onboarding/ethique")}>
+                  {nextUnlocked ? "Module éthique →" : "Validez pour débloquer"}
                 </Button>
                 <Button variant="secondary" size="lg" asChild>
                   <Link to="/">Clore le parcours</Link>
