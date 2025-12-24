@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
+import { AssemblyGame } from "@/components/interactive/AssemblyGame";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getPreviousModule } from "@/lib/moduleProgress";
@@ -167,6 +168,14 @@ const conflictsChecklist = [
   { id: "phases", label: "Je restitue les 3 phases de désescalade" },
   { id: "scenario", label: "Je choisis la bonne issue pour chaque scénario" },
   { id: "plan", label: "Je sais formaliser un plan de suivi" },
+];
+
+const conflictAssemblyCards = [
+  { id: "observe", title: "Observation neutre", description: "Collecter les faits" },
+  { id: "cadre", title: "Cadre commun", description: "Rappeler les règles" },
+  { id: "options", title: "Options co-construites", description: "Formuler 2 scénarios" },
+  { id: "ultimatum", title: "Ultimatum", description: "Décision unilatérale" },
+  { id: "suivi", title: "Point J+1", description: "Capitalisation" },
 ];
 
 export default function OnboardingConflicts() {
@@ -370,6 +379,17 @@ export default function OnboardingConflicts() {
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
+          <AssemblyGame
+            title="Jeu d'assemblage"
+            prompt="Construisez la bonne posture de médiation (4 éléments)."
+            cards={conflictAssemblyCards}
+            targetIds={["observe", "cadre", "options", "suivi"]}
+            successCopy="Posture validée"
+            accent="indigo"
+          />
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
