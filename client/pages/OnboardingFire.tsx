@@ -363,6 +363,14 @@ export default function OnboardingFire() {
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
+          <ModuleCompletionCard
+            moduleId="incendie"
+            checklist={fireChecklist}
+            description="Confirmez que vous savez activer les leviers incendie avant de poursuivre vers le module EPI."
+          />
+        </section>
+
+        <section className="mx-auto mt-14 max-w-6xl">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
