@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
+import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
 
 const timeline = [
   { slot: "00:00 — 00:45", title: "Accueil institutionnel", detail: "Message du Comité Exécutif et rappel de la mission HelioNova." },
