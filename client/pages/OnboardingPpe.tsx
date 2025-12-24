@@ -167,10 +167,22 @@ export default function OnboardingPpe() {
   const [activeZone, setActiveZone] = useState(gearMatrix[0].id);
   const [activeTrack, setActiveTrack] = useState(learningTracks[0].id);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { initialized, isModuleUnlocked } = useModuleProgress();
+  const moduleId = "epi" as const;
+  const nextUnlocked = initialized && isModuleUnlocked("ethique");
 
   const zone = useMemo(() => gearMatrix.find((item) => item.id === activeZone) ?? gearMatrix[0], [activeZone]);
   const track = useMemo(() => learningTracks.find((item) => item.id === activeTrack) ?? learningTracks[0], [activeTrack]);
   const currentOption = track.options.find((option) => option.id === selectedOption);
+
+  useEffect(() => {
+    if (!initialized) return;
+    if (!isModuleUnlocked(moduleId)) {
+      const previous = getPreviousModule(moduleId);
+      navigate(previous?.path ?? "/onboarding/incendie", { replace: true });
+    }
+  }, [initialized, isModuleUnlocked, moduleId, navigate]);
 
   const handleTrackChange = (id: string) => {
     setActiveTrack(id);
