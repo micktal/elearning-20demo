@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
@@ -123,11 +124,11 @@ const gameBank = [
   {
     id: "phishing",
     title: "Cyber calme",
-    prompt: "Un mail interne "Urgent" réclame vos accès VPN.",
+    prompt: "Un mail interne \"Urgent\" réclame vos accès VPN.",
     answers: [
       { id: "repondre", label: "Répondre pour débloquer vite" },
       { id: "mentor", label: "Transférer au mentor" },
-      { id: "signal", label: "Cliquer sur "Signaler" + notifier SecOps" },
+      { id: "signal", label: "Cliquer sur \"Signaler\" + notifier SecOps" },
     ],
     correct: "signal",
     tip: "Chaque signalement validé ajoute +5 points vigilance.",
@@ -139,7 +140,7 @@ const gameBank = [
     answers: [
       { id: "silence", label: "Attendre qu'il parle" },
       { id: "badge", label: "Demander son badge immédiatement" },
-      { id: "accompagnement", label: ""Bienvenue chez HelioNova, je vous accompagne."" },
+      { id: "accompagnement", label: "\"Bienvenue chez HelioNova, je vous accompagne.\"" },
     ],
     correct: "accompagnement",
     tip: "Toujours proposer un accompagnement actif : c'est la signature Pulse.",
