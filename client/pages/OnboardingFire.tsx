@@ -185,10 +185,22 @@ export default function OnboardingFire() {
   const [activeZone, setActiveZone] = useState(smartBeacons[0].id);
   const [activeTrack, setActiveTrack] = useState(responseTracks[0].id);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { initialized, isModuleUnlocked } = useModuleProgress();
+  const moduleId = "incendie" as const;
+  const nextUnlocked = initialized && isModuleUnlocked("epi");
 
   const zone = useMemo(() => smartBeacons.find((item) => item.id === activeZone) ?? smartBeacons[0], [activeZone]);
   const track = useMemo(() => responseTracks.find((item) => item.id === activeTrack) ?? responseTracks[0], [activeTrack]);
   const currentOption = track.options.find((option) => option.id === selectedOption);
+
+  useEffect(() => {
+    if (!initialized) return;
+    if (!isModuleUnlocked(moduleId)) {
+      const previous = getPreviousModule(moduleId);
+      navigate(previous?.path ?? "/onboarding/conflits", { replace: true });
+    }
+  }, [initialized, isModuleUnlocked, moduleId, navigate]);
 
   const handleTrackChange = (id: string) => {
     setActiveTrack(id);
