@@ -157,6 +157,12 @@ const controlChecklist = [
   },
 ];
 
+const epiChecklist = [
+  { id: "selection", label: "Je choisis le kit adapté à chaque zone" },
+  { id: "usage", label: "Je connais la bonne réaction pendant l'audit" },
+  { id: "cycle", label: "Je déclenche PulseCycle pour la maintenance" },
+];
+
 export default function OnboardingPpe() {
   const [activeZone, setActiveZone] = useState(gearMatrix[0].id);
   const [activeTrack, setActiveTrack] = useState(learningTracks[0].id);
