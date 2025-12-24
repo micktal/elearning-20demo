@@ -159,6 +159,12 @@ const insightBadges = [
   },
 ];
 
+const ethicsChecklist = [
+  { id: "flux", label: "Je sais router chaque type d'alerte" },
+  { id: "scenario", label: "J'identifie la bonne réponse pour chaque cas" },
+  { id: "timeline", label: "Je respecte le timing T0/T+24h/T+5j" },
+];
+
 export default function OnboardingEthics() {
   const [activeFeed, setActiveFeed] = useState(alertFeeds[0].id);
   const [activeScenario, setActiveScenario] = useState(branchingScenarios[0].id);
