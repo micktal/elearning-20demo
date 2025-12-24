@@ -47,7 +47,7 @@ export default function OnboardingIntro() {
   const navigate = useNavigate();
   const { isModuleUnlocked, initialized } = useModuleProgress();
   const moduleId = "intro" as const;
-  const nextUnlocked = isModuleUnlocked("protocoles");
+  const nextUnlocked = initialized && isModuleUnlocked("protocoles");
 
   useEffect(() => {
     if (!initialized) return;
