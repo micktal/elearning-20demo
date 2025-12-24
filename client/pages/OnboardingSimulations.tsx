@@ -67,12 +67,15 @@ export default function OnboardingSimulations() {
                 sur site.
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3">
               <Button variant="ghost" asChild>
                 <Link to="/onboarding/protocoles">← Consignes</Link>
               </Button>
               <Button asChild>
-                <Link to="/">Terminer l'onboarding</Link>
+                <Link to="/onboarding/conflits">Module conflits →</Link>
+              </Button>
+              <Button variant="secondary" asChild>
+                <Link to="/">Clore le parcours</Link>
               </Button>
             </div>
           </div>
