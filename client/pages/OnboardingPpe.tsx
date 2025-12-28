@@ -120,35 +120,7 @@ const learningTracks = [
   },
 ];
 
-const innovationIdeas = [
-  {
-    title: "Lockers intelligents",
-    detail: "Casiers autonomes qui délivrent le bon EPI selon le badge et consignent l'heure de retrait.",
-  },
-  {
-    title: "Coaching AR",
-    detail: "Une surcouche réalité augmentée rappelle l'ordre d'enfilage et valide la posture.",
-  },
-  {
-    title: "Capteurs textiles",
-    detail: "Les gants connectés remontent température et vibrations pour anticiper la fatigue.",
-  },
-];
 
-const controlChecklist = [
-  {
-    stage: "Avant la mission",
-    checklist: ["Scanner le badge et sélectionner la zone", "Vérifier dates d'expiration", "Associer le kit au dossier Nova Bleu"],
-  },
-  {
-    stage: "Pendant",
-    checklist: ["Observer l'état des EPI toutes les 30 min", "Remplacer tout EPI endommagé", "Reporter les incidents visibles"],
-  },
-  {
-    stage: "Après",
-    checklist: ["Nettoyer ou envoyer au service dédié", "Enregistrer le retour dans PulseCycle", "Programmer le prochain contrôle"],
-  },
-];
 
 const epiChecklist = [
   { id: "selection", label: "Je choisis le kit adapté à chaque zone" },
@@ -156,12 +128,6 @@ const epiChecklist = [
   { id: "cycle", label: "Je déclenche PulseCycle pour la maintenance" },
 ];
 
-const epiClassificationItems = [
-  { id: "casque", label: "Casque MIPS", detail: "Mission chantier" },
-  { id: "gants", label: "Gants nitrile", detail: "Manipulation chimie douce" },
-  { id: "badge", label: "Badge invité", detail: "Non conforme pour atelier" },
-  { id: "chaussure", label: "Chaussures ville", detail: "Aucune protection" },
-];
 
 export default function OnboardingPpe() {
   const [activeZone, setActiveZone] = useState(gearMatrix[0].id);
@@ -330,29 +296,7 @@ export default function OnboardingPpe() {
           </div>
         </section>
 
-        <section className="mx-auto mt-14 max-w-6xl">
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Innovation EPI</p>
-          <div className="mt-4 grid gap-4 md:grid-cols-3">
-            {innovationIdeas.map((idea) => (
-              <div key={idea.title} className="rounded-3xl border border-white/10 bg-white/5 p-5">
-                <p className="text-2xl font-semibold text-white">{idea.title}</p>
-                <p className="mt-2 text-sm text-slate-300">{idea.detail}</p>
-              </div>
-            ))}
-          </div>
-        </section>
 
-        <section className="mx-auto mt-14 max-w-6xl">
-          <ClassificationBoard
-            title="Classement express"
-            prompt="Glissez mentalement chaque élément dans la bonne catégorie en cliquant sur le bloc correspondant."
-            categories={[
-              { id: "autorise", label: "Autorisé" },
-              { id: "interdit", label: "Interdit" },
-            ]}
-            items={epiClassificationItems}
-          />
-        </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
           <ModuleCompletionCard
@@ -362,36 +306,6 @@ export default function OnboardingPpe() {
           />
         </section>
 
-        <section className="mx-auto mt-14 max-w-6xl">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Contrôle qualité</p>
-                <h2 className="mt-2 text-3xl font-semibold">Checklist digitale</h2>
-                <p className="mt-2 max-w-2xl text-slate-300">Cette séquence assure la traçabilité réglementaire et la bonne rotation des équipements.</p>
-              </div>
-              <Button variant="secondary" asChild>
-                <Link to="/onboarding/protocoles">Consulter le référentiel</Link>
-              </Button>
-            </div>
-
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {controlChecklist.map((step) => (
-                <div key={step.stage} className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
-                  <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">{step.stage}</p>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-200">
-                    {step.checklist.map((item) => (
-                      <li key={item} className="flex items-start gap-2">
-                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
       </main>
     </div>
   );
