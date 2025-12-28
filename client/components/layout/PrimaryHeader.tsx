@@ -119,17 +119,7 @@ export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
             </div>
           </nav>
 
-          <div className="order-1 flex flex-wrap items-center justify-end gap-2 lg:order-2">
-            <Button variant={isDark ? "secondary" : "outline"} size="sm" asChild>
-              <Link to={resumePath}>{resumeLabel}</Link>
-            </Button>
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/onboarding/dashboard">Tableau de bord</Link>
-            </Button>
-            <Button variant="default" size="sm" asChild>
-              <Link to="/">Portail HelioNova</Link>
-            </Button>
-          </div>
+          <div className="order-1 lg:order-2" />
         </div>
       </div>
     </header>
