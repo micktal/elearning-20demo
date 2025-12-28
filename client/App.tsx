@@ -50,8 +50,6 @@ const App = () => (
             <Route path="/onboarding/epi" element={<OnboardingPpe />} />
             <Route path="/onboarding/epi/visiteur" element={<OnboardingSimulations />} />
 
-            <Route path="/onboarding/ethique" element={<OnboardingEthics />} />
-            <Route path="/onboarding/ethique/phishing" element={<OnboardingSimulations />} />
             <Route path="/onboarding/dashboard" element={<OnboardingDashboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
