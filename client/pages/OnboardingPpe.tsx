@@ -136,7 +136,6 @@ export default function OnboardingPpe() {
   const navigate = useNavigate();
   const { initialized, isModuleUnlocked } = useModuleProgress();
   const moduleId = "epi" as const;
-  const nextUnlocked = initialized && isModuleUnlocked("ethique");
 
   const zone = useMemo(() => gearMatrix.find((item) => item.id === activeZone) ?? gearMatrix[0], [activeZone]);
   const track = useMemo(() => learningTracks.find((item) => item.id === activeTrack) ?? learningTracks[0], [activeTrack]);
