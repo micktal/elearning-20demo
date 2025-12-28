@@ -8,11 +8,6 @@ import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getPreviousModule } from "@/lib/moduleProgress";
 import { cn } from "@/lib/utils";
 
-const epiStats = [
-  { label: "Couverture sites", value: "32 implantations" },
-  { label: "Taux conformité cible", value: "99 %" },
-  { label: "Temps d'enfilage", value: "< 90 s" },
-];
 
 const gearMatrix = [
   {
