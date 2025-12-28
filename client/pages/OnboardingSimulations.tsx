@@ -1,10 +1,12 @@
 import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
 
-const scenarios = [
+// General safety scenarios
+const safetyScenarios = [
   {
     id: "badge",
     title: "Badge refusé",
@@ -40,18 +42,61 @@ const scenarios = [
   },
 ];
 
+// Conflict-specific scenarios (de-escalation focused)
+const conflictScenarios = [
+  {
+    id: "conflict-verbal",
+    title: "Conflit verbal en atelier",
+    context: "Deux collègues ont une discussion qui monte en tension devant les autres.",
+    options: [
+      { id: "ignorer", label: "Ignorer et continuer", ok: false },
+      { id: "intervenir", label: "Intervenir en privé pour clarifier", ok: true },
+      { id: "punir", label: "Sanctionner publiquement", ok: false },
+    ],
+    feedback: "Intervenir en privé permet de désamorcer la situation et préserver la dignité des personnes.",
+  },
+  {
+    id: "conflict-manager",
+    title: "Conflit avec un manager",
+    context: "Un manager tient des propos qui mettent un collaborateur en difficulté.",
+    options: [
+      { id: "defendre", label: "Prendre le parti sans faits", ok: false },
+      { id: "escalade", label: "Documenter et informer RH/Comex", ok: true },
+      { id: "affronter", label: "Répondre sur le ton", ok: false },
+    ],
+    feedback: "Documenter et alerter les bonnes instances garantit imparcialité et traçabilité.",
+  },
+  {
+    id: "conflict-client",
+    title: "Client en désaccord",
+    context: "Un client conteste une action et la discussion devient conflictuelle.",
+    options: [
+      { id: "retourner", label: "Retourner la critique contre le client", ok: false },
+      { id: "calmer", label: "Proposer un point de calme et écouter", ok: true },
+      { id: "ignorer2", label: "Ignorer et laisser filer", ok: false },
+    ],
+    feedback: "Calmer et écouter permet souvent de trouver un terrain d’entente rapidement.",
+  },
+];
+
 export default function OnboardingSimulations() {
   const location = window.location;
   const params = new URLSearchParams(location.search);
   const requested = params.get("scenario");
 
-  // fallback mapping based on the current path to choose a relevant scenario
+  // detect context from path
   const path = location.pathname || "";
+  const isConflicts = path.startsWith("/onboarding/conflits");
+
+  // choose the scenario set based on context
+  const scenarios = isConflicts ? conflictScenarios : safetyScenarios;
+
+  // fallback mapping based on the current path to choose a relevant scenario
   const pathFallbackMap: Record<string, string> = {
     "/onboarding/protocoles/scenario": "badge",
     "/onboarding/protocoles": "badge",
-    "/onboarding/conflits/scenario-1": "visiteur",
-    "/onboarding/conflits": "visiteur",
+    "/onboarding/conflits/scenario-1": conflictScenarios[0].id,
+    "/onboarding/conflits": conflictScenarios[0].id,
     "/onboarding/incendie/alerte": "badge",
     "/onboarding/incendie": "badge",
     "/onboarding/epi/scenario": "visiteur",
@@ -65,7 +110,7 @@ export default function OnboardingSimulations() {
   const [activeId, setActiveId] = useState(initialId);
   const [answer, setAnswer] = useState<string | null>(null);
 
-  const scenario = useMemo(() => scenarios.find((s) => s.id === activeId) ?? scenarios[0], [activeId]);
+  const scenario = useMemo(() => scenarios.find((s) => s.id === activeId) ?? scenarios[0], [activeId, scenarios]);
   const correct = useMemo(() => scenario.options.find((o) => o.ok)?.id, [scenario]);
 
   useEffect(() => {
@@ -78,7 +123,7 @@ export default function OnboardingSimulations() {
       const exists = scenarios.some((s) => s.id === requested);
       if (exists) setActiveId(requested);
     }
-  }, [requested]);
+  }, [requested, scenarios]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
