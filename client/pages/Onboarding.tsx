@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
@@ -79,6 +79,8 @@ export default function OnboardingIntro() {
   const moduleId = "intro" as const;
   const nextUnlocked = initialized && isModuleUnlocked("protocoles");
 
+  const [showInteractions, setShowInteractions] = useState(false);
+
   useEffect(() => {
     if (!initialized) return;
     if (!isModuleUnlocked(moduleId)) {
@@ -87,6 +89,13 @@ export default function OnboardingIntro() {
     }
   }, [initialized, isModuleUnlocked, moduleId, navigate]);
 
+  function scrollToTimeline() {
+    const el = document.getElementById("intro-timeline");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <PrimaryHeader theme="dark" />
@@ -94,11 +103,11 @@ export default function OnboardingIntro() {
         <section className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.1fr_0.9fr]">
           <article className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 p-8">
             <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Étape 1 · Introduction</p>
-            <h1 className="mt-4 text-4xl font-semibold">Bienvenue dans l'onboarding corporate HelioNova</h1>
-            <p className="mt-3 text-slate-300">
-              Cette première séquence pose le cadre institutionnel : ambition du groupe, gouvernance et attentes partagées. Prenez quelques minutes pour
-              parcourir les informations essentielles avant d'accéder aux consignes officielles.
-            </p>
+
+            <h1 className="mt-4 text-4xl font-semibold">Bienvenue — Ce que vous allez apprendre</h1>
+
+            <p className="mt-4 text-slate-300">Bienvenue dans l'onboarding HelioNova Pulse. Cette introduction est courte et ciblée : elle vous permet de comprendre rapidement le rôle du programme et ce que l'on attend de vous après l'avoir suivi.</p>
+
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
               {statBlocks.map((item) => (
                 <div key={item.label} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
@@ -107,6 +116,30 @@ export default function OnboardingIntro() {
                 </div>
               ))}
             </div>
+
+            <h2 className="mt-8 text-xl font-semibold">Objectifs d'apprentissage</h2>
+            <ul className="mt-3 list-inside list-disc space-y-2 text-slate-200">
+              <li>Comprendre la vision stratégique Pulse 2030 et son impact sur votre rôle</li>
+              <li>Identifier les repères de gouvernance et les points de contact</li>
+              <li>Connaître les premières actions à réaliser et les livrables attendus</li>
+            </ul>
+
+            <p className="mt-4 text-slate-300">Pourquoi c'est important : ces éléments vous permettront d'être opérationnel·le rapidement et d'engager des échanges pertinents avec votre manager et votre mentor.</p>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button size="lg" onClick={scrollToTimeline} className="transition duration-300 hover:-translate-y-0.5">
+                Commencer la séquence (Feuille de route)
+              </Button>
+
+              <Button variant="ghost" size="lg" onClick={() => setShowInteractions((v) => !v)}>
+                {showInteractions ? "Masquer les interactions" : "Explorer (facultatif)"}
+              </Button>
+
+              <Button variant="ghost" size="lg" asChild>
+                <Link to="/">Revenir à l'accueil</Link>
+              </Button>
+            </div>
+
             <div className="mt-8 space-y-4">
               {readingPrompts.map((prompt) => (
                 <div key={prompt} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200">
@@ -114,22 +147,9 @@ export default function OnboardingIntro() {
                 </div>
               ))}
             </div>
-            <div className="mt-8 flex flex-wrap gap-3">
-            <Button
-              size="lg"
-              disabled={!nextUnlocked}
-              onClick={() => nextUnlocked && navigate("/onboarding/protocoles")}
-              className="transition duration-300 hover:-translate-y-0.5"
-            >
-              {nextUnlocked ? "Lecture terminée · Consignes" : "Validez le module pour continuer"}
-            </Button>
-            <Button variant="ghost" size="lg" asChild>
-              <Link to="/">Revenir à l'accueil</Link>
-            </Button>
-          </div>
           </article>
 
-          <aside className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-cyan-500/20">
+          <aside id="intro-timeline" className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-cyan-500/20">
             <div className="rounded-2xl bg-slate-900/70 p-5">
               <div className="flex items-center justify-between">
                 <div>
@@ -138,6 +158,7 @@ export default function OnboardingIntro() {
                 </div>
                 <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">~4 min</span>
               </div>
+
               <div className="mt-5 space-y-4">
                 {timeline.map((item) => (
                   <div key={item.slot} className="rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -151,109 +172,60 @@ export default function OnboardingIntro() {
           </aside>
         </section>
 
-        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div>
-            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Capsule vidéo</p>
-            <h2 className="mt-2 text-3xl font-semibold">Message d'ouverture du Comex</h2>
-            <p className="mt-3 text-slate-300">
-              Cette capsule présente les ambitions 2030, les relais de croissance et les partenariats clés. L'audio complémentaire détaille la posture Pulse attendue.
-            </p>
-            <div className="mt-6 space-y-4">
-              <div className="overflow-hidden rounded-3xl border border-white/10">
-                <video src={introVideoUrl} className="w-full" autoPlay loop muted playsInline controls poster={introIllustration} />
+        {/* optional interactions block - hidden by default to simplify the reading flow */}
+        {showInteractions && (
+          <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Capsule vidéo</p>
+              <h2 className="mt-2 text-3xl font-semibold">Message d'ouverture du Comex</h2>
+              <p className="mt-3 text-slate-300">Cette capsule présente les ambitions 2030, les relais de croissance et les partenariats clés. L'audio complémentaire détaille la posture Pulse attendue.</p>
+              <div className="mt-6 space-y-4">
+                <div className="overflow-hidden rounded-3xl border border-white/10">
+                  <video src={introVideoUrl} className="w-full" autoPlay loop muted playsInline controls poster={introIllustration} />
+                </div>
+                <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-4">
+                  <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Capsule audio</p>
+                  <p className="text-sm text-slate-300">Guide vocal “Posture Pulse”</p>
+                  <audio controls className="mt-2 w-full">
+                    <source src={introAudioUrl} type="audio/mpeg" />
+                  </audio>
+                </div>
               </div>
-              <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-4">
-                <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Capsule audio</p>
-                <p className="text-sm text-slate-300">Guide vocal “Posture Pulse”</p>
-                <audio controls className="mt-2 w-full">
-                  <source src={introAudioUrl} type="audio/mpeg" />
-                </audio>
+            </div>
+
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+              <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Découverte guidée</p>
+              <h3 className="mt-2 text-2xl font-semibold">Explorez les espaces Pulse</h3>
+              <p className="mt-3 text-slate-300">Chaque zone dévoile un message clé : orientation stratégique, immersion dans les valeurs puis accompagnement terrain. Suivez l'ordre imposé pour éviter la surcharge d'informations.</p>
+              <div className="mt-6">
+                <GuidedDiscovery title="Parcours découverte" intro="Cliquez dans l'ordre proposé pour débloquer toutes les informations." steps={introDiscoverySteps} />
               </div>
             </div>
-          </div>
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Découverte guidée</p>
-            <h3 className="mt-2 text-2xl font-semibold">Explorez les espaces Pulse</h3>
-            <p className="mt-3 text-slate-300">
-              Chaque zone dévoile un message clé : orientation stratégique, immersion dans les valeurs puis accompagnement terrain. Suivez l'ordre imposé pour
-              éviter la surcharge d'informations.
-            </p>
-            <div className="mt-6">
-              <GuidedDiscovery
-                title="Parcours découverte"
-                intro="Cliquez dans l'ordre proposé pour débloquer toutes les informations."
-                steps={introDiscoverySteps}
-              />
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
-        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div>
-            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
-            <p className="mt-3 text-slate-300">
-              Chaque zone dévoile un message clé : orientation stratégique, immersion dans les valeurs puis accompagnement terrain. Suivez l'ordre imposé pour
-              éviter la surcharge d'informations.
-            </p>
-            <div className="mt-6">
-              <GuidedDiscovery
-                title="Parcours découverte"
-                intro="Cliquez dans l'ordre proposé pour débloquer toutes les informations."
-                steps={introDiscoverySteps}
-              />
-            </div>
-          </div>
-          <figure className="overflow-hidden rounded-3xl border border-white/10">
-            <img src={introIllustration} alt="Accueil HelioNova" className="h-full w-full object-cover" loading="lazy" />
-            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">
-              Les nouveaux collaborateurs découvrent l'écosystème Pulse dans un espace immersif.
-            </figcaption>
-          </figure>
-        </section>
-
+        {/* Interaction exercises kept lower on the page */}
         <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
             <h2 className="mt-2 text-3xl font-semibold">Ordonnez la séquence d'onboarding</h2>
-            <p className="mt-3 text-slate-300">
-              Faites glisser chaque étape pour reconstituer la chronologie officielle. Une fois l'ordre validé, la pastille cyan confirme la maîtrise du fil
-              directeur HelioNova.
-            </p>
+            <p className="mt-3 text-slate-300">Faites glisser chaque étape pour reconstituer la chronologie officielle. Une fois l'ordre validé, la pastille cyan confirme la maîtrise du fil directeur HelioNova.</p>
             <div className="mt-6">
-              <DragReorderBoard
-                title="Étapes institutionnelles"
-                description="Glissez-déposez les blocs pour retrouver la progression officielle."
-                items={introInteractiveItems}
-                correctOrder={introCorrectOrder}
-                successCopy="Chronologie validée"
-              />
+              <DragReorderBoard title="Étapes institutionnelles" description="Glissez-déposez les blocs pour retrouver la progression officielle." items={introInteractiveItems} correctOrder={introCorrectOrder} successCopy="Chronologie validée" />
             </div>
           </div>
           <figure className="overflow-hidden rounded-3xl border border-white/10">
             <img src={introIllustration} alt="Accueil HelioNova" className="h-full w-full object-cover" loading="lazy" />
-            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">
-              Les nouveaux collaborateurs découvrent l'écosystème Pulse dans un espace immersif.
-            </figcaption>
+            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">Les nouveaux collaborateurs découvrent l'écosystème Pulse dans un espace immersif.</figcaption>
           </figure>
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
-          <AssemblyGame
-            title="Jeu d'assemblage"
-            prompt="Composez la routine idéale de la première journée (3 éléments maximum)."
-            cards={introAssemblyCards}
-            targetIds={["bonjour", "qna", "mentor"]}
-            maxSelection={3}
-            successCopy="Routine validée"
-          />
+          <AssemblyGame title="Jeu d'assemblage" prompt="Composez la routine idéale de la première journée (3 éléments maximum)." cards={introAssemblyCards} targetIds={["bonjour", "qna", "mentor"]} maxSelection={3} successCopy="Routine validée" />
         </section>
 
         <section className="mx-auto mt-14 max-w-6xl">
-          <ModuleCompletionCard
-            moduleId="intro"
-            checklist={introChecklist}
-            description="Cochez chaque item lorsque vous maîtrisez les informations clés. Une fois validé, le module Consignes se débloque."
-          />
+          <ModuleCompletionCard moduleId="intro" checklist={introChecklist} description="Cochez chaque item lorsque vous maîtrisez les informations clés. Une fois validé, le module Consignes se débloque." />
         </section>
       </main>
     </div>
