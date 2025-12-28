@@ -41,15 +41,44 @@ const scenarios = [
 ];
 
 export default function OnboardingSimulations() {
-  const [activeId, setActiveId] = useState(scenarios[0].id);
+  const location = window.location;
+  const params = new URLSearchParams(location.search);
+  const requested = params.get("scenario");
+
+  // fallback mapping based on the current path to choose a relevant scenario
+  const path = location.pathname || "";
+  const pathFallbackMap: Record<string, string> = {
+    "/onboarding/protocoles/scenario": "badge",
+    "/onboarding/protocoles": "badge",
+    "/onboarding/conflits/scenario-1": "visiteur",
+    "/onboarding/conflits": "visiteur",
+    "/onboarding/incendie/alerte": "badge",
+    "/onboarding/incendie": "badge",
+    "/onboarding/epi/scenario": "visiteur",
+    "/onboarding/epi": "visiteur",
+    "/onboarding/ethique/scenario-cadeau": "phishing",
+    "/onboarding/ethique": "phishing",
+  };
+
+  const initialId = requested ?? pathFallbackMap[path] ?? scenarios[0].id;
+
+  const [activeId, setActiveId] = useState(initialId);
   const [answer, setAnswer] = useState<string | null>(null);
 
-  const scenario = useMemo(() => scenarios.find((s) => s.id === activeId)!, [activeId]);
+  const scenario = useMemo(() => scenarios.find((s) => s.id === activeId) ?? scenarios[0], [activeId]);
   const correct = useMemo(() => scenario.options.find((o) => o.ok)?.id, [scenario]);
 
   useEffect(() => {
     setAnswer(null);
   }, [activeId]);
+
+  useEffect(() => {
+    // if a requested scenario exists and differs from current, update
+    if (requested && requested !== activeId) {
+      const exists = scenarios.some((s) => s.id === requested);
+      if (exists) setActiveId(requested);
+    }
+  }, [requested]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
