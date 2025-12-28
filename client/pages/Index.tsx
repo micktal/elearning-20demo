@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { cn } from "@/lib/utils";
+import { useEffect, useMemo, useState } from "react";
 
 const scenarioOptions = [
   {
@@ -52,7 +52,7 @@ const timeline = [
 
 const safetyHighlights = [
   {
-    title: "Badge & périmètres", 
+    title: "Badge & périmètres",
     detail: "Le badge reste sur soi en permanence. Toute perte se déclare immédiatement sur le canal Nova Bleu avec confirmation managériale.",
   },
   {
@@ -116,6 +116,13 @@ const statBlocks = [
   { label: "Conformité visée", value: "100% signé" },
 ];
 
+function slugify(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+}
+
 export default function Index() {
   const [activeScenario, setActiveScenario] = useState(scenarioOptions[0].id);
   const [selectedGame, setSelectedGame] = useState(microGames[0].id);
@@ -134,6 +141,28 @@ export default function Index() {
   const handleSelectGame = (gameId: string) => {
     setSelectedGame(gameId);
     setChosenAnswer(null);
+  };
+
+  useEffect(() => {
+    // enable smooth scroll for in-page anchors while this page is mounted
+    const previous = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = "smooth";
+    return () => {
+      document.documentElement.style.scrollBehavior = previous || "";
+    };
+  }, []);
+
+  const handleJumpTo = (index: number) => {
+    const id = `timeline-item-${index}-${slugify(timeline[index].title)}`;
+    const el = document.getElementById(id);
+    if (el) {
+      // use centered block to give context under header
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      // small focus for accessibility
+      el.setAttribute("tabindex", "-1");
+      // focus briefly
+      (el as HTMLElement).focus();
+    }
   };
 
   return (
@@ -183,9 +212,30 @@ export default function Index() {
                 </div>
                 <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">4 min</div>
               </div>
+
+              {/* Table of contents for timeline - clickable jumps */}
+              <div className="mt-4 flex flex-wrap gap-2">
+                {timeline.map((item, idx) => (
+                  <button
+                    key={item.slot}
+                    type="button"
+                    onClick={() => handleJumpTo(idx)}
+                    className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-200 hover:bg-white/10"
+                  >
+                    {item.slot.split(" — ")[0]}
+                  </button>
+                ))}
+              </div>
+
               <div className="mt-5 space-y-4">
-                {timeline.map((item) => (
-                  <div key={item.slot} className="rounded-2xl border border-white/5 bg-white/5 p-4">
+                {timeline.map((item, idx) => (
+                  <div
+                    id={`timeline-item-${idx}-${slugify(item.title)}`}
+                    key={item.slot}
+                    className="rounded-2xl border border-white/5 bg-white/5 p-4"
+                    style={{ scrollMarginTop: "96px" }}
+                    tabIndex={-1}
+                  >
                     <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">{item.slot}</p>
                     <p className="mt-1 text-base font-semibold text-white">{item.title}</p>
                     <p className="text-sm text-slate-300">{item.detail}</p>
