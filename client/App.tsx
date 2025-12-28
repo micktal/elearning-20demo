@@ -37,6 +37,10 @@ const App = () => (
             <Route path="/onboarding/protocoles/scenario" element={<OnboardingSimulations />} />
             <Route path="/onboarding/simulations" element={<OnboardingSimulations />} />
             <Route path="/onboarding/conflits" element={<OnboardingConflicts />} />
+            {/* Explicit, human-readable scenario routes for conflicts */}
+            <Route path="/onboarding/conflits/conflict-verbal" element={<OnboardingSimulations />} />
+            <Route path="/onboarding/conflits/conflict-manager" element={<OnboardingSimulations />} />
+            <Route path="/onboarding/conflits/conflict-client" element={<OnboardingSimulations />} />
             <Route path="/onboarding/conflits/scenario-1" element={<OnboardingSimulations />} />
             <Route path="/onboarding/incendie" element={<OnboardingFire />} />
             <Route path="/onboarding/incendie/alerte" element={<OnboardingSimulations />} />
