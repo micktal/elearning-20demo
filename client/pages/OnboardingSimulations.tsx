@@ -136,7 +136,7 @@ export default function OnboardingSimulations() {
   const pathFallbackMap: Record<string, string> = {
     "/onboarding/protocoles": "badge",
     "/onboarding/conflits": conflictScenarios[0].id,
-    "/onboarding/incendie": "badge",
+    "/onboarding/incendie": fireScenarios[0].id,
     "/onboarding/epi": "visiteur",
     "/onboarding/ethique": "phishing",
   };
