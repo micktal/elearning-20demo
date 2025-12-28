@@ -155,6 +155,7 @@ export default function OnboardingSimulations() {
   }, [activeId]);
 
   const navigate = useNavigate();
+  const { initialized, isModuleUnlocked } = useModuleProgress();
 
   useEffect(() => {
     // if a requested scenario exists and differs from current, update
