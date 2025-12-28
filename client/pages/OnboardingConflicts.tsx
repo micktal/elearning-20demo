@@ -47,11 +47,12 @@ export default function OnboardingConflicts() {
 
           {/* ILLUSTRATION */}
           <div className="mt-6">
-            <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/5">
+            <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 shadow-lg">
               <img
                 src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F167c6320f376403a938b61701212e547?format=webp&width=800"
                 alt="Illustration gestion des conflits"
-                className="w-full h-auto object-cover"
+                loading="lazy"
+                className="w-full h-auto max-h-[420px] object-cover mx-auto"
               />
             </div>
           </div>
