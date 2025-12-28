@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getNextModule, getPreviousModule } from "@/lib/moduleProgress";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
