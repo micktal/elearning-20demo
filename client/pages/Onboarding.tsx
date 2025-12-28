@@ -29,6 +29,17 @@ export default function OnboardingIntro() {
             opérationnelles.
           </p>
 
+          {/* VIDEO DE PRÉSENTATION */}
+          <div className="mt-6">
+            <div className="rounded-2xl overflow-hidden border border-white/10 bg-black">
+              <video
+                controls
+                src="https://xnwexjnaiffdcifcnton.supabase.co/storage/v1/object/sign/pdf%20memo/novawelcome.mov?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mMWE2Y2M1ZS1kN2E2LTRjY2EtOTg1Ny1iOTc0Njg3NGQzNmUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZGYgbWVtby9ub3Zhd2VsY29tZS5tb3YiLCJpYXQiOjE3NjY5Mzg1NjQsImV4cCI6MTc5ODQ3NDU2NH0.HG3Y-WAfBqmKnWQZTo67PvcrGOb0emI5JmG3AFPoffY"
+                className="w-full h-auto max-h-[480px] object-cover"
+              />
+            </div>
+          </div>
+
           {/* STATS */}
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {statBlocks.map((item) => (
