@@ -95,10 +95,8 @@ export default function OnboardingSimulations() {
   // choose the scenario set based on context
   const scenarios = isConflicts ? conflictScenarios : safetyScenarios;
 
-  // compute module navigation targets based on current module context
+  // compute current module id based on path
   const currentModuleId = (moduleKey ?? (isConflicts ? "conflits" : "simulations")) as any;
-  const nextModule = getNextModule(currentModuleId);
-  const prevModule = getPreviousModule(currentModuleId);
 
   // fallback mapping for module base paths -> default scenario id
   const pathFallbackMap: Record<string, string> = {
