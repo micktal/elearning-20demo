@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 
@@ -49,6 +50,17 @@ export default function OnboardingProtocols() {
             Ces consignes sont obligatoires pour tous. Elles garantissent la sécurité des personnes, des données
             et des installations.
           </p>
+
+          {/* VIDEO DE PRÉSENTATION */}
+          <div className="mt-6">
+            <div className="rounded-2xl overflow-hidden border border-white/10 bg-black">
+              <video
+                controls
+                src="https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fa23d3bdd92ff477885ae1cc5d6298281?alt=media&token=34f5d8fe-dc0e-42b2-b8ce-c9a96b31a72a&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec"
+                className="w-full h-auto max-h-[480px] object-cover"
+              />
+            </div>
+          </div>
 
           {protocols.map((protocol) => (
             <div key={protocol.title} className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
