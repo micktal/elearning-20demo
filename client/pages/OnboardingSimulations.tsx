@@ -204,6 +204,16 @@ export default function OnboardingSimulations() {
 
           <p className="mt-4 max-w-2xl text-slate-300">Choisissez la bonne conduite à tenir dans chaque situation.</p>
 
+          {moduleKey === "conflits" && (
+            <div className="mt-6 rounded-2xl overflow-hidden border border-white/10 bg-black">
+              <video
+                controls
+                className="w-full h-auto max-h-[420px] object-cover bg-black"
+                src="https://xnwexjnaiffdcifcnton.supabase.co/storage/v1/object/sign/pdf%20memo/gestion.mov?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mMWE2Y2M1ZS1kN2E2LTRjY2EtOTg1Ny1iOTc0Njg3NGQzNmUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZGYgbWVtby9nZXN0aW9uLm1vdiIsImlhdCI6MTc2Njk0MzA1MCwiZXhwIjoxNzk4NDc5MDUwfQ.4BhEJ0ZuiZPqrCrut3VX0VGW-iIkZtXeupQARWMwlsw"
+              />
+            </div>
+          )}
+
           {/* Sélecteur scénario */}
           <div className="mt-8 flex gap-3">
             {scenarios.map((s) => (
