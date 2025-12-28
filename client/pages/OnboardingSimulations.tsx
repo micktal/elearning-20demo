@@ -221,23 +221,26 @@ export default function OnboardingSimulations() {
         </section>
 
         <section className="mx-auto mt-14 max-w-5xl">
-          <ModuleCompletionCard
-            moduleId={isConflicts ? "conflits" : "simulations"}
-            checklist={
-              isConflicts
-                ? [
-                    { id: "deescalade", label: "Je peux désamorcer un conflit verbal" },
-                    { id: "escalade", label: "Je sais quand escalader formellement" },
-                    { id: "client-gestion", label: "Je maîtrise l’accueil et la reprise client" },
-                  ]
-                : [
-                    { id: "badge", label: "Je sais gérer un badge refusé" },
-                    { id: "mail", label: "Je sais signaler un phishing" },
-                    { id: "visit", label: "Je maîtrise l’accueil visiteur" },
-                  ]
-            }
-            description={isConflicts ? "Validez vos réflexes de gestion de conflit." : "Validez vos réflexes avant de poursuivre."}
-          />
+          {/* Hide the module completion card for the explicit conflict 'conflict-verbal' scenario */}
+          {!(isConflicts && activeId === "conflict-verbal") && (
+            <ModuleCompletionCard
+              moduleId={isConflicts ? "conflits" : "simulations"}
+              checklist={
+                isConflicts
+                  ? [
+                      { id: "deescalade", label: "Je peux désamorcer un conflit verbal" },
+                      { id: "escalade", label: "Je sais quand escalader formellement" },
+                      { id: "client-gestion", label: "Je maîtrise l’accueil et la reprise client" },
+                    ]
+                  : [
+                      { id: "badge", label: "Je sais gérer un badge refusé" },
+                      { id: "mail", label: "Je sais signaler un phishing" },
+                      { id: "visit", label: "Je maîtrise l’accueil visiteur" },
+                    ]
+              }
+              description={isConflicts ? "Validez vos réflexes de gestion de conflit." : "Validez vos réflexes avant de poursuivre."}
+            />
+          )}
         </section>
       </main>
     </div>
