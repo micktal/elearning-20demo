@@ -86,12 +86,10 @@ export default function OnboardingSimulations() {
 
   // detect context from path
   const path = location.pathname || "";
-  const isConflicts = path.startsWith("/onboarding/conflits");
-
-  // if the URL uses an explicit readable route like /onboarding/conflits/conflict-verbal,
-  // extract that last segment and consider it as a scenario id candidate
   const pathSegments = path.split("/").filter(Boolean);
-  const pathScenarioId = isConflicts && pathSegments.length >= 3 ? pathSegments[2] : null;
+  const moduleKey = pathSegments[1] ?? null; // e.g. 'conflits', 'protocoles', 'epi', 'ethique', 'simulations'
+  const pathScenarioId = pathSegments.length >= 3 ? pathSegments[2] : null;
+  const isConflicts = moduleKey === "conflits";
 
   // choose the scenario set based on context
   const scenarios = isConflicts ? conflictScenarios : safetyScenarios;
