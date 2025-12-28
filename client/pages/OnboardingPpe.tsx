@@ -203,14 +203,6 @@ export default function OnboardingPpe() {
                 Ce module associe matrices de risques, innovations Pulse et simulations de décision pour ancrer les bons réflexes de port des EPI sur tous les
                 sites HelioNova.
               </p>
-              <div className="mt-6 grid gap-4 sm:grid-cols-3">
-                {epiStats.map((item) => (
-                  <div key={item.label} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
-                    <p className="text-sm text-slate-300">{item.label}</p>
-                    <p className="mt-1 text-2xl font-semibold text-white">{item.value}</p>
-                  </div>
-                ))}
-              </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button variant="ghost" size="lg" asChild>
                   <Link to="/onboarding/incendie">← Module incendie</Link>
