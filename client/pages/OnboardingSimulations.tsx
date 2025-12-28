@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { getNextModule, getPreviousModule } from "@/lib/moduleProgress";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
@@ -93,6 +94,11 @@ export default function OnboardingSimulations() {
 
   // choose the scenario set based on context
   const scenarios = isConflicts ? conflictScenarios : safetyScenarios;
+
+  // compute module navigation targets based on current module context
+  const currentModuleId = (moduleKey ?? (isConflicts ? "conflits" : "simulations")) as any;
+  const nextModule = getNextModule(currentModuleId);
+  const prevModule = getPreviousModule(currentModuleId);
 
   // fallback mapping for module base paths -> default scenario id
   const pathFallbackMap: Record<string, string> = {
