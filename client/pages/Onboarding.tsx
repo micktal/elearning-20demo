@@ -1,231 +1,68 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
-import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
-import { GuidedDiscovery } from "@/components/interactive/GuidedDiscovery";
-import { AssemblyGame } from "@/components/interactive/AssemblyGame";
-import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
-import { useModuleProgress } from "@/providers/ModuleProgressProvider";
-import { getPreviousModule } from "@/lib/moduleProgress";
-
-const timeline = [
-  { slot: "00:00 — 00:45", title: "Accueil institutionnel", detail: "Message du Comité Exécutif et rappel de la mission HelioNova." },
-  { slot: "00:45 — 01:40", title: "Repères corporate", detail: "Organisation, gouvernance et dispositifs d'accompagnement présentés de façon synthétique." },
-  { slot: "01:40 — 02:20", title: "Engagement et valeurs", detail: "Posture Pulse et attentes managériales clés." },
-  { slot: "02:20 — 04:00", title: "Préparation à la suite", detail: "Invitation à consulter les consignes de sûreté et les procédures opérationnelles." },
-];
-
-const readingPrompts = [
-  "Vision HelioNova Pulse et ambitions 2030",
-  "Gouvernance, implantations et écosystème partenaires",
-  "Parcours d'intégration : rôles du manager, RH et mentor",
-];
 
 const statBlocks = [
-  { label: "Durée du module", value: "4 minutes" },
+  { label: "Durée", value: "4 minutes" },
   { label: "Séquences", value: "4 étapes" },
-  { label: "Livrables", value: "Brief + consignes" },
-];
-
-const introInteractiveItems = [
-  { id: "message", label: "Message du Comex", detail: "Aligner la vision Pulse 2030" },
-  { id: "repere", label: "Repères corporate", detail: "Comprendre la gouvernance et les implantations" },
-  { id: "valeurs", label: "Valeurs & posture", detail: "Intégrer les attentes managériales" },
-  { id: "brief", label: "Brief opérationnel", detail: "Préparer la consultation des consignes" },
-];
-
-const introCorrectOrder = ["message", "repere", "valeurs", "brief"];
-
-const introIllustration = "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80";
-
-const introDiscoverySteps = [
-  {
-    id: "hall",
-    label: "Hall Pulse",
-    content: "Message de bienvenue, repères de gouvernance et vidéo d'embarquement de la direction.",
-  },
-  {
-    id: "studio",
-    label: "Studio immersion",
-    content: "Capsules interactives sur la mission 2030 et les partenaires clés.",
-  },
-  {
-    id: "brief",
-    label: "Espace mentor",
-    content: "Rituels, attentes managériales et outils à maîtriser dès la première semaine.",
-  },
-];
-
-const introAssemblyCards = [
-  { id: "bonjour", title: "Message Comex", description: "Annonce officielle et ambitions", category: "Communication" },
-  { id: "qna", title: "Session Q&A", description: "Questions avec les RH", category: "Engagement" },
-  { id: "mentor", title: "Mentor Pulse", description: "Binôme de suivi", category: "Accompagnement" },
-  { id: "off", title: "Afterwork", description: "Moment informel", category: "Optionnel" },
-];
-
-const introVideoUrl = "https://cdn.coverr.co/videos/coverr-a-business-lady-looking-at-a-monitor-5175/1080p.mp4";
-const introAudioUrl = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_4cf0ee5537.mp3?filename=corporate-presentation-112973.mp3";
-
-const introChecklist = [
-  { id: "vision", label: "J'ai assimilé la vision Pulse 2030" },
-  { id: "gouvernance", label: "Je peux retranscrire les repères corporate" },
-  { id: "brief", label: "J'ai identifié les livrables et prochaines étapes" },
+  { label: "Objectif", value: "Comprendre le cadre" },
 ];
 
 export default function OnboardingIntro() {
   const navigate = useNavigate();
-  const { isModuleUnlocked, initialized } = useModuleProgress();
-  const moduleId = "intro" as const;
-  const nextUnlocked = initialized && isModuleUnlocked("protocoles");
-
-  const [showInteractions, setShowInteractions] = useState(false);
-
-  useEffect(() => {
-    if (!initialized) return;
-    if (!isModuleUnlocked(moduleId)) {
-      const previous = getPreviousModule(moduleId);
-      navigate(previous?.path ?? "/", { replace: true });
-    }
-  }, [initialized, isModuleUnlocked, moduleId, navigate]);
-
-  function scrollToTimeline() {
-    const el = document.getElementById("intro-timeline");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <PrimaryHeader theme="dark" />
-      <main className="px-6 pb-20 pt-16">
-        <section className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.1fr_0.9fr]">
-          <article className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 p-8">
-            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Étape 1 · Introduction</p>
 
-            <h1 className="mt-4 text-4xl font-semibold">Bienvenue — Ce que vous allez apprendre</h1>
+      <main className="mx-auto max-w-5xl px-6 pb-24 pt-20">
+        {/* HERO */}
+        <section className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-10">
+          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Onboarding · Introduction</p>
 
-            <p className="mt-4 text-slate-300">Bienvenue dans l'onboarding HelioNova Pulse. Cette introduction est courte et ciblée : elle vous permet de comprendre rapidement le rôle du programme et ce que l'on attend de vous après l'avoir suivi.</p>
+          <h1 className="mt-4 text-4xl font-semibold">Bienvenue chez HelioNova Pulse</h1>
 
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              {statBlocks.map((item) => (
-                <div key={item.label} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
-                  <p className="text-sm text-slate-300">{item.label}</p>
-                  <p className="mt-1 text-2xl font-semibold text-white">{item.value}</p>
-                </div>
-              ))}
-            </div>
+          <p className="mt-4 max-w-2xl text-slate-300">
+            Ce module d’introduction vous permet de comprendre le cadre,
+            la vision et les attentes avant d’entrer dans les consignes
+            opérationnelles.
+          </p>
 
-            <h2 className="mt-8 text-xl font-semibold">Objectifs d'apprentissage</h2>
-            <ul className="mt-3 list-inside list-disc space-y-2 text-slate-200">
-              <li>Comprendre la vision stratégique Pulse 2030 et son impact sur votre rôle</li>
-              <li>Identifier les repères de gouvernance et les points de contact</li>
-              <li>Connaître les premières actions à réaliser et les livrables attendus</li>
-            </ul>
-
-            <p className="mt-4 text-slate-300">Pourquoi c'est important : ces éléments vous permettront d'être opérationnel·le rapidement et d'engager des échanges pertinents avec votre manager et votre mentor.</p>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Button size="lg" onClick={scrollToTimeline} className="transition duration-300 hover:-translate-y-0.5">
-                Commencer la séquence (Feuille de route)
-              </Button>
-
-              <Button variant="ghost" size="lg" onClick={() => setShowInteractions((v) => !v)}>
-                {showInteractions ? "Masquer les interactions" : "Explorer (facultatif)"}
-              </Button>
-
-              <Button variant="ghost" size="lg" asChild>
-                <Link to="/">Revenir à l'accueil</Link>
-              </Button>
-            </div>
-
-            <div className="mt-8 space-y-4">
-              {readingPrompts.map((prompt) => (
-                <div key={prompt} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200">
-                  {prompt}
-                </div>
-              ))}
-            </div>
-          </article>
-
-          <aside id="intro-timeline" className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-cyan-500/20">
-            <div className="rounded-2xl bg-slate-900/70 p-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.4em] text-slate-400">Feuille de route</p>
-                  <h2 className="mt-2 text-xl font-semibold text-white">Séquence introductive</h2>
-                </div>
-                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">~4 min</span>
+          {/* STATS */}
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {statBlocks.map((item) => (
+              <div
+                key={item.label}
+                className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center"
+              >
+                <p className="text-sm text-slate-300">{item.label}</p>
+                <p className="mt-1 text-2xl font-semibold">{item.value}</p>
               </div>
-
-              <div className="mt-5 space-y-4">
-                {timeline.map((item) => (
-                  <div key={item.slot} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">{item.slot}</p>
-                    <p className="mt-1 text-base font-semibold text-white">{item.title}</p>
-                    <p className="text-sm text-slate-300">{item.detail}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </aside>
-        </section>
-
-        {/* optional interactions block - hidden by default to simplify the reading flow */}
-        {showInteractions && (
-          <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Capsule vidéo</p>
-              <h2 className="mt-2 text-3xl font-semibold">Message d'ouverture du Comex</h2>
-              <p className="mt-3 text-slate-300">Cette capsule présente les ambitions 2030, les relais de croissance et les partenariats clés. L'audio complémentaire détaille la posture Pulse attendue.</p>
-              <div className="mt-6 space-y-4">
-                <div className="overflow-hidden rounded-3xl border border-white/10">
-                  <video src={introVideoUrl} className="w-full" autoPlay loop muted playsInline controls poster={introIllustration} />
-                </div>
-                <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-4">
-                  <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Capsule audio</p>
-                  <p className="text-sm text-slate-300">Guide vocal “Posture Pulse”</p>
-                  <audio controls className="mt-2 w-full">
-                    <source src={introAudioUrl} type="audio/mpeg" />
-                  </audio>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Découverte guidée</p>
-              <h3 className="mt-2 text-2xl font-semibold">Explorez les espaces Pulse</h3>
-              <p className="mt-3 text-slate-300">Chaque zone dévoile un message clé : orientation stratégique, immersion dans les valeurs puis accompagnement terrain. Suivez l'ordre imposé pour éviter la surcharge d'informations.</p>
-              <div className="mt-6">
-                <GuidedDiscovery title="Parcours découverte" intro="Cliquez dans l'ordre proposé pour débloquer toutes les informations." steps={introDiscoverySteps} />
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Interaction exercises kept lower on the page */}
-        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div>
-            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
-            <h2 className="mt-2 text-3xl font-semibold">Ordonnez la séquence d'onboarding</h2>
-            <p className="mt-3 text-slate-300">Faites glisser chaque étape pour reconstituer la chronologie officielle. Une fois l'ordre validé, la pastille cyan confirme la maîtrise du fil directeur HelioNova.</p>
-            <div className="mt-6">
-              <DragReorderBoard title="Étapes institutionnelles" description="Glissez-déposez les blocs pour retrouver la progression officielle." items={introInteractiveItems} correctOrder={introCorrectOrder} successCopy="Chronologie validée" />
-            </div>
+            ))}
           </div>
-          <figure className="overflow-hidden rounded-3xl border border-white/10">
-            <img src={introIllustration} alt="Accueil HelioNova" className="h-full w-full object-cover" loading="lazy" />
-            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">Les nouveaux collaborateurs découvrent l'écosystème Pulse dans un espace immersif.</figcaption>
-          </figure>
-        </section>
 
-        <section className="mx-auto mt-14 max-w-6xl">
-          <AssemblyGame title="Jeu d'assemblage" prompt="Composez la routine idéale de la première journée (3 éléments maximum)." cards={introAssemblyCards} targetIds={["bonjour", "qna", "mentor"]} maxSelection={3} successCopy="Routine validée" />
-        </section>
+          {/* OBJECTIFS */}
+          <h2 className="mt-10 text-xl font-semibold">À l’issue de cette introduction, vous saurez :</h2>
 
-        <section className="mx-auto mt-14 max-w-6xl">
-          <ModuleCompletionCard moduleId="intro" checklist={introChecklist} description="Cochez chaque item lorsque vous maîtrisez les informations clés. Une fois validé, le module Consignes se débloque." />
+          <ul className="mt-4 list-inside list-disc space-y-2 text-slate-200">
+            <li>Expliquer la vision Pulse 2030</li>
+            <li>Identifier les acteurs clés (manager, RH, mentor)</li>
+            <li>Comprendre le déroulé global du programme</li>
+          </ul>
+
+          {/* ACTIONS */}
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Button
+              size="lg"
+              onClick={() => navigate("/onboarding/protocoles")}
+            >
+              Commencer le module
+            </Button>
+
+            <Button variant="ghost" size="lg" asChild>
+              <Link to="/">Retour à l’accueil</Link>
+            </Button>
+          </div>
         </section>
       </main>
     </div>
