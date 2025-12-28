@@ -74,11 +74,7 @@ export function ModuleCompletionCard({ moduleId, checklist, description }: Modul
             Valider ce module
           </Button>
         )}
-        {alreadyValidated && nextModule && (
-          <Button size="lg" variant="secondary" asChild>
-            <Link to={nextModule.path}>Module suivant · {nextModule.label}</Link>
-          </Button>
-        )}
+        {/* 'Module suivant' removed as per design — sequential gating remains handled elsewhere */}
         <Button
           size="lg"
           variant="ghost"
