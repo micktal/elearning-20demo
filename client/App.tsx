@@ -16,6 +16,7 @@ import OnboardingPpe from "./pages/OnboardingPpe";
 import OnboardingEthics from "./pages/OnboardingEthics";
 import OnboardingDashboard from "./pages/OnboardingDashboard";
 import OnboardingIndex from "./pages/OnboardingIndex";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
 
 const queryClient = new QueryClient();
 
