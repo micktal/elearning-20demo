@@ -13,7 +13,6 @@ import OnboardingSimulations from "./pages/OnboardingSimulations";
 import OnboardingConflicts from "./pages/OnboardingConflicts";
 import OnboardingFire from "./pages/OnboardingFire";
 import OnboardingPpe from "./pages/OnboardingPpe";
-import OnboardingEthics from "./pages/OnboardingEthics";
 import OnboardingDashboard from "./pages/OnboardingDashboard";
 import OnboardingIndex from "./pages/OnboardingIndex";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
