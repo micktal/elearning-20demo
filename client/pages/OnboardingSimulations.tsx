@@ -140,11 +140,9 @@ export default function OnboardingSimulations() {
       );
 
       const fallbackId = scenarios[0].id;
-      const targetPath = isConflicts ?
-        // use explicit, human-readable conflict route
-        `/onboarding/conflits/${fallbackId}` :
-        // for safety modules, preserve query param style
-        `/onboarding/simulations?scenario=${fallbackId}`;
+      const targetPath = moduleKey
+        ? `/onboarding/${moduleKey}/${fallbackId}`
+        : `/onboarding/simulations?scenario=${fallbackId}`;
 
       navigate(targetPath, { replace: true });
       setActiveId(fallbackId);
