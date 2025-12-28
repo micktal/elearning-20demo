@@ -80,13 +80,18 @@ const conflictScenarios = [
 ];
 
 export default function OnboardingSimulations() {
-  const location = window.location;
+  const location = useLocation();
   const params = new URLSearchParams(location.search);
   const requested = params.get("scenario");
 
   // detect context from path
   const path = location.pathname || "";
   const isConflicts = path.startsWith("/onboarding/conflits");
+
+  // if the URL uses an explicit readable route like /onboarding/conflits/conflict-verbal,
+  // extract that last segment and consider it as a scenario id candidate
+  const pathSegments = path.split("/").filter(Boolean);
+  const pathScenarioId = isConflicts && pathSegments.length >= 3 ? pathSegments[2] : null;
 
   // choose the scenario set based on context
   const scenarios = isConflicts ? conflictScenarios : safetyScenarios;
@@ -105,7 +110,7 @@ export default function OnboardingSimulations() {
     "/onboarding/ethique": "phishing",
   };
 
-  const initialId = requested ?? pathFallbackMap[path] ?? scenarios[0].id;
+  const initialId = requested ?? pathScenarioId ?? pathFallbackMap[path] ?? scenarios[0].id;
 
   const [activeId, setActiveId] = useState(initialId);
   const [answer, setAnswer] = useState<string | null>(null);
