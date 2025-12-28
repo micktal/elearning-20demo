@@ -62,7 +62,7 @@ export default function OnboardingEthics() {
           <div className="mt-12 flex flex-wrap gap-4">
             <Button
               size="lg"
-              onClick={() => navigate("/onboarding/ethique/scenario-cadeau")}
+              onClick={() => navigate("/onboarding/ethique/phishing")}
             >
               Passer aux cas pratiques
             </Button>
