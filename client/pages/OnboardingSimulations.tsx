@@ -148,9 +148,8 @@ export default function OnboardingSimulations() {
 
       const fallbackId = scenarios[0].id;
       const targetPath = isConflicts ?
-
-        // canonical conflicts route is defined in App.tsx
-        "/onboarding/conflits/scenario-1" :
+        // use explicit, human-readable conflict route
+        `/onboarding/conflits/${fallbackId}` :
         // for safety modules, preserve query param style
         `/onboarding/simulations?scenario=${fallbackId}`;
 
