@@ -96,17 +96,12 @@ export default function OnboardingSimulations() {
   // choose the scenario set based on context
   const scenarios = isConflicts ? conflictScenarios : safetyScenarios;
 
-  // fallback mapping based on the current path to choose a relevant scenario
+  // fallback mapping for module base paths -> default scenario id
   const pathFallbackMap: Record<string, string> = {
-    "/onboarding/protocoles/scenario": "badge",
     "/onboarding/protocoles": "badge",
-    "/onboarding/conflits/scenario-1": conflictScenarios[0].id,
     "/onboarding/conflits": conflictScenarios[0].id,
-    "/onboarding/incendie/alerte": "badge",
     "/onboarding/incendie": "badge",
-    "/onboarding/epi/scenario": "visiteur",
     "/onboarding/epi": "visiteur",
-    "/onboarding/ethique/scenario-cadeau": "phishing",
     "/onboarding/ethique": "phishing",
   };
 
