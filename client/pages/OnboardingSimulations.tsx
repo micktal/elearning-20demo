@@ -119,7 +119,9 @@ export default function OnboardingSimulations() {
   const isConflicts = moduleKey === "conflits";
 
   // choose the scenario set based on context
-  const scenarios = isConflicts ? conflictScenarios : safetyScenarios;
+  let scenarios = safetyScenarios;
+  if (moduleKey === "conflits") scenarios = conflictScenarios;
+  if (moduleKey === "incendie") scenarios = fireScenarios;
 
   // compute current module id based on path
   const currentModuleId = (moduleKey ?? (isConflicts ? "conflits" : "simulations")) as any;
