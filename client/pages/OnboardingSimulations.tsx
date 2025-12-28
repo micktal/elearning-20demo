@@ -80,6 +80,32 @@ const conflictScenarios = [
   },
 ];
 
+// Fire-specific scenarios
+const fireScenarios = [
+  {
+    id: "incendie-alerte",
+    title: "Départ de feu - Alerte",
+    context: "Vous remarquez de la fumée provenant d’un équipement proche d’une zone de production.",
+    options: [
+      { id: "ignorer", label: "Ne rien faire et surveiller", ok: false },
+      { id: "alerter", label: "Alerter immédiatement le PC Sécurité et évacuer", ok: true },
+      { id: "retirer", label: "Tenter d’éteindre seul(e)", ok: false },
+    ],
+    feedback: "Alerter et évacuer garantit la sécurité des personnes et active les procédures d’intervention.",
+  },
+  {
+    id: "incendie-evac",
+    title: "Evacuation ordonnée",
+    context: "Une alerte incendie est déclenchée dans votre bâtiment.",
+    options: [
+      { id: "panique", label: "Courir vers la sortie la plus proche sans ordre", ok: false },
+      { id: "suivre", label: "Suivre les consignes d’évacuation et les points de rassemblement", ok: true },
+      { id: "reprendre", label: "Retourner récupérer un objet personnel", ok: false },
+    ],
+    feedback: "Suivre les consignes d’évacuation protège tout le monde et facilite l’intervention des secours.",
+  },
+];
+
 export default function OnboardingSimulations() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
