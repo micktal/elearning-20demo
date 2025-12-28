@@ -54,6 +54,15 @@ export default function OnboardingFire() {
             <li>Faciliter l’évacuation si nécessaire</li>
           </ul>
 
+          {/* Trainer video */}
+          <div className="mt-6 rounded-2xl overflow-hidden border border-white/10 bg-black">
+            <video
+              controls
+              className="w-full h-auto max-h-[420px] object-cover bg-black"
+              src="https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F6ada493dc67f473abea31bd48741c828?alt=media&token=a72365e8-3e19-4ae8-81f6-9e78a18b62fc&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec"
+            />
+          </div>
+
           {/* PRINCIPES */}
           <h2 className="mt-8 text-xl font-semibold">Principes clés</h2>
 
