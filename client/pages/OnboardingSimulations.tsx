@@ -139,7 +139,6 @@ export default function OnboardingSimulations() {
     "/onboarding/conflits": conflictScenarios[0].id,
     "/onboarding/incendie": fireScenarios[0].id,
     "/onboarding/epi": "visiteur",
-    "/onboarding/ethique": "phishing",
   };
 
   const initialId = requested ?? pathScenarioId ?? pathFallbackMap[path] ?? scenarios[0].id;
