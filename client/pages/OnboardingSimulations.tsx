@@ -97,8 +97,12 @@ export default function OnboardingSimulations() {
 
   // compute current module id based on path
   const currentModuleId = (moduleKey ?? (isConflicts ? "conflits" : "simulations")) as any;
-  const nextModule = getNextModule(currentModuleId);
-  const prevModule = getPreviousModule(currentModuleId);
+  const nextMod = getNextModule(currentModuleId) ?? null;
+  const prevMod = getPreviousModule(currentModuleId) ?? null;
+  const nextPath = nextMod?.path ?? null;
+  const nextLabel = nextMod?.label ?? null;
+  const prevPath = prevMod?.path ?? null;
+  const prevLabel = prevMod?.label ?? null;
 
   // fallback mapping for module base paths -> default scenario id
   const pathFallbackMap: Record<string, string> = {
