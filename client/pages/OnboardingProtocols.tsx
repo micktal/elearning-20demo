@@ -1,267 +1,76 @@
-import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
-import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
-import { InteractiveCampusMap } from "@/components/interactive/InteractiveCampusMap";
-import { AnomalySpotter } from "@/components/interactive/AnomalySpotter";
-import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
-import { useModuleProgress } from "@/providers/ModuleProgressProvider";
-import { getPreviousModule } from "@/lib/moduleProgress";
-import { cn } from "@/lib/utils";
 
-const safetyProtocols = [
+const protocols = [
   {
-    id: "acces",
-    title: "Accès physiques",
-    summary:
-      "Badge nominatif à présenter à chaque entrée, zones sensibles limitées et accompagnement obligatoire des visiteurs.",
-    checklist: [
-      "Déclarer toute anomalie sur Nova Bleu",
-      "Ne jamais prêter son badge",
-      "Escorter les visiteurs jusqu'au point de rendez-vous",
+    title: "Accès & badges",
+    rules: [
+      "Badge nominatif obligatoire",
+      "Aucun prêt de badge",
+      "Visiteur toujours accompagné",
     ],
-    codeWord: "Nova Bleu",
+    contact: "PC Sécurité",
   },
   {
-    id: "cyber",
     title: "Sécurité numérique",
-    summary:
-      "Verrouillage des sessions, MFA obligatoire et signalement immédiat des emails suspects via le bouton \"Signaler\".",
-    checklist: [
-      "Mettre à jour l'agent Sentinel",
-      "Verrouiller son poste dès l'absence",
-      "Transmettre à SecOps en moins de 5 minutes",
+    rules: [
+      "Verrouiller son poste",
+      "Ne jamais cliquer sur un lien suspect",
+      "Signaler immédiatement",
     ],
-    codeWord: "SecOps 24/7",
+    contact: "SecOps",
   },
   {
-    id: "visiteur",
-    title: "Visiteurs & ateliers",
-    summary:
-      "Badge invité orange, brief sécurité de 30 secondes et journal Pulse pour tracer les passages sensibles.",
-    checklist: [
-      "Remettre le badge invité",
-      "Présenter les issues d'urgence",
-      "Reporter dans le journal Pulse",
+    title: "Visiteurs & partenaires",
+    rules: [
+      "Badge invité visible",
+      "Brief sécurité obligatoire",
+      "Traçabilité des passages",
     ],
-    codeWord: "Charte visiteur",
+    contact: "Accueil / Sûreté",
   },
-];
-
-const protocolDrillItems = [
-  { id: "alerte", label: "Déclarer l'alerte", detail: "Signalement Nova Bleu ou hotline sécurité" },
-  { id: "isoler", label: "Isoler la zone", detail: "Couper l'accès et informer le PC sécurité" },
-  { id: "brief", label: "Briefer les équipes", detail: "Partager les consignes officielles aux managers" },
-  { id: "journal", label: "Journaliser", detail: "Reporter l'incident et les actions correctives" },
-];
-
-const protocolDrillOrder = ["alerte", "isoler", "brief", "journal"];
-
-const protocolIllustration = "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80";
-
-const campusZones = [
-  {
-    id: "atrium",
-    label: "Atrium",
-    description: "Point d'accueil, briefing badge et orientation des visiteurs.",
-    access: "Accès badge + hôte",
-  },
-  {
-    id: "lab",
-    label: "Laboratoire",
-    description: "Zone restreinte, équipements sensibles et procédures renforcées.",
-    access: "Autorisations SecOps",
-  },
-  {
-    id: "command",
-    label: "PC sécurité",
-    description: "Supervision 24/7, escalade des incidents et plan Delta.",
-    access: "Sûreté uniquement",
-  },
-  {
-    id: "studio",
-    label: "Studio visiteurs",
-    description: "Brief express des partenaires et enregistrement des badges invités.",
-    access: "Badge invité + sponsor",
-  },
-];
-
-const anomalyPoints = [
-  {
-    id: "porte",
-    label: "Porte ouverte",
-    description: "Issue coupe-feu non refermée",
-    position: { top: "30%", left: "40%" },
-  },
-  {
-    id: "badge",
-    label: "Badge absent",
-    description: "Collaborateur sans badge visible",
-    position: { top: "55%", left: "65%" },
-  },
-  {
-    id: "document",
-    label: "Document sensible",
-    description: "Plan d'intervention laissé sur une table",
-    position: { top: "75%", left: "35%" },
-  },
-];
-
-const protocolChecklist = [
-  { id: "matrice", label: "Je sais à qui m'adresser pour chaque consigne" },
-  { id: "checklist", label: "Je peux restituer une checklist en 3 points" },
-  { id: "journal", label: "Je maîtrise la procédure de journalisation" },
 ];
 
 export default function OnboardingProtocols() {
-  const [activeProtocol, setActiveProtocol] = useState(safetyProtocols[0].id);
-  const protocol = safetyProtocols.find((item) => item.id === activeProtocol) ?? safetyProtocols[0];
   const navigate = useNavigate();
-  const { initialized, isModuleUnlocked } = useModuleProgress();
-  const moduleId = "protocoles" as const;
-  const nextUnlocked = initialized && isModuleUnlocked("simulations");
-
-  useEffect(() => {
-    if (!initialized) return;
-    if (!isModuleUnlocked(moduleId)) {
-      const previous = getPreviousModule(moduleId);
-      navigate(previous?.path ?? "/onboarding/intro", { replace: true });
-    }
-  }, [initialized, isModuleUnlocked, moduleId, navigate]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <PrimaryHeader theme="dark" />
-      <main className="px-6 pb-20 pt-16">
-        <section className="mx-auto max-w-6xl">
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Étape 2 · Codes et consignes</p>
-          <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-3xl">
-              <h1 className="text-3xl font-semibold">Référentiel sûreté et sécurité</h1>
-              <p className="mt-3 text-slate-300">
-                Ces consignes sont obligatoires pour l'ensemble des collaborateurs présents sur site. Elles complètent les politiques globales HelioNova et
-                doivent être maîtrisées avant d'accéder aux simulations opérationnelles.
-              </p>
-            </div>
-            <div className="flex gap-3">
-              <Button variant="ghost" asChild>
-                <Link to="/onboarding/intro">← Introduction</Link>
-              </Button>
-              <Button
-                disabled={!nextUnlocked}
-                onClick={() => nextUnlocked && navigate("/onboarding/simulations")}
-              >
-                {nextUnlocked ? "Simulations opérationnelles →" : "Validez ce module pour continuer"}
-              </Button>
-            </div>
-          </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-[220px_1fr]">
-            <div className="flex flex-col gap-3">
-              {safetyProtocols.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setActiveProtocol(item.id)}
-                  className={cn(
-                    "rounded-2xl border px-4 py-3 text-left text-sm",
-                    activeProtocol === item.id
-                      ? "border-cyan-400 bg-gradient-to-r from-cyan-400/20 to-indigo-500/20"
-                      : "border-white/10 bg-white/5 text-slate-200 hover:bg-white/10",
-                  )}
-                >
-                  <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Référence</p>
-                  <p className="text-base font-semibold text-white">{item.title}</p>
-                </button>
-              ))}
-            </div>
+      <main className="mx-auto max-w-5xl px-6 pb-24 pt-20">
+        <section className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-10">
+          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Module · Codes & consignes</p>
 
-            <article className="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Consigne</p>
-                  <h2 className="text-2xl font-semibold text-white">{protocol.title}</h2>
-                </div>
-                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">Code {protocol.codeWord}</span>
-              </div>
-              <p className="mt-3 text-slate-200">{protocol.summary}</p>
-              <ul className="mt-4 list-disc space-y-2 pl-4 text-sm text-slate-200">
-                {protocol.checklist.map((item) => (
-                  <li key={item}>{item}</li>
+          <h1 className="mt-4 text-4xl font-semibold">Connaître et appliquer les règles essentielles</h1>
+
+          <p className="mt-4 max-w-2xl text-slate-300">
+            Ces consignes sont obligatoires pour tous. Elles garantissent la sécurité des personnes, des données
+            et des installations.
+          </p>
+
+          {protocols.map((protocol) => (
+            <div key={protocol.title} className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+              <h2 className="text-xl font-semibold text-white">{protocol.title}</h2>
+
+              <ul className="mt-3 list-inside list-disc space-y-2 text-slate-200">
+                {protocol.rules.map((rule) => (
+                  <li key={rule}>{rule}</li>
                 ))}
               </ul>
-              <div className="mt-6 flex flex-wrap gap-3 text-sm">
-                <Button size="sm" variant="outline" asChild>
-                  <Link to="/onboarding/intro">Revenir à l'introduction</Link>
-                </Button>
-                <Button size="sm" disabled={!nextUnlocked} onClick={() => nextUnlocked && navigate("/onboarding/simulations")}
-                >
-                  {nextUnlocked ? "Continuer vers les simulations" : "En attente de validation"}
-                </Button>
-              </div>
-            </article>
-          </div>
-        </section>
 
-        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div>
-            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Plan interactif</p>
-            <h2 className="mt-2 text-3xl font-semibold">Comprendre les flux du campus</h2>
-            <p className="mt-3 text-slate-300">Cliquez sur chaque zone pour identifier les accès autorisés / interdits et les flux critiques.</p>
-            <div className="mt-6">
-              <InteractiveCampusMap title="Cartographie HelioNova" zones={campusZones} intro="Repérez-vous avant d'accompagner vos équipes." />
+              <p className="mt-3 text-sm text-slate-400">Contact référent : <strong>{protocol.contact}</strong></p>
             </div>
+          ))}
+
+          <div className="mt-12 flex flex-wrap gap-4">
+            <Button size="lg" onClick={() => navigate("/onboarding/protocoles/scenario")}>Passer à la mise en situation</Button>
+
+            <Button variant="ghost" size="lg" asChild>
+              <Link to="/onboarding/intro">← Module précédent</Link>
+            </Button>
           </div>
-          <figure className="overflow-hidden rounded-3xl border border-white/10">
-            <img src={protocolIllustration} alt="Brief sécurité HelioNova" className="h-full w-full object-cover" loading="lazy" />
-            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">
-              Les responsables sûreté utilisent un studio immersif pour simuler les scénarios réglementaires.
-            </figcaption>
-          </figure>
-        </section>
-
-        <section className="mx-auto mt-14 grid max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div>
-            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Interaction · Drag &amp; Drop</p>
-            <h2 className="mt-2 text-3xl font-semibold">Reconstituez la procédure officielle</h2>
-            <p className="mt-3 text-slate-300">
-              Faites glisser les actions clés pour retrouver l'ordre attendu lors d'une alerte sûreté. La validation confirme votre maîtrise du référentiel.
-            </p>
-            <div className="mt-6">
-              <DragReorderBoard
-                title="Plan d'action Pulse"
-                description="Organisez les étapes du signalement à la capitalisation."
-                items={protocolDrillItems}
-                correctOrder={protocolDrillOrder}
-                successCopy="Procédure maîtrisée"
-                accent="amber"
-              />
-            </div>
-          </div>
-          <figure className="overflow-hidden rounded-3xl border border-white/10">
-            <img src={protocolIllustration} alt="Brief sécurité HelioNova" className="h-full w-full object-cover" loading="lazy" />
-            <figcaption className="bg-slate-900/70 px-4 py-3 text-sm text-slate-200">
-              Les responsables sûreté utilisent un studio immersif pour simuler les scénarios réglementaires.
-            </figcaption>
-          </figure>
-        </section>
-
-        <section className="mx-auto mt-14 max-w-6xl">
-          <AnomalySpotter
-            title="Image interactive"
-            intro="Repérez toutes les anomalies de sûreté avant de valider la zone."
-            imageUrl="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1100&q=80"
-            points={anomalyPoints}
-          />
-        </section>
-
-        <section className="mx-auto mt-14 max-w-6xl">
-          <ModuleCompletionCard
-            moduleId="protocoles"
-            checklist={protocolChecklist}
-            description="Confirmez la bonne appropriation des politiques avant de débloquer les simulations."
-          />
         </section>
       </main>
     </div>
