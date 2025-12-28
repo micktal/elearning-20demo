@@ -250,8 +250,26 @@ export default function OnboardingSimulations() {
 
           <div className="mt-10 flex gap-4">
             {nextPath ? (
-              <Button asChild>
-                <Link to={nextPath}>Module suivant · {nextLabel}</Link>
+              <Button
+                size="lg"
+                onClick={(e) => {
+                  // ensure we don't navigate to a locked module; read fresh state from provider
+                  const nextId = nextMod?.id as any;
+                  // if module unlocking state isn't available yet, block and inform user
+                  if (!initialized) {
+                    toast("Veuillez patienter — synchronisation en cours...");
+                    return;
+                  }
+
+                  if (nextId && !isModuleUnlocked(nextId)) {
+                    toast("Module verrouillé. Validez le module courant avant de poursuivre.");
+                    return;
+                  }
+
+                  navigate(nextPath);
+                }}
+              >
+                Module suivant · {nextLabel}
               </Button>
             ) : (
               <Button size="lg" disabled>
