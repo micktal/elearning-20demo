@@ -26,6 +26,8 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          {/* Scroll to top on every route change to ensure pages render from the top */}
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/onboarding" element={<OnboardingIndex />} />
