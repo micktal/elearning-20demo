@@ -218,10 +218,10 @@ export default function OnboardingSimulations() {
 
           <div className="mt-10 flex gap-4">
             <Button asChild>
-              <Link to={getNextModule(currentModuleId)?.path ?? "/"}>Module suivant</Link>
+              <Link to={nextModule?.path ?? "/"}>{nextModule ? `Module suivant · ${nextModule.label}` : "Module suivant"}</Link>
             </Button>
             <Button variant="ghost" asChild>
-              <Link to={getPreviousModule(currentModuleId)?.path ?? "/onboarding/protocoles"}>← Consignes</Link>
+              <Link to={prevModule?.path ?? "/onboarding/protocoles"}>{prevModule ? `← Consignes · ${prevModule.label}` : "← Consignes"}</Link>
             </Button>
           </div>
         </section>
