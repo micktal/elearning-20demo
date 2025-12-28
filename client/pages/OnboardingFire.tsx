@@ -24,27 +24,39 @@ export default function OnboardingFire() {
 
       <main className="mx-auto max-w-5xl px-6 pb-24 pt-20">
         <section className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-10">
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Module · Sécurité incendie</p>
+          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+            Module · Sécurité incendie
+          </p>
 
-          <h1 className="mt-4 text-4xl font-semibold">Réagir efficacement face à un départ de feu</h1>
+          <h1 className="mt-4 text-4xl font-semibold">
+            Réagir efficacement face à un départ de feu
+          </h1>
 
           <p className="mt-4 max-w-2xl text-slate-300">
-            Ce module vous donne les réflexes essentiels pour protéger les personnes, limiter la propagation et alerter correctement
-            les acteurs de sécurité.
+            Ce module vous donne les réflexes essentiels pour protéger les
+            personnes, limiter la propagation et alerter correctement les
+            acteurs de sécurité.
           </p>
 
           {/* STATS */}
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {fireStats.map((item) => (
-              <div key={item.label} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
+              <div
+                key={item.label}
+                className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center"
+              >
                 <p className="text-sm text-slate-300">{item.label}</p>
-                <p className="mt-1 text-2xl font-semibold text-white">{item.value}</p>
+                <p className="mt-1 text-2xl font-semibold text-white">
+                  {item.value}
+                </p>
               </div>
             ))}
           </div>
 
           {/* OBJECTIFS */}
-          <h2 className="mt-10 text-xl font-semibold">Ce que vous devez savoir faire</h2>
+          <h2 className="mt-10 text-xl font-semibold">
+            Ce que vous devez savoir faire
+          </h2>
 
           <ul className="mt-4 list-inside list-disc space-y-2 text-slate-200">
             <li>Identifier une situation anormale</li>
@@ -73,7 +85,10 @@ export default function OnboardingFire() {
 
           {/* ACTIONS */}
           <div className="mt-12 flex flex-wrap gap-4">
-            <Button size="lg" onClick={() => navigate("/onboarding/incendie/alerte")}>
+            <Button
+              size="lg"
+              onClick={() => navigate("/onboarding/incendie/alerte")}
+            >
               Passer aux mises en situation
             </Button>
 

@@ -9,9 +9,13 @@ export default function OnboardingDashboard() {
   const { statuses } = useModuleProgress();
   const navigate = useNavigate();
 
-  const completedCount = moduleSequence.filter((m) => statuses[m.id]?.completed).length;
+  const completedCount = moduleSequence.filter(
+    (m) => statuses[m.id]?.completed,
+  ).length;
 
-  const completionRate = Math.round((completedCount / moduleSequence.length) * 100);
+  const completionRate = Math.round(
+    (completedCount / moduleSequence.length) * 100,
+  );
 
   const nextModule = moduleSequence.find((m) => !statuses[m.id]?.completed);
 
@@ -22,20 +26,31 @@ export default function OnboardingDashboard() {
       <main className="mx-auto max-w-5xl px-6 pb-24 pt-20">
         {/* HERO DASHBOARD */}
         <section className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 to-indigo-950 p-10">
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Tableau de bord</p>
+          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+            Tableau de bord
+          </p>
 
-          <h1 className="mt-4 text-4xl font-semibold">Parcours HelioNova Pulse</h1>
+          <h1 className="mt-4 text-4xl font-semibold">
+            Parcours HelioNova Pulse
+          </h1>
 
-          <p className="mt-3 max-w-2xl text-slate-300">Suivez votre progression et accédez aux modules du programme d’onboarding.</p>
+          <p className="mt-3 max-w-2xl text-slate-300">
+            Suivez votre progression et accédez aux modules du programme
+            d’onboarding.
+          </p>
 
           {/* PROGRESSION */}
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-slate-300">Progression globale</p>
-                <p className="mt-1 text-3xl font-semibold">{completionRate} %</p>
+                <p className="mt-1 text-3xl font-semibold">
+                  {completionRate} %
+                </p>
               </div>
-              <span className="text-sm text-slate-400">{completedCount}/{moduleSequence.length} modules validés</span>
+              <span className="text-sm text-slate-400">
+                {completedCount}/{moduleSequence.length} modules validés
+              </span>
             </div>
             <Progress value={completionRate} className="mt-4 h-2 bg-white/10" />
           </div>
@@ -47,7 +62,9 @@ export default function OnboardingDashboard() {
                 Continuer le parcours
               </Button>
             ) : (
-              <Button size="lg" variant="secondary">Parcours terminé</Button>
+              <Button size="lg" variant="secondary">
+                Parcours terminé
+              </Button>
             )}
 
             <Button variant="ghost" size="lg" asChild>
@@ -70,11 +87,19 @@ export default function OnboardingDashboard() {
                 >
                   <div>
                     <p className="font-semibold text-white">{module.label}</p>
-                    <p className="text-sm text-slate-400">{completed ? "Validé" : "À suivre"}</p>
+                    <p className="text-sm text-slate-400">
+                      {completed ? "Validé" : "À suivre"}
+                    </p>
                   </div>
 
-                  <Button size="sm" variant={completed ? "secondary" : "default"} asChild>
-                    <Link to={module.path}>{completed ? "Revoir" : "Accéder"}</Link>
+                  <Button
+                    size="sm"
+                    variant={completed ? "secondary" : "default"}
+                    asChild
+                  >
+                    <Link to={module.path}>
+                      {completed ? "Revoir" : "Accéder"}
+                    </Link>
                   </Button>
                 </div>
               );

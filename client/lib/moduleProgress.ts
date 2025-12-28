@@ -2,14 +2,20 @@ export const moduleSequence = [
   { id: "intro", label: "Introduction", path: "/onboarding/intro" },
   { id: "protocoles", label: "Consignes", path: "/onboarding/protocoles" },
   { id: "simulations", label: "Simulations", path: "/onboarding/simulations" },
-  { id: "conflits", label: "Gestion des conflits", path: "/onboarding/conflits" },
+  {
+    id: "conflits",
+    label: "Gestion des conflits",
+    path: "/onboarding/conflits",
+  },
   { id: "incendie", label: "Sécurité incendie", path: "/onboarding/incendie" },
   { id: "epi", label: "Port des EPI", path: "/onboarding/epi" },
 ] as const;
 
 export type ModuleKey = (typeof moduleSequence)[number]["id"];
 
-const moduleIndexMap = new Map<ModuleKey, number>(moduleSequence.map((module, index) => [module.id, index]));
+const moduleIndexMap = new Map<ModuleKey, number>(
+  moduleSequence.map((module, index) => [module.id, index]),
+);
 
 export function getModuleMeta(moduleId: ModuleKey) {
   return moduleSequence[moduleIndexMap.get(moduleId) ?? 0];

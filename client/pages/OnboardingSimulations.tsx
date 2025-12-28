@@ -18,7 +18,8 @@ const safetyScenarios = [
       { id: "pret", label: "Utiliser le badge d’un collègue", ok: false },
       { id: "alerte", label: "Déclarer via Nova Bleu et attendre", ok: true },
     ],
-    feedback: "La déclaration via Nova Bleu garantit la traçabilité et déclenche la sûreté.",
+    feedback:
+      "La déclaration via Nova Bleu garantit la traçabilité et déclenche la sûreté.",
   },
   {
     id: "phishing",
@@ -49,35 +50,53 @@ const conflictScenarios = [
   {
     id: "conflict-verbal",
     title: "Conflit verbal en atelier",
-    context: "Deux collègues ont une discussion qui monte en tension devant les autres.",
+    context:
+      "Deux collègues ont une discussion qui monte en tension devant les autres.",
     options: [
       { id: "ignorer", label: "Ignorer et continuer", ok: false },
-      { id: "intervenir", label: "Intervenir en privé pour clarifier", ok: true },
+      {
+        id: "intervenir",
+        label: "Intervenir en privé pour clarifier",
+        ok: true,
+      },
       { id: "punir", label: "Sanctionner publiquement", ok: false },
     ],
-    feedback: "Intervenir en privé permet de désamorcer la situation et préserver la dignité des personnes.",
+    feedback:
+      "Intervenir en privé permet de désamorcer la situation et préserver la dignité des personnes.",
   },
   {
     id: "conflict-manager",
     title: "Conflit avec un manager",
-    context: "Un manager tient des propos qui mettent un collaborateur en difficulté.",
+    context:
+      "Un manager tient des propos qui mettent un collaborateur en difficulté.",
     options: [
       { id: "defendre", label: "Prendre le parti sans faits", ok: false },
       { id: "escalade", label: "Documenter et informer RH/Comex", ok: true },
       { id: "affronter", label: "Répondre sur le ton", ok: false },
     ],
-    feedback: "Documenter et alerter les bonnes instances garantit imparcialité et traçabilité.",
+    feedback:
+      "Documenter et alerter les bonnes instances garantit imparcialité et traçabilité.",
   },
   {
     id: "conflict-client",
     title: "Client en désaccord",
-    context: "Un client conteste une action et la discussion devient conflictuelle.",
+    context:
+      "Un client conteste une action et la discussion devient conflictuelle.",
     options: [
-      { id: "retourner", label: "Retourner la critique contre le client", ok: false },
-      { id: "calmer", label: "Proposer un point de calme et écouter", ok: true },
+      {
+        id: "retourner",
+        label: "Retourner la critique contre le client",
+        ok: false,
+      },
+      {
+        id: "calmer",
+        label: "Proposer un point de calme et écouter",
+        ok: true,
+      },
       { id: "ignorer2", label: "Ignorer et laisser filer", ok: false },
     ],
-    feedback: "Calmer et écouter permet souvent de trouver un terrain d’entente rapidement.",
+    feedback:
+      "Calmer et écouter permet souvent de trouver un terrain d’entente rapidement.",
   },
 ];
 
@@ -86,24 +105,44 @@ const fireScenarios = [
   {
     id: "incendie-alerte",
     title: "Départ de feu - Alerte",
-    context: "Vous remarquez de la fumée provenant d’un équipement proche d’une zone de production.",
+    context:
+      "Vous remarquez de la fumée provenant d’un équipement proche d’une zone de production.",
     options: [
       { id: "ignorer", label: "Ne rien faire et surveiller", ok: false },
-      { id: "alerter", label: "Alerter immédiatement le PC Sécurité et évacuer", ok: true },
+      {
+        id: "alerter",
+        label: "Alerter immédiatement le PC Sécurité et évacuer",
+        ok: true,
+      },
       { id: "retirer", label: "Tenter d’éteindre seul(e)", ok: false },
     ],
-    feedback: "Alerter et évacuer garantit la sécurité des personnes et active les procédures d’intervention.",
+    feedback:
+      "Alerter et évacuer garantit la sécurité des personnes et active les procédures d’intervention.",
   },
   {
     id: "incendie-evac",
     title: "Evacuation ordonnée",
     context: "Une alerte incendie est déclenchée dans votre bâtiment.",
     options: [
-      { id: "panique", label: "Courir vers la sortie la plus proche sans ordre", ok: false },
-      { id: "suivre", label: "Suivre les consignes d’évacuation et les points de rassemblement", ok: true },
-      { id: "reprendre", label: "Retourner récupérer un objet personnel", ok: false },
+      {
+        id: "panique",
+        label: "Courir vers la sortie la plus proche sans ordre",
+        ok: false,
+      },
+      {
+        id: "suivre",
+        label:
+          "Suivre les consignes d’évacuation et les points de rassemblement",
+        ok: true,
+      },
+      {
+        id: "reprendre",
+        label: "Retourner récupérer un objet personnel",
+        ok: false,
+      },
     ],
-    feedback: "Suivre les consignes d’évacuation protège tout le monde et facilite l’intervention des secours.",
+    feedback:
+      "Suivre les consignes d’évacuation protège tout le monde et facilite l’intervention des secours.",
   },
 ];
 
@@ -125,7 +164,8 @@ export default function OnboardingSimulations() {
   if (moduleKey === "incendie") scenarios = fireScenarios;
 
   // compute current module id based on path
-  const currentModuleId = (moduleKey ?? (isConflicts ? "conflits" : "simulations")) as any;
+  const currentModuleId = (moduleKey ??
+    (isConflicts ? "conflits" : "simulations")) as any;
   const nextMod = getNextModule(currentModuleId) ?? null;
   const prevMod = getPreviousModule(currentModuleId) ?? null;
   const nextPath = nextMod?.path ?? null;
@@ -141,13 +181,20 @@ export default function OnboardingSimulations() {
     "/onboarding/epi": "visiteur",
   };
 
-  const initialId = requested ?? pathScenarioId ?? pathFallbackMap[path] ?? scenarios[0].id;
+  const initialId =
+    requested ?? pathScenarioId ?? pathFallbackMap[path] ?? scenarios[0].id;
 
   const [activeId, setActiveId] = useState(initialId);
   const [answer, setAnswer] = useState<string | null>(null);
 
-  const scenario = useMemo(() => scenarios.find((s) => s.id === activeId) ?? scenarios[0], [activeId, scenarios]);
-  const correct = useMemo(() => scenario.options.find((o) => o.ok)?.id, [scenario]);
+  const scenario = useMemo(
+    () => scenarios.find((s) => s.id === activeId) ?? scenarios[0],
+    [activeId, scenarios],
+  );
+  const correct = useMemo(
+    () => scenario.options.find((o) => o.ok)?.id,
+    [scenario],
+  );
 
   useEffect(() => {
     setAnswer(null);
@@ -175,7 +222,7 @@ export default function OnboardingSimulations() {
     if (inOther) {
       // notify user and redirect to the canonical path for this module's first scenario
       toast(
-        `Le scénario demandé appartient à un autre module. Affichage des cas de ${isConflicts ? "gestion des conflits" : "sécurité"}.`
+        `Le scénario demandé appartient à un autre module. Affichage des cas de ${isConflicts ? "gestion des conflits" : "sécurité"}.`,
       );
 
       const fallbackId = scenarios[0].id;
@@ -197,11 +244,17 @@ export default function OnboardingSimulations() {
 
       <main className="mx-auto max-w-5xl px-6 pb-24 pt-20">
         <section className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-10">
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Module · Simulations</p>
+          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+            Module · Simulations
+          </p>
 
-          <h1 className="mt-4 text-4xl font-semibold">Tester vos réflexes essentiels</h1>
+          <h1 className="mt-4 text-4xl font-semibold">
+            Tester vos réflexes essentiels
+          </h1>
 
-          <p className="mt-4 max-w-2xl text-slate-300">Choisissez la bonne conduite à tenir dans chaque situation.</p>
+          <p className="mt-4 max-w-2xl text-slate-300">
+            Choisissez la bonne conduite à tenir dans chaque situation.
+          </p>
 
           {moduleKey === "conflits" && (
             <div className="mt-6 rounded-2xl overflow-hidden border border-white/10 bg-black">
@@ -253,8 +306,12 @@ export default function OnboardingSimulations() {
             </div>
 
             {answer && (
-              <p className={`mt-4 text-sm ${answer === correct ? "text-emerald-200" : "text-rose-200"}`}>
-                {answer === correct ? scenario.feedback : "Reprenez les consignes avant de poursuivre."}
+              <p
+                className={`mt-4 text-sm ${answer === correct ? "text-emerald-200" : "text-rose-200"}`}
+              >
+                {answer === correct
+                  ? scenario.feedback
+                  : "Reprenez les consignes avant de poursuivre."}
               </p>
             )}
           </div>
@@ -273,7 +330,9 @@ export default function OnboardingSimulations() {
                   }
 
                   if (nextId && !isModuleUnlocked(nextId)) {
-                    toast("Module verrouillé. Validez le module courant avant de poursuivre.");
+                    toast(
+                      "Module verrouillé. Validez le module courant avant de poursuivre.",
+                    );
                     return;
                   }
 
@@ -305,27 +364,53 @@ export default function OnboardingSimulations() {
           {!(isConflicts && activeId === "conflict-verbal") && (
             <ModuleCompletionCard
               // derive moduleId from route (moduleKey) when available, otherwise fallback to 'simulations' or 'conflits'
-              moduleId={(moduleKey as any) ?? (isConflicts ? "conflits" : "simulations")}
+              moduleId={
+                (moduleKey as any) ?? (isConflicts ? "conflits" : "simulations")
+              }
               checklist={
                 moduleKey === "conflits"
                   ? [
-                      { id: "deescalade", label: "Je peux désamorcer un conflit verbal" },
-                      { id: "escalade", label: "Je sais quand escalader formellement" },
-                      { id: "client-gestion", label: "Je maîtrise l’accueil et la reprise client" },
+                      {
+                        id: "deescalade",
+                        label: "Je peux désamorcer un conflit verbal",
+                      },
+                      {
+                        id: "escalade",
+                        label: "Je sais quand escalader formellement",
+                      },
+                      {
+                        id: "client-gestion",
+                        label: "Je maîtrise l’accueil et la reprise client",
+                      },
                     ]
                   : moduleKey === "incendie"
-                  ? [
-                      { id: "alerte", label: "Je sais alerter et évacuer" },
-                      { id: "evac", label: "Je connais les points de rassemblement" },
-                      { id: "securite-humaine", label: "Je protège les personnes en priorité" },
-                    ]
-                  : [
-                      { id: "badge", label: "Je sais gérer un badge refusé" },
-                      { id: "mail", label: "Je sais signaler un phishing" },
-                      { id: "visit", label: "Je maîtrise l’accueil visiteur" },
-                    ]
+                    ? [
+                        { id: "alerte", label: "Je sais alerter et évacuer" },
+                        {
+                          id: "evac",
+                          label: "Je connais les points de rassemblement",
+                        },
+                        {
+                          id: "securite-humaine",
+                          label: "Je protège les personnes en priorité",
+                        },
+                      ]
+                    : [
+                        { id: "badge", label: "Je sais gérer un badge refusé" },
+                        { id: "mail", label: "Je sais signaler un phishing" },
+                        {
+                          id: "visit",
+                          label: "Je maîtrise l’accueil visiteur",
+                        },
+                      ]
               }
-              description={moduleKey === "conflits" ? "Validez vos réflexes de gestion de conflit." : moduleKey === "incendie" ? "Validez vos réflexes sécurité incendie." : "Validez vos réflexes avant de poursuivre."}
+              description={
+                moduleKey === "conflits"
+                  ? "Validez vos réflexes de gestion de conflit."
+                  : moduleKey === "incendie"
+                    ? "Validez vos réflexes sécurité incendie."
+                    : "Validez vos réflexes avant de poursuivre."
+              }
             />
           )}
         </section>

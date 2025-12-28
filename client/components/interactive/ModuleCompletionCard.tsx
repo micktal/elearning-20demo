@@ -1,7 +1,11 @@
 import { useMemo, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { moduleSequence, getNextModule, type ModuleKey } from "@/lib/moduleProgress";
+import {
+  moduleSequence,
+  getNextModule,
+  type ModuleKey,
+} from "@/lib/moduleProgress";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { cn } from "@/lib/utils";
 
@@ -11,12 +15,25 @@ export type ModuleCompletionCardProps = {
   description?: string;
 };
 
-export function ModuleCompletionCard({ moduleId, checklist, description }: ModuleCompletionCardProps) {
-  const { markModuleComplete, isModuleCompleted, getModuleScore } = useModuleProgress();
-  const [responses, setResponses] = useState<Record<string, boolean>>(() => ({}));
+export function ModuleCompletionCard({
+  moduleId,
+  checklist,
+  description,
+}: ModuleCompletionCardProps) {
+  const { markModuleComplete, isModuleCompleted, getModuleScore } =
+    useModuleProgress();
+  const [responses, setResponses] = useState<Record<string, boolean>>(
+    () => ({}),
+  );
 
-  const completedCount = useMemo(() => checklist.filter((item) => responses[item.id]).length, [checklist, responses]);
-  const score = useMemo(() => Math.round((completedCount / checklist.length) * 100), [completedCount, checklist.length]);
+  const completedCount = useMemo(
+    () => checklist.filter((item) => responses[item.id]).length,
+    [checklist, responses],
+  );
+  const score = useMemo(
+    () => Math.round((completedCount / checklist.length) * 100),
+    [completedCount, checklist.length],
+  );
   const ready = completedCount === checklist.length;
   const alreadyValidated = isModuleCompleted(moduleId);
   const storedScore = getModuleScore(moduleId);
@@ -35,14 +52,27 @@ export function ModuleCompletionCard({ moduleId, checklist, description }: Modul
     <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Final scoring</p>
-          <h2 className="mt-2 text-3xl font-semibold text-white">Validez le module</h2>
-          {description && <p className="mt-2 max-w-2xl text-slate-300">{description}</p>}
+          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+            Final scoring
+          </p>
+          <h2 className="mt-2 text-3xl font-semibold text-white">
+            Validez le module
+          </h2>
+          {description && (
+            <p className="mt-2 max-w-2xl text-slate-300">{description}</p>
+          )}
         </div>
         <div className="rounded-2xl border border-white/10 bg-slate-900/60 px-5 py-4 text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-slate-400">Score</p>
-          <p className="text-3xl font-semibold text-white">{alreadyValidated ? `${storedScore}%` : `${score}%`}</p>
-          <Progress value={alreadyValidated ? storedScore : score} className="mt-2 h-2 bg-white/10" />
+          <p className="text-xs uppercase tracking-[0.4em] text-slate-400">
+            Score
+          </p>
+          <p className="text-3xl font-semibold text-white">
+            {alreadyValidated ? `${storedScore}%` : `${score}%`}
+          </p>
+          <Progress
+            value={alreadyValidated ? storedScore : score}
+            className="mt-2 h-2 bg-white/10"
+          />
         </div>
       </div>
 
@@ -52,7 +82,8 @@ export function ModuleCompletionCard({ moduleId, checklist, description }: Modul
             key={item.id}
             className={cn(
               "flex cursor-pointer items-start gap-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4 text-sm transition",
-              responses[item.id] && "border-emerald-400 bg-emerald-400/10 text-emerald-100",
+              responses[item.id] &&
+                "border-emerald-400 bg-emerald-400/10 text-emerald-100",
             )}
           >
             <input

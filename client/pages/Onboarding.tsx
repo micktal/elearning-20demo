@@ -18,13 +18,17 @@ export default function OnboardingIntro() {
       <main className="mx-auto max-w-5xl px-6 pb-24 pt-20">
         {/* HERO */}
         <section className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-10">
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Onboarding · Introduction</p>
+          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+            Onboarding · Introduction
+          </p>
 
-          <h1 className="mt-4 text-4xl font-semibold">Bienvenue chez HelioNova Pulse</h1>
+          <h1 className="mt-4 text-4xl font-semibold">
+            Bienvenue chez HelioNova Pulse
+          </h1>
 
           <p className="mt-4 max-w-2xl text-slate-300">
-            Ce module d’introduction vous permet de comprendre le cadre,
-            la vision et les attentes avant d’entrer dans les consignes
+            Ce module d’introduction vous permet de comprendre le cadre, la
+            vision et les attentes avant d’entrer dans les consignes
             opérationnelles.
           </p>
 
@@ -53,7 +57,9 @@ export default function OnboardingIntro() {
           </div>
 
           {/* OBJECTIFS */}
-          <h2 className="mt-10 text-xl font-semibold">À l’issue de cette introduction, vous saurez :</h2>
+          <h2 className="mt-10 text-xl font-semibold">
+            À l’issue de cette introduction, vous saurez :
+          </h2>
 
           <ul className="mt-4 list-inside list-disc space-y-2 text-slate-200">
             <li>Expliquer la vision Pulse 2030</li>

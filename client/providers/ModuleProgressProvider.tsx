@@ -1,5 +1,16 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { getPreviousModule, moduleSequence, type ModuleKey } from "@/lib/moduleProgress";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import {
+  getPreviousModule,
+  moduleSequence,
+  type ModuleKey,
+} from "@/lib/moduleProgress";
 
 const STORAGE_KEY = "helionova-module-progress";
 
@@ -18,14 +29,23 @@ type ModuleProgressContextValue = {
   getModuleScore: (moduleId: ModuleKey) => number;
 };
 
-const defaultStatuses = moduleSequence.reduce<Record<ModuleKey, ModuleStatus>>((acc, module) => {
-  acc[module.id] = { completed: false, score: 0 };
-  return acc;
-}, {} as Record<ModuleKey, ModuleStatus>);
+const defaultStatuses = moduleSequence.reduce<Record<ModuleKey, ModuleStatus>>(
+  (acc, module) => {
+    acc[module.id] = { completed: false, score: 0 };
+    return acc;
+  },
+  {} as Record<ModuleKey, ModuleStatus>,
+);
 
-const ModuleProgressContext = createContext<ModuleProgressContextValue | null>(null);
+const ModuleProgressContext = createContext<ModuleProgressContextValue | null>(
+  null,
+);
 
-export function ModuleProgressProvider({ children }: { children: React.ReactNode }) {
+export function ModuleProgressProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [statuses, setStatuses] = useState(defaultStatuses);
   const [initialized, setInitialized] = useState(false);
 
@@ -48,56 +68,89 @@ export function ModuleProgressProvider({ children }: { children: React.ReactNode
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(statuses));
   }, [statuses, initialized]);
 
-  const markModuleComplete = useCallback((moduleId: ModuleKey, score: number) => {
-    setStatuses((prev) => {
-      const next = {
-        ...prev,
-        [moduleId]: {
-          completed: true,
-          score,
-          completedAt: new Date().toISOString(),
-        },
-      };
+  const markModuleComplete = useCallback(
+    (moduleId: ModuleKey, score: number) => {
+      setStatuses((prev) => {
+        const next = {
+          ...prev,
+          [moduleId]: {
+            completed: true,
+            score,
+            completedAt: new Date().toISOString(),
+          },
+        };
 
-      // persist immediately to localStorage to avoid navigation race conditions
-      try {
-        if (typeof window !== "undefined") {
-          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        // persist immediately to localStorage to avoid navigation race conditions
+        try {
+          if (typeof window !== "undefined") {
+            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+          }
+        } catch (e) {
+          // ignore localStorage errors silently
         }
-      } catch (e) {
-        // ignore localStorage errors silently
-      }
 
-      return next;
-    });
-  }, []);
+        return next;
+      });
+    },
+    [],
+  );
 
-  const isModuleCompleted = useCallback((moduleId: ModuleKey) => statuses[moduleId]?.completed ?? false, [statuses]);
+  const isModuleCompleted = useCallback(
+    (moduleId: ModuleKey) => statuses[moduleId]?.completed ?? false,
+    [statuses],
+  );
 
   const isModuleUnlocked = useCallback(
     (moduleId: ModuleKey) => {
-      const index = moduleSequence.findIndex((module) => module.id === moduleId);
+      const index = moduleSequence.findIndex(
+        (module) => module.id === moduleId,
+      );
       if (index === -1) return false;
       if (index === 0) return true;
-      return moduleSequence.slice(0, index).every((module) => statuses[module.id]?.completed);
+      return moduleSequence
+        .slice(0, index)
+        .every((module) => statuses[module.id]?.completed);
     },
     [statuses],
   );
 
-  const getModuleScore = useCallback((moduleId: ModuleKey) => statuses[moduleId]?.score ?? 0, [statuses]);
-
-  const value = useMemo<ModuleProgressContextValue>(
-    () => ({ statuses, initialized, markModuleComplete, isModuleCompleted, isModuleUnlocked, getModuleScore }),
-    [statuses, initialized, markModuleComplete, isModuleCompleted, isModuleUnlocked, getModuleScore],
+  const getModuleScore = useCallback(
+    (moduleId: ModuleKey) => statuses[moduleId]?.score ?? 0,
+    [statuses],
   );
 
-  return <ModuleProgressContext.Provider value={value}>{children}</ModuleProgressContext.Provider>;
+  const value = useMemo<ModuleProgressContextValue>(
+    () => ({
+      statuses,
+      initialized,
+      markModuleComplete,
+      isModuleCompleted,
+      isModuleUnlocked,
+      getModuleScore,
+    }),
+    [
+      statuses,
+      initialized,
+      markModuleComplete,
+      isModuleCompleted,
+      isModuleUnlocked,
+      getModuleScore,
+    ],
+  );
+
+  return (
+    <ModuleProgressContext.Provider value={value}>
+      {children}
+    </ModuleProgressContext.Provider>
+  );
 }
 
 export function useModuleProgress() {
   const context = useContext(ModuleProgressContext);
   if (!context) {
-    throw new Error("useModuleProgress must be used within ModuleProgressProvider");
+    throw new Error(
+      "useModuleProgress must be used within ModuleProgressProvider",
+    );
   }
   return context;
 }

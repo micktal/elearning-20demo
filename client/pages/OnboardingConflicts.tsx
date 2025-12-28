@@ -35,14 +35,19 @@ export default function OnboardingConflicts() {
 
       <main className="mx-auto max-w-5xl px-6 pb-24 pt-20">
         <section className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-10">
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Module · Gestion des conflits</p>
+          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+            Module · Gestion des conflits
+          </p>
 
-          <h1 className="mt-4 text-4xl font-semibold">Neutraliser les tensions avant qu’elles n’escaladent</h1>
+          <h1 className="mt-4 text-4xl font-semibold">
+            Neutraliser les tensions avant qu’elles n’escaladent
+          </h1>
 
           <p className="mt-4 max-w-2xl text-slate-300">
-            Les situations de tension font partie de la vie professionnelle. L’enjeu n’est pas de les éviter, mais de les traiter
-            rapidement, avec méthode et neutralité. Ce module vous donne des repères clairs pour agir dès le premier signe de
-            friction.
+            Les situations de tension font partie de la vie professionnelle.
+            L’enjeu n’est pas de les éviter, mais de les traiter rapidement,
+            avec méthode et neutralité. Ce module vous donne des repères clairs
+            pour agir dès le premier signe de friction.
           </p>
 
           {/* ILLUSTRATION */}
@@ -73,12 +78,15 @@ export default function OnboardingConflicts() {
           {/* OBJECTIF */}
           <h2 className="mt-10 text-xl font-semibold">Objectif du module</h2>
           <p className="mt-3 max-w-2xl text-slate-200">
-            Vous permettre d’identifier rapidement une situation de conflit, d’adopter la bonne posture et de structurer une réponse
-            conforme aux standards HelioNova.
+            Vous permettre d’identifier rapidement une situation de conflit,
+            d’adopter la bonne posture et de structurer une réponse conforme aux
+            standards HelioNova.
           </p>
 
           {/* MÉTHODE */}
-          <h2 className="mt-8 text-xl font-semibold">La méthode HelioNova en 3 phases</h2>
+          <h2 className="mt-8 text-xl font-semibold">
+            La méthode HelioNova en 3 phases
+          </h2>
 
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {deEscalationPhases.map((phase) => (
@@ -86,8 +94,12 @@ export default function OnboardingConflicts() {
                 key={phase.phase}
                 className="rounded-2xl border border-white/10 bg-white/5 p-5"
               >
-                <p className="text-sm font-semibold text-cyan-200">{phase.phase}</p>
-                <p className="mt-2 text-sm text-slate-300">{phase.description}</p>
+                <p className="text-sm font-semibold text-cyan-200">
+                  {phase.phase}
+                </p>
+                <p className="mt-2 text-sm text-slate-300">
+                  {phase.description}
+                </p>
               </div>
             ))}
           </div>

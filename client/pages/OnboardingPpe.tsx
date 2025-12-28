@@ -7,13 +7,16 @@ import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getPreviousModule } from "@/lib/moduleProgress";
 import { cn } from "@/lib/utils";
 
-
 const gearMatrix = [
   {
     id: "chimie",
     zone: "Labos & chimie douce",
     exposure: "Vapeurs, projections contrôlées",
-    checklist: ["Lunettes étanches", "Gants nitrile long", "Blouse retardante de flamme"],
+    checklist: [
+      "Lunettes étanches",
+      "Gants nitrile long",
+      "Blouse retardante de flamme",
+    ],
     insight: "Kit bleu PulseLab, validité 12 mois",
   },
   {
@@ -27,7 +30,11 @@ const gearMatrix = [
     id: "chantier",
     zone: "Chantiers extérieurs",
     exposure: "Chute d'objet, météo variable",
-    checklist: ["Casque MIPS", "Harnais double longe", "Veste haute visibilité"],
+    checklist: [
+      "Casque MIPS",
+      "Harnais double longe",
+      "Veste haute visibilité",
+    ],
     insight: "Kit traçable via QR code PulseField",
   },
   {
@@ -43,7 +50,8 @@ const learningTracks = [
   {
     id: "preparation",
     title: "Préparation du kit",
-    prompt: "Vous recevez un ordre de mission express pour un chantier extérieur. Comment sécuriser la vérification des EPI ?",
+    prompt:
+      "Vous recevez un ordre de mission express pour un chantier extérieur. Comment sécuriser la vérification des EPI ?",
     tip: "Le double check badge + photo réduit de 70 % les oublis de harnais.",
     options: [
       {
@@ -69,7 +77,8 @@ const learningTracks = [
   {
     id: "usage",
     title: "Port en situation",
-    prompt: "Lors d'un audit interne, un opérateur retire ses gants pour gagner de la précision. Quelle réaction adopter ?",
+    prompt:
+      "Lors d'un audit interne, un opérateur retire ses gants pour gagner de la précision. Quelle réaction adopter ?",
     tip: "Les micro-pauses calibrées évitent 40 % des blessures main.",
     options: [
       {
@@ -95,7 +104,8 @@ const learningTracks = [
   {
     id: "maintenance",
     title: "Maintenance & recyclage",
-    prompt: "Une série de casques haute visibilité arrive en fin de cycle. Quelle procédure enclencher ?",
+    prompt:
+      "Une série de casques haute visibilité arrive en fin de cycle. Quelle procédure enclencher ?",
     tip: "Le programme PulseCycle réduit de 35 % les déchets EPI.",
     options: [
       {
@@ -120,14 +130,11 @@ const learningTracks = [
   },
 ];
 
-
-
 const epiChecklist = [
   { id: "selection", label: "Je choisis le kit adapté à chaque zone" },
   { id: "usage", label: "Je connais la bonne réaction pendant l'audit" },
   { id: "cycle", label: "Je déclenche PulseCycle pour la maintenance" },
 ];
-
 
 export default function OnboardingPpe() {
   const [activeZone, setActiveZone] = useState(gearMatrix[0].id);
@@ -137,9 +144,19 @@ export default function OnboardingPpe() {
   const { initialized, isModuleUnlocked } = useModuleProgress();
   const moduleId = "epi" as const;
 
-  const zone = useMemo(() => gearMatrix.find((item) => item.id === activeZone) ?? gearMatrix[0], [activeZone]);
-  const track = useMemo(() => learningTracks.find((item) => item.id === activeTrack) ?? learningTracks[0], [activeTrack]);
-  const currentOption = track.options.find((option) => option.id === selectedOption);
+  const zone = useMemo(
+    () => gearMatrix.find((item) => item.id === activeZone) ?? gearMatrix[0],
+    [activeZone],
+  );
+  const track = useMemo(
+    () =>
+      learningTracks.find((item) => item.id === activeTrack) ??
+      learningTracks[0],
+    [activeTrack],
+  );
+  const currentOption = track.options.find(
+    (option) => option.id === selectedOption,
+  );
 
   useEffect(() => {
     if (!initialized) return;
@@ -159,13 +176,18 @@ export default function OnboardingPpe() {
       <PrimaryHeader theme="dark" />
       <main className="px-6 pb-24 pt-16">
         <section className="mx-auto max-w-6xl">
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Étape 6 · Port des EPI</p>
+          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+            Étape 6 · Port des EPI
+          </p>
           <div className="mt-4 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <article className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 p-8">
-              <h1 className="text-4xl font-semibold">Garantir une tenue EPI irréprochable</h1>
+              <h1 className="text-4xl font-semibold">
+                Garantir une tenue EPI irréprochable
+              </h1>
               <p className="mt-4 text-slate-300">
-                Ce module associe matrices de risques, innovations Pulse et simulations de décision pour ancrer les bons réflexes de port des EPI sur tous les
-                sites HelioNova.
+                Ce module associe matrices de risques, innovations Pulse et
+                simulations de décision pour ancrer les bons réflexes de port
+                des EPI sur tous les sites HelioNova.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button variant="ghost" size="lg" asChild>
@@ -178,8 +200,13 @@ export default function OnboardingPpe() {
             </article>
 
             <aside className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-cyan-500/20">
-              <h2 className="text-xl font-semibold text-white">Matrice EPI par zone</h2>
-              <p className="text-sm text-slate-300">Sélectionnez un environnement pour afficher l'exposition et le kit requis.</p>
+              <h2 className="text-xl font-semibold text-white">
+                Matrice EPI par zone
+              </h2>
+              <p className="text-sm text-slate-300">
+                Sélectionnez un environnement pour afficher l'exposition et le
+                kit requis.
+              </p>
               <div className="mt-6 grid gap-3">
                 {gearMatrix.map((gear) => (
                   <button
@@ -193,14 +220,20 @@ export default function OnboardingPpe() {
                         : "border-white/10 bg-white/5 text-slate-200 hover:bg-white/10",
                     )}
                   >
-                    <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">{gear.zone}</p>
+                    <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">
+                      {gear.zone}
+                    </p>
                     <p className="text-xs text-slate-400">{gear.insight}</p>
                   </button>
                 ))}
               </div>
               <div className="mt-6 rounded-2xl border border-white/10 bg-slate-900/70 p-5">
-                <p className="text-sm text-slate-300">Exposition : {zone.exposure}</p>
-                <p className="mt-3 text-xs uppercase tracking-[0.4em] text-cyan-200">Kit requis</p>
+                <p className="text-sm text-slate-300">
+                  Exposition : {zone.exposure}
+                </p>
+                <p className="mt-3 text-xs uppercase tracking-[0.4em] text-cyan-200">
+                  Kit requis
+                </p>
                 <ul className="mt-2 space-y-2 text-sm text-slate-200">
                   {zone.checklist.map((item) => (
                     <li key={item} className="flex items-start gap-2">
@@ -217,13 +250,21 @@ export default function OnboardingPpe() {
         <section className="mx-auto mt-14 max-w-6xl">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Simulateur de conformité</p>
-              <h2 className="mt-2 text-3xl font-semibold">Choisissez la meilleure réaction</h2>
+              <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+                Simulateur de conformité
+              </p>
+              <h2 className="mt-2 text-3xl font-semibold">
+                Choisissez la meilleure réaction
+              </h2>
               <p className="mt-3 max-w-2xl text-slate-300">
-                Chaque scénario illustre un moment clé : préparation du kit, port en situation et traitement de fin de cycle. Explorez les conséquences immédiates.
+                Chaque scénario illustre un moment clé : préparation du kit,
+                port en situation et traitement de fin de cycle. Explorez les
+                conséquences immédiates.
               </p>
             </div>
-            <div className="rounded-full border border-white/10 px-4 py-2 text-xs text-slate-300">Reporting Nova Bleu automatique</div>
+            <div className="rounded-full border border-white/10 px-4 py-2 text-xs text-slate-300">
+              Reporting Nova Bleu automatique
+            </div>
           </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[260px_1fr]">
@@ -240,15 +281,23 @@ export default function OnboardingPpe() {
                       : "border-white/10 bg-white/5 text-slate-200 hover:bg-white/10",
                   )}
                 >
-                  <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Scénario</p>
-                  <p className="text-base font-semibold text-white">{item.title}</p>
+                  <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">
+                    Scénario
+                  </p>
+                  <p className="text-base font-semibold text-white">
+                    {item.title}
+                  </p>
                 </button>
               ))}
             </div>
 
             <article className="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
-              <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Challenge en cours</p>
-              <h3 className="mt-2 text-2xl font-semibold text-white">{track.title}</h3>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">
+                Challenge en cours
+              </p>
+              <h3 className="mt-2 text-2xl font-semibold text-white">
+                {track.title}
+              </h3>
               <p className="mt-2 text-slate-200">{track.prompt}</p>
 
               <div className="mt-6 space-y-3">
@@ -285,14 +334,14 @@ export default function OnboardingPpe() {
                         : "border-rose-500 bg-rose-500/10 text-rose-100",
                   )}
                 >
-                  {currentOption?.status === "success" ? track.tip : "Reprenez le référentiel PulseEPI pour corriger la décision."}
+                  {currentOption?.status === "success"
+                    ? track.tip
+                    : "Reprenez le référentiel PulseEPI pour corriger la décision."}
                 </div>
               )}
             </article>
           </div>
         </section>
-
-
 
         <section className="mx-auto mt-14 max-w-6xl">
           <ModuleCompletionCard
@@ -301,7 +350,6 @@ export default function OnboardingPpe() {
             description="Confirmez les compétences clés EPI pour débloquer la gouvernance éthique."
           />
         </section>
-
       </main>
     </div>
   );

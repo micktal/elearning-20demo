@@ -32,25 +32,58 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/onboarding" element={<OnboardingIndex />} />
             <Route path="/onboarding/intro" element={<OnboardingIntro />} />
-            <Route path="/onboarding/protocoles" element={<OnboardingProtocols />} />
+            <Route
+              path="/onboarding/protocoles"
+              element={<OnboardingProtocols />}
+            />
             {/* Module-specific simulation routes (pretty, human-readable) */}
-            <Route path="/onboarding/simulations" element={<OnboardingSimulations />} />
+            <Route
+              path="/onboarding/simulations"
+              element={<OnboardingSimulations />}
+            />
 
-            <Route path="/onboarding/protocoles" element={<OnboardingProtocols />} />
-            <Route path="/onboarding/protocoles/badge" element={<OnboardingSimulations />} />
+            <Route
+              path="/onboarding/protocoles"
+              element={<OnboardingProtocols />}
+            />
+            <Route
+              path="/onboarding/protocoles/badge"
+              element={<OnboardingSimulations />}
+            />
 
-            <Route path="/onboarding/conflits" element={<OnboardingConflicts />} />
-            <Route path="/onboarding/conflits/conflict-verbal" element={<OnboardingSimulations />} />
-            <Route path="/onboarding/conflits/conflict-manager" element={<OnboardingSimulations />} />
-            <Route path="/onboarding/conflits/conflict-client" element={<OnboardingSimulations />} />
+            <Route
+              path="/onboarding/conflits"
+              element={<OnboardingConflicts />}
+            />
+            <Route
+              path="/onboarding/conflits/conflict-verbal"
+              element={<OnboardingSimulations />}
+            />
+            <Route
+              path="/onboarding/conflits/conflict-manager"
+              element={<OnboardingSimulations />}
+            />
+            <Route
+              path="/onboarding/conflits/conflict-client"
+              element={<OnboardingSimulations />}
+            />
 
             <Route path="/onboarding/incendie" element={<OnboardingFire />} />
-            <Route path="/onboarding/incendie/alerte" element={<OnboardingSimulations />} />
+            <Route
+              path="/onboarding/incendie/alerte"
+              element={<OnboardingSimulations />}
+            />
 
             <Route path="/onboarding/epi" element={<OnboardingPpe />} />
-            <Route path="/onboarding/epi/visiteur" element={<OnboardingSimulations />} />
+            <Route
+              path="/onboarding/epi/visiteur"
+              element={<OnboardingSimulations />}
+            />
 
-            <Route path="/onboarding/dashboard" element={<OnboardingDashboard />} />
+            <Route
+              path="/onboarding/dashboard"
+              element={<OnboardingDashboard />}
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
