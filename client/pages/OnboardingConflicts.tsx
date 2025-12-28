@@ -84,7 +84,7 @@ export default function OnboardingConflicts() {
           <div className="mt-12 flex flex-wrap gap-4">
             <Button
               size="lg"
-              onClick={() => navigate("/onboarding/conflits/scenario-1")}
+              onClick={() => navigate("/onboarding/simulations?scenario=visiteur")}
             >
               Passer aux cas pratiques
             </Button>
