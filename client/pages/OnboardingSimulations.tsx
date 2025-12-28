@@ -221,9 +221,9 @@ export default function OnboardingSimulations() {
           </div>
 
           <div className="mt-10 flex gap-4">
-            {nextModule ? (
+            {nextPath ? (
               <Button asChild>
-                <Link to={nextModule.path}>Module suivant · {nextModule.label}</Link>
+                <Link to={nextPath}>Module suivant · {nextLabel}</Link>
               </Button>
             ) : (
               <Button size="lg" disabled>
@@ -231,9 +231,9 @@ export default function OnboardingSimulations() {
               </Button>
             )}
 
-            {prevModule ? (
+            {prevPath ? (
               <Button variant="ghost" asChild>
-                <Link to={prevModule.path}>← Consignes · {prevModule.label}</Link>
+                <Link to={prevPath}>← Consignes · {prevLabel}</Link>
               </Button>
             ) : (
               <Button variant="ghost" disabled>
