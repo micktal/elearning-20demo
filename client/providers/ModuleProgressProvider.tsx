@@ -49,14 +49,27 @@ export function ModuleProgressProvider({ children }: { children: React.ReactNode
   }, [statuses, initialized]);
 
   const markModuleComplete = useCallback((moduleId: ModuleKey, score: number) => {
-    setStatuses((prev) => ({
-      ...prev,
-      [moduleId]: {
-        completed: true,
-        score,
-        completedAt: new Date().toISOString(),
-      },
-    }));
+    setStatuses((prev) => {
+      const next = {
+        ...prev,
+        [moduleId]: {
+          completed: true,
+          score,
+          completedAt: new Date().toISOString(),
+        },
+      };
+
+      // persist immediately to localStorage to avoid navigation race conditions
+      try {
+        if (typeof window !== "undefined") {
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        }
+      } catch (e) {
+        // ignore localStorage errors silently
+      }
+
+      return next;
+    });
   }, []);
 
   const isModuleCompleted = useCallback((moduleId: ModuleKey) => statuses[moduleId]?.completed ?? false, [statuses]);
