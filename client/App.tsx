@@ -34,20 +34,25 @@ const App = () => (
             <Route path="/onboarding" element={<OnboardingIndex />} />
             <Route path="/onboarding/intro" element={<OnboardingIntro />} />
             <Route path="/onboarding/protocoles" element={<OnboardingProtocols />} />
-            <Route path="/onboarding/protocoles/scenario" element={<OnboardingSimulations />} />
+            {/* Module-specific simulation routes (pretty, human-readable) */}
             <Route path="/onboarding/simulations" element={<OnboardingSimulations />} />
+
+            <Route path="/onboarding/protocoles" element={<OnboardingProtocols />} />
+            <Route path="/onboarding/protocoles/badge" element={<OnboardingSimulations />} />
+
             <Route path="/onboarding/conflits" element={<OnboardingConflicts />} />
-            {/* Explicit, human-readable scenario routes for conflicts */}
             <Route path="/onboarding/conflits/conflict-verbal" element={<OnboardingSimulations />} />
             <Route path="/onboarding/conflits/conflict-manager" element={<OnboardingSimulations />} />
             <Route path="/onboarding/conflits/conflict-client" element={<OnboardingSimulations />} />
-            <Route path="/onboarding/conflits/scenario-1" element={<OnboardingSimulations />} />
+
             <Route path="/onboarding/incendie" element={<OnboardingFire />} />
             <Route path="/onboarding/incendie/alerte" element={<OnboardingSimulations />} />
+
             <Route path="/onboarding/epi" element={<OnboardingPpe />} />
-            <Route path="/onboarding/epi/scenario" element={<OnboardingSimulations />} />
+            <Route path="/onboarding/epi/visiteur" element={<OnboardingSimulations />} />
+
             <Route path="/onboarding/ethique" element={<OnboardingEthics />} />
-            <Route path="/onboarding/ethique/scenario-cadeau" element={<OnboardingSimulations />} />
+            <Route path="/onboarding/ethique/phishing" element={<OnboardingSimulations />} />
             <Route path="/onboarding/dashboard" element={<OnboardingDashboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
