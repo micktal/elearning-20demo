@@ -275,13 +275,20 @@ export default function OnboardingSimulations() {
           {/* Hide the module completion card for the explicit conflict 'conflict-verbal' scenario */}
           {!(isConflicts && activeId === "conflict-verbal") && (
             <ModuleCompletionCard
-              moduleId={isConflicts ? "conflits" : "simulations"}
+              // derive moduleId from route (moduleKey) when available, otherwise fallback to 'simulations' or 'conflits'
+              moduleId={(moduleKey as any) ?? (isConflicts ? "conflits" : "simulations")}
               checklist={
-                isConflicts
+                moduleKey === "conflits"
                   ? [
                       { id: "deescalade", label: "Je peux désamorcer un conflit verbal" },
                       { id: "escalade", label: "Je sais quand escalader formellement" },
                       { id: "client-gestion", label: "Je maîtrise l’accueil et la reprise client" },
+                    ]
+                  : moduleKey === "incendie"
+                  ? [
+                      { id: "alerte", label: "Je sais alerter et évacuer" },
+                      { id: "evac", label: "Je connais les points de rassemblement" },
+                      { id: "securite-humaine", label: "Je protège les personnes en priorité" },
                     ]
                   : [
                       { id: "badge", label: "Je sais gérer un badge refusé" },
@@ -289,7 +296,7 @@ export default function OnboardingSimulations() {
                       { id: "visit", label: "Je maîtrise l’accueil visiteur" },
                     ]
               }
-              description={isConflicts ? "Validez vos réflexes de gestion de conflit." : "Validez vos réflexes avant de poursuivre."}
+              description={moduleKey === "conflits" ? "Validez vos réflexes de gestion de conflit." : moduleKey === "incendie" ? "Validez vos réflexes sécurité incendie." : "Validez vos réflexes avant de poursuivre."}
             />
           )}
         </section>
