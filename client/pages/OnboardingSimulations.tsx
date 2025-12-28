@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
@@ -116,13 +117,45 @@ export default function OnboardingSimulations() {
     setAnswer(null);
   }, [activeId]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     // if a requested scenario exists and differs from current, update
-    if (requested && requested !== activeId) {
-      const exists = scenarios.some((s) => s.id === requested);
-      if (exists) setActiveId(requested);
+    if (!requested || requested === activeId) return;
+
+    const exists = scenarios.some((s) => s.id === requested);
+    if (exists) {
+      setActiveId(requested);
+      return;
     }
-  }, [requested, scenarios]);
+
+    // The requested scenario does not belong to the current module's scenario set.
+    // If it's part of the OTHER set (e.g. safety when we are in conflicts), inform the user and
+    // navigate to a sensible fallback for the current module.
+    const otherScenarios = isConflicts ? safetyScenarios : conflictScenarios;
+    const inOther = otherScenarios.some((s) => s.id === requested);
+
+    if (inOther) {
+      // notify user and redirect to the canonical path for this module's first scenario
+      toast(
+        `Le scénario demandé appartient à un autre module. Affichage des cas de ${isConflicts ? "gestion des conflits" : "sécurité"}.`
+      );
+
+      const fallbackId = scenarios[0].id;
+      const targetPath = isConflicts ?
+
+        // canonical conflicts route is defined in App.tsx
+        "/onboarding/conflits/scenario-1" :
+        // for safety modules, preserve query param style
+        `/onboarding/simulations?scenario=${fallbackId}`;
+
+      navigate(targetPath, { replace: true });
+      setActiveId(fallbackId);
+      return;
+    }
+
+    // If the requested id isn't found anywhere, silently ignore and keep current activeId
+  }, [requested, scenarios, activeId, isConflicts, navigate]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
