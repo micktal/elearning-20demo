@@ -17,6 +17,10 @@ const scenarioOptions = [
       "Repères de gouvernance et empreinte internationale",
       "Points de contact RH et managers référents",
     ],
+    recommendations: [
+      "Relisez le message du sponsor métier",
+      "Notez 2 actions clés à partager avec votre manager",
+    ],
   },
   {
     id: "conformite",
@@ -29,6 +33,10 @@ const scenarioOptions = [
       "Référentiel sécurité numérique et SecOps",
       "Processus d'escalade et numéro Nova Bleu",
     ],
+    recommendations: [
+      "Téléchargez la checklist conformité",
+      "Testez la procédure badge lors de votre arrivée sur site",
+    ],
   },
   {
     id: "culture",
@@ -40,6 +48,10 @@ const scenarioOptions = [
       "Engagement clients HelioNova",
       "Rituels d'équipe et codes relationnels",
       "Message audio du sponsor métier",
+    ],
+    recommendations: [
+      "Préparez un pitch de 30s sur votre rôle",
+      "Identifiez un mentor pour les 30 premiers jours",
     ],
   },
 ];
@@ -138,6 +150,18 @@ const microGames = [
     ],
     correct: "accompagnement",
     tip: "Un accueil proactif garantit la conformité visiteurs et renforce l'expérience client HelioNova.",
+  },
+  {
+    id: "evac",
+    title: "Évacuation & points de rassemblement",
+    prompt: "Un incendie est signalé. Que faites-vous en priorité ?",
+    answers: [
+      { id: "filtrer", label: "Rester et chercher cause" },
+      { id: "alerter", label: "Alerter et évacuer vers le point de rassemblement" },
+      { id: "filmer", label: "Filmer la scène pour preuve" },
+    ],
+    correct: "alerter",
+    tip: "Protéger les personnes puis informer la sûreté locale est prioritaire.",
   },
 ];
 
