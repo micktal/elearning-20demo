@@ -13,6 +13,8 @@ export type ClassificationBoardProps = {
   prompt?: string;
   categories: { id: string; label: string }[];
   items: ClassificationItem[];
+  correctMapping?: Record<string, string>;
+  onSolved?: () => void;
 };
 
 export function ClassificationBoard({ title, prompt, categories, items }: ClassificationBoardProps) {
