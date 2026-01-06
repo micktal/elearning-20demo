@@ -1,7 +1,6 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   moduleSequence,
   getNextModule,
@@ -23,9 +22,7 @@ export function ModuleCompletionCard({
 }: ModuleCompletionCardProps) {
   const { markModuleComplete, isModuleCompleted, getModuleScore } =
     useModuleProgress();
-  const [responses, setResponses] = useState<Record<string, boolean>>(
-    () => ({}),
-  );
+  const [responses, setResponses] = useState<Record<string, boolean>>(() => ({}));
 
   const completedCount = useMemo(
     () => checklist.filter((item) => responses[item.id]).length,
@@ -79,66 +76,39 @@ export function ModuleCompletionCard({
             Validez le module
           </h2>
           {description && (
-            <p className="mt-2 max-w-2xl text-slate-300">{description}</p>
+            <p className="mt-2 text-sm text-slate-300">{description}</p>
           )}
         </div>
-        <div className="rounded-2xl border border-white/10 bg-slate-900/60 px-5 py-4 text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-slate-400">
-            Score
-          </p>
-          <p className="text-3xl font-semibold text-white">
-            {alreadyValidated ? `${storedScore}%` : `${score}%`}
-          </p>
-          <Progress
-            value={alreadyValidated ? storedScore : score}
-            className="mt-2 h-2 bg-white/10 transition-all duration-200"
-          />
+        <div className="mt-4 md:mt-0">
+          <Progress value={score} className="w-60" />
+          <div className="mt-3 flex items-center gap-3">
+            <Button variant="ghost" size="sm" onClick={() => setResponses({})}>
+              Réinitialiser
+            </Button>
+            <Button size="sm" onClick={handleValidate} disabled={!ready || alreadyValidated}>
+              {alreadyValidated ? "Validé" : "Valider"}
+            </Button>
+          </div>
+          {alreadyValidated && (
+            <p className="mt-2 text-sm text-slate-400">Score enregistré : {storedScore}%</p>
+          )}
+          {nextModule && (
+            <p className="mt-2 text-sm text-slate-400">Module suivant : {nextModule.label}</p>
+          )}
         </div>
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 grid gap-3">
         {checklist.map((item) => (
-          <label
-            key={item.id}
-            className={cn(
-              "flex cursor-pointer items-start gap-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4 text-sm transition",
-              responses[item.id] &&
-                "border-emerald-400 bg-emerald-400/10 text-emerald-100",
-            )}
-          >
-            <input
-              type="checkbox"
-              className="mt-1 h-4 w-4 cursor-pointer accent-cyan-400"
-              checked={responses[item.id] ?? false}
-              onChange={() => handleToggle(item.id)}
-              disabled={alreadyValidated}
-              aria-checked={responses[item.id] ?? false}
-            />
-            <span>{item.label}</span>
+          <label key={item.id} className={cn("flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3 text-sm", responses[item.id] && "bg-slate-900/70") }>
+            <div>
+              <p className="font-semibold text-white">{item.label}</p>
+            </div>
+            <div>
+              <input type="checkbox" checked={!!responses[item.id]} onChange={() => handleToggle(item.id)} />
+            </div>
           </label>
         ))}
-      </div>
-
-      <div className="mt-6 flex flex-wrap gap-3">
-        {!alreadyValidated && (
-          <Button size="lg" disabled={!ready} onClick={handleValidate} aria-label={ready ? "Valider le module" : "Complétez la checklist pour valider"}>
-            Valider ce module
-          </Button>
-        )}
-        {/* 'Module suivant' removed as per design — sequential gating remains handled elsewhere */}
-        <Button
-          size="lg"
-          variant="ghost"
-          onClick={() => setResponses({})}
-          disabled={alreadyValidated}
-        >
-          Réinitialiser les cases
-        </Button>
-      </div>
-
-      {/* Accessibility announcement for screen readers */}
-      <div className="sr-only" role="status" aria-live="polite">
-        {justValidated && "Module validé. Vous pouvez poursuivre le parcours."}
       </div>
     </div>
   );
