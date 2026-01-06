@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { Button } from "@/components/ui/button";
+import { Link, useNavigate } from "react-router-dom";
 
 const fireStats = [
   { label: "Priorité", value: "Protection des personnes" },
@@ -46,17 +46,13 @@ export default function OnboardingFire() {
                 className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center"
               >
                 <p className="text-sm text-slate-300">{item.label}</p>
-                <p className="mt-1 text-2xl font-semibold text-white">
-                  {item.value}
-                </p>
+                <p className="mt-1 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
           </div>
 
           {/* OBJECTIFS */}
-          <h2 className="mt-10 text-xl font-semibold">
-            Ce que vous devez savoir faire
-          </h2>
+          <h2 className="mt-10 text-xl font-semibold">Ce que vous devez savoir faire</h2>
 
           <ul className="mt-4 list-inside list-disc space-y-2 text-slate-200">
             <li>Identifier une situation anormale</li>
@@ -85,10 +81,7 @@ export default function OnboardingFire() {
 
           {/* ACTIONS */}
           <div className="mt-12 flex flex-wrap gap-4">
-            <Button
-              size="lg"
-              onClick={() => navigate("/onboarding/incendie/alerte")}
-            >
+            <Button size="lg" onClick={() => navigate("/onboarding/incendie/alerte")}>
               Passer aux mises en situation
             </Button>
 
