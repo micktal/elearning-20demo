@@ -284,6 +284,21 @@ const fireScenarios = [
     ],
     feedback:
       "Alerter et évacuer garantit la sécurité des personnes et active les procédures d’intervention.",
+    game: {
+      id: "game-incendie-1",
+      title: "Réagir face à la fumée",
+      question: "Quelle est la première action à prendre si vous voyez de la fumée?",
+      options: [
+        { id: "ignorer", label: "Surveiller sans rien dire" },
+        { id: "alerter", label: "Alerter et évacuer" },
+        { id: "retirer", label: "Tenter d'éteindre seul" },
+      ],
+      correct: "alerter",
+      success: "Alerter et évacuer protège les personnes et facilite l'intervention.",
+      failure: "Ne tentez pas d'intervenir seul si la situation est incertaine.",
+      // timed variant: respond within 12 seconds
+      duration: 12,
+    },
   },
   {
     id: "incendie-evac",
@@ -309,6 +324,19 @@ const fireScenarios = [
     ],
     feedback:
       "Suivre les consignes d’évacuation protège tout le monde et facilite l’intervention des secours.",
+    game: {
+      id: "game-incendie-evac-1",
+      title: "Choix d'évacuation",
+      question: "Lors d'une alerte, que faites-vous en priorité?",
+      options: [
+        { id: "panique", label: "Courir vers la sortie la plus proche" },
+        { id: "suivre", label: "Suivre les consignes et points de rassemblement" },
+        { id: "reprendre", label: "Retourner pour un objet personnel" },
+      ],
+      correct: "suivre",
+      success: "Suivre les consignes sauve des vies.",
+      failure: "Retourner pour un objet peut mettre des vies en danger.",
+    },
   },
 ];
 
