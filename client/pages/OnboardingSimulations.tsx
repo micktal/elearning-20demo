@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
+import { DragReorderBoard } from "@/components/interactive/DragReorderBoard";
+import { ClassificationBoard } from "@/components/interactive/ClassificationBoard";
 import { trackEvent } from "@/lib/analytics";
 
 // Lightweight mini-game component used inline for quick exercises
