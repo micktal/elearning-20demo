@@ -1,30 +1,31 @@
-// Sentry initialization helper (client-side)
-// This file initializes Sentry only when a DSN is provided via Vite env or window.__SENTRY_DSN__
-// It purposely does not include any secrets here. To enable Sentry, set VITE_SENTRY_DSN in your environment or
-// assign window.__SENTRY_DSN__ before the app loads.
+// Sentry initialization helper (client-side) - lightweight skeleton
+// This version avoids bundling Sentry during dev to prevent dependency resolution errors.
+// To fully enable Sentry either:
+//  - install @sentry/browser as a dependency, or
+//  - add the Sentry browser bundle via a script tag that exposes `window.Sentry`.
 
-// The import is dynamic to avoid bundling Sentry when not configured
 export function initSentry() {
   try {
     const dsn = (import.meta as any).env?.VITE_SENTRY_DSN || (typeof window !== 'undefined' ? (window as any).__SENTRY_DSN__ : undefined);
     if (!dsn) return;
 
-    // dynamic import so Sentry is only included when configured
-    // Use @vite-ignore to prevent Vite from statically analyzing this dynamic import
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    void import(/* @vite-ignore */ '@sentry/browser').then((Sentry) => {
-      Sentry.init({
-        dsn,
-        release: (import.meta as any).env?.VITE_COMMIT_SHA || undefined,
-        environment: (import.meta as any).env?.VITE_APP_ENV || 'production',
-      });
+    if (typeof window !== 'undefined' && (window as any).Sentry) {
+      try {
+        (window as any).Sentry.init({
+          dsn,
+          release: (import.meta as any).env?.VITE_COMMIT_SHA || undefined,
+          environment: (import.meta as any).env?.VITE_APP_ENV || 'production',
+        });
+        // eslint-disable-next-line no-console
+        console.info('[sentry] initialized via global Sentry');
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn('[sentry] failed to init global Sentry', e);
+      }
+    } else {
       // eslint-disable-next-line no-console
-      console.info('[sentry] initialized');
-    }).catch((e) => {
-      // eslint-disable-next-line no-console
-      console.warn('[sentry] failed to load', e);
-    });
+      console.warn('[sentry] DSN provided but Sentry lib not available. Install @sentry/browser or include Sentry script.');
+    }
   } catch (e) {
     // ignore silently
   }
