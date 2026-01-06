@@ -1,5 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
-import { useMemo, useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
@@ -215,141 +214,28 @@ export default function OnboardingPpe() {
                     type="button"
                     onClick={() => setActiveZone(gear.id)}
                     className={cn(
-                      "rounded-2xl border px-4 py-3 text-left text-sm transition-colors",
+                      "rounded-2xl border px-4 py-3 text-left text-sm transition",
                       activeZone === gear.id
                         ? "border-indigo-400 bg-gradient-to-r from-indigo-400/20 to-cyan-500/20"
                         : "border-white/10 bg-white/5 text-slate-200 hover:bg-white/10",
                     )}
                   >
-                    <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">
-                      {gear.zone}
-                    </p>
-                    <p className="text-xs text-slate-400">{gear.insight}</p>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">{gear.zone}</p>
+                        <p className="mt-1 text-sm text-slate-300">{gear.exposure}</p>
+                      </div>
+                      <div className="text-xs text-slate-400">{gear.insight}</div>
+                    </div>
                   </button>
                 ))}
-              </div>
-              <div className="mt-6 rounded-2xl border border-white/10 bg-slate-900/70 p-5">
-                <p className="text-sm text-slate-300">
-                  Exposition : {zone.exposure}
-                </p>
-                <p className="mt-3 text-xs uppercase tracking-[0.4em] text-cyan-200">
-                  Kit requis
-                </p>
-                <ul className="mt-2 space-y-2 text-sm text-slate-200">
-                  {zone.checklist.map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-300" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
             </aside>
           </div>
-        </section>
 
-        <section className="mx-auto mt-14 max-w-6xl">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
-                Simulateur de conformité
-              </p>
-              <h2 className="mt-2 text-3xl font-semibold">
-                Choisissez la meilleure réaction
-              </h2>
-              <p className="mt-3 max-w-2xl text-slate-300">
-                Chaque scénario illustre un moment clé : préparation du kit,
-                port en situation et traitement de fin de cycle. Explorez les
-                conséquences immédiates.
-              </p>
-            </div>
-            <div className="rounded-full border border-white/10 px-4 py-2 text-xs text-slate-300">
-              Reporting Nova Bleu automatique
-            </div>
+          <div className="mt-8">
+            <ModuleCompletionCard moduleId={moduleId} checklist={epiChecklist} description="Assurez-vous d'avoir lu et compris le protocole EPI pour votre poste." />
           </div>
-
-          <div className="mt-8 grid gap-6 lg:grid-cols-[260px_1fr]">
-            <div className="flex flex-col gap-3">
-              {learningTracks.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => handleTrackChange(item.id)}
-                  className={cn(
-                    "rounded-2xl border px-4 py-3 text-left text-sm transition-colors",
-                    activeTrack === item.id
-                      ? "border-emerald-400 bg-gradient-to-r from-emerald-400/20 to-cyan-500/20"
-                      : "border-white/10 bg-white/5 text-slate-200 hover:bg-white/10",
-                  )}
-                >
-                  <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">
-                    Scénario
-                  </p>
-                  <p className="text-base font-semibold text-white">
-                    {item.title}
-                  </p>
-                </button>
-              ))}
-            </div>
-
-            <article className="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
-              <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">
-                Challenge en cours
-              </p>
-              <h3 className="mt-2 text-2xl font-semibold text-white">
-                {track.title}
-              </h3>
-              <p className="mt-2 text-slate-200">{track.prompt}</p>
-
-              <div className="mt-6 space-y-3">
-                {track.options.map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    onClick={() => setSelectedOption(option.id)}
-                    className={cn(
-                      "w-full rounded-2xl border px-4 py-3 text-left text-sm transition-colors",
-                      selectedOption === option.id
-                        ? option.status === "success"
-                          ? "border-emerald-400 bg-emerald-400/20 text-emerald-100"
-                          : option.status === "warning"
-                            ? "border-amber-400 bg-amber-400/20 text-amber-100"
-                            : "border-rose-500 bg-rose-500/20 text-rose-100"
-                        : "border-white/10 bg-white/5 text-slate-200 hover:bg-white/10",
-                    )}
-                  >
-                    <p className="font-semibold">{option.label}</p>
-                    <p className="text-xs text-white/80">{option.result}</p>
-                  </button>
-                ))}
-              </div>
-
-              {selectedOption && (
-                <div
-                  className={cn(
-                    "mt-4 rounded-2xl border p-4 text-sm",
-                    currentOption?.status === "success"
-                      ? "border-emerald-400 bg-emerald-400/10 text-emerald-100"
-                      : currentOption?.status === "warning"
-                        ? "border-amber-400 bg-amber-400/10 text-amber-100"
-                        : "border-rose-500 bg-rose-500/10 text-rose-100",
-                  )}
-                >
-                  {currentOption?.status === "success"
-                    ? track.tip
-                    : "Reprenez le référentiel PulseEPI pour corriger la décision."}
-                </div>
-              )}
-            </article>
-          </div>
-        </section>
-
-        <section className="mx-auto mt-14 max-w-6xl">
-          <ModuleCompletionCard
-            moduleId="epi"
-            checklist={epiChecklist}
-            description="Confirmez les compétences clés EPI pour débloquer la gouvernance éthique."
-          />
         </section>
       </main>
     </div>
