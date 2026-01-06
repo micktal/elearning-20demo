@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 const scenarioOptions = [
   {
@@ -173,12 +174,27 @@ export default function Index() {
   const handleSelectGame = (gameId: string) => {
     setSelectedGame(gameId);
     setChosenAnswer(null);
+    try {
+      trackEvent("microgame_select", { gameId });
+    } catch (e) {}
+  };
+
+  const handleAnswer = (answerId: string) => {
+    setChosenAnswer(answerId);
+    try {
+      const game = microGames.find((g) => g.id === selectedGame);
+      const correct = game?.correct === answerId;
+      trackEvent("microgame_attempt", { gameId: selectedGame, answerId, correct });
+    } catch (e) {}
   };
 
   useEffect(() => {
     // enable smooth scroll for in-page anchors while this page is mounted
     const previous = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = "smooth";
+    try {
+      trackEvent("page_view", { page: "index" });
+    } catch (e) {}
     return () => {
       document.documentElement.style.scrollBehavior = previous || "";
     };
@@ -222,10 +238,10 @@ export default function Index() {
 
             <div className="flex flex-col gap-4 sm:flex-row">
               <Button size="lg" asChild>
-                <Link to="/onboarding/intro">Démarrer le module</Link>
+                <Link to="/onboarding/intro" onClick={() => trackEvent("start_module", { module: "intro" })}>Démarrer le module</Link>
               </Button>
               <Button variant="secondary" size="lg" asChild>
-                <Link to="/onboarding/intro">Consulter la documentation</Link>
+                <Link to="/onboarding/intro" onClick={() => trackEvent("open_docs", { module: "intro" })}>Consulter la documentation</Link>
               </Button>
             </div>
 
@@ -424,7 +440,7 @@ export default function Index() {
               </p>
             </div>
             <Button variant="secondary" asChild>
-              <Link to="/onboarding/intro">Explorer le module complet</Link>
+              <Link to="/onboarding/intro" onClick={() => trackEvent("explore_module", { module: "intro" })}>Explorer le module complet</Link>
             </Button>
           </div>
 
@@ -465,7 +481,7 @@ export default function Index() {
                   <button
                     key={answer.id}
                     type="button"
-                    onClick={() => setChosenAnswer(answer.id)}
+                    onClick={() => handleAnswer(answer.id)}
                     className={cn(
                       "w-full rounded-2xl border px-4 py-3 text-left text-sm transition-colors",
                       chosenAnswer === answer.id
