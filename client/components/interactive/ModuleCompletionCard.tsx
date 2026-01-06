@@ -13,6 +13,7 @@ export type ModuleCompletionCardProps = {
   moduleId: ModuleKey;
   checklist: { id: string; label: string }[];
   description?: string;
+  externalResponses?: Record<string, boolean>;
 };
 
 export function ModuleCompletionCard({
