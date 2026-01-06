@@ -80,6 +80,19 @@ const safetyScenarios = [
     ],
     feedback:
       "La déclaration via Nova Bleu garantit la traçabilité et déclenche la sûreté.",
+    game: {
+      id: "game-badge-1",
+      title: "Checklist badge",
+      question: "Quel est le bon réflexe si votre badge est refusé?",
+      options: [
+        { id: "forcer", label: "Insister pour entrer" },
+        { id: "pret", label: "Utiliser le badge d’un collègue" },
+        { id: "alerte", label: "Déclarer via Nova Bleu et attendre" },
+      ],
+      correct: "alerte",
+      success: "La sécurité prime — vous avez choisi la bonne option.",
+      failure: "La solution sûre est de déclarer via Nova Bleu.",
+    },
   },
   {
     id: "phishing",
