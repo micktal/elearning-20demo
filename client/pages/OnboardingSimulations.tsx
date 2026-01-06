@@ -532,6 +532,40 @@ export default function OnboardingSimulations() {
               </div>
             )}
 
+            {/* Activity: drag & drop or classification */}
+            {scenario.activity && scenario.activity.type === "reorder" && (
+              <div className="mt-6">
+                <DragReorderBoard
+                  title={"Exercice : ordonner les étapes"}
+                  description={"Placez les étapes dans l'ordre correct pour accueillir un visiteur."}
+                  items={scenario.activity.items}
+                  correctOrder={scenario.activity.correctOrder}
+                  onSolved={() => {
+                    try { trackEvent("activity_solved", { type: "reorder", module: currentModuleId, scenario: scenario.id }); } catch (e) {}
+                    setExternalResponses((prev) => ({ ...(prev || {}), pratique: true }));
+                    toast.success("Exercice réussi — pratique cochée");
+                  }}
+                />
+              </div>
+            )}
+
+            {scenario.activity && scenario.activity.type === "classify" && (
+              <div className="mt-6">
+                <ClassificationBoard
+                  title={"Exercice : classer les signaux"}
+                  prompt={"Classez les éléments entre suspects et normaux"}
+                  categories={scenario.activity.categories}
+                  items={scenario.activity.items}
+                  correctMapping={scenario.activity.correctMapping}
+                  onSolved={() => {
+                    try { trackEvent("activity_solved", { type: "classify", module: currentModuleId, scenario: scenario.id }); } catch (e) {}
+                    setExternalResponses((prev) => ({ ...(prev || {}), pratique: true }));
+                    toast.success("Exercice réussi — pratique cochée");
+                  }}
+                />
+              </div>
+            )}
+
             <div className="mt-8 flex flex-wrap gap-3">
               {prevPath && (
                 <Button variant="ghost" size="lg" asChild>
