@@ -21,6 +21,7 @@ export function ModuleCompletionCard({
   moduleId,
   checklist,
   description,
+  externalResponses,
 }: ModuleCompletionCardProps) {
   const { markModuleComplete, isModuleCompleted, getModuleScore } =
     useModuleProgress();
