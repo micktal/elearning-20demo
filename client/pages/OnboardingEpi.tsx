@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
+import { Link, useNavigate } from "react-router-dom";
 
 const epiStats = [
   { label: "Objectif", value: "Protection des personnes" },
@@ -53,54 +53,34 @@ export default function OnboardingEpi() {
                 className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center"
               >
                 <p className="text-sm text-slate-300">{item.label}</p>
-                <p className="mt-1 text-2xl font-semibold text-white">
-                  {item.value}
-                </p>
+                <p className="mt-1 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
           </div>
 
-          {/* OBJECTIFS */}
-          <h2 className="mt-10 text-xl font-semibold">
-            Ce que vous devez savoir faire
-          </h2>
+          {/* RULES */}
+          <div className="mt-8 grid gap-4">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <h2 className="text-xl font-semibold">Règles essentielles</h2>
+              <ul className="mt-4 list-inside list-disc space-y-2 text-slate-200">
+                {epiRules.map((r) => (
+                  <li key={r}>{r}</li>
+                ))}
+              </ul>
+            </div>
 
-          <ul className="mt-4 list-inside list-disc space-y-2 text-slate-200">
-            <li>Identifier les EPI obligatoires selon la situation</li>
-            <li>Refuser une intervention non conforme</li>
-            <li>Corriger immédiatement un écart observé</li>
-            <li>Protéger sa sécurité et celle des autres</li>
-          </ul>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <h3 className="font-semibold">Erreurs courantes</h3>
+              <ul className="mt-3 list-inside list-disc space-y-2 text-slate-200">
+                {commonErrors.map((e) => (
+                  <li key={e}>{e}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
 
-          {/* RÈGLES */}
-          <h2 className="mt-8 text-xl font-semibold">Règles essentielles</h2>
-
-          <ul className="mt-4 list-inside list-disc space-y-2 text-slate-200">
-            {epiRules.map((rule) => (
-              <li key={rule}>{rule}</li>
-            ))}
-          </ul>
-
-          {/* ERREURS */}
-          <h2 className="mt-8 text-xl font-semibold text-amber-300">
-            Erreurs fréquentes à éviter
-          </h2>
-
-          <ul className="mt-4 list-inside list-disc space-y-2 text-slate-200">
-            {commonErrors.map((error) => (
-              <li key={error}>{error}</li>
-            ))}
-          </ul>
-
-          {/* ACTIONS */}
           <div className="mt-12 flex flex-wrap gap-4">
-            <Button
-              size="lg"
-              onClick={() => navigate("/onboarding/epi/scenario")}
-            >
-              Passer aux mises en situation
-            </Button>
-
+            <Button size="lg" onClick={() => navigate("/onboarding/epi/visiteur")}>Pratique : visiteur sans badge</Button>
             <Button variant="ghost" size="lg" asChild>
               <Link to="/onboarding/incendie">← Module précédent</Link>
             </Button>
