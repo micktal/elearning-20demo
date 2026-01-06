@@ -499,6 +499,7 @@ export default function OnboardingSimulations() {
                 moduleId={"simulations" as any}
                 checklist={[{ id: "read", label: "J'ai lu les consignes" }, { id: "pratique", label: "J'ai réalisé les mises en situation" }, { id: "quiz", label: "J'ai passé le quiz" }]}
                 description="Vérifiez que vous avez complété les éléments requis pour valider ce module."
+                externalResponses={externalResponses}
               />
             </div>
           </aside>
