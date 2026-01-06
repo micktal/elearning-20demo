@@ -17,12 +17,21 @@ export type ClassificationBoardProps = {
   onSolved?: () => void;
 };
 
-export function ClassificationBoard({ title, prompt, categories, items }: ClassificationBoardProps) {
+export function ClassificationBoard({ title, prompt, categories, items, correctMapping, onSolved }: ClassificationBoardProps) {
   const [assignments, setAssignments] = useState<Record<string, string>>({});
 
   const handleAssign = (itemId: string, categoryId: string) => {
     setAssignments((prev) => ({ ...prev, [itemId]: prev[itemId] === categoryId ? "" : categoryId }));
   };
+
+  const isSolved = useMemo(() => {
+    if (!correctMapping) return false;
+    return items.every((item) => assignments[item.id] && assignments[item.id] === correctMapping[item.id]);
+  }, [assignments, correctMapping, items]);
+
+  useEffect(() => {
+    if (isSolved && onSolved) onSolved();
+  }, [isSolved, onSolved]);
 
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
