@@ -35,7 +35,12 @@ export function AssemblyGame({
   accent = "cyan",
 }: AssemblyGameProps) {
   const [selection, setSelection] = useState<string[]>([]);
-  const selectedAll = useMemo(() => selection.length === targetIds.length && targetIds.every((id) => selection.includes(id)), [selection, targetIds]);
+  const selectedAll = useMemo(
+    () =>
+      selection.length === targetIds.length &&
+      targetIds.every((id) => selection.includes(id)),
+    [selection, targetIds],
+  );
 
   const toggleCard = (id: string) => {
     setSelection((prev) => {
@@ -49,7 +54,11 @@ export function AssemblyGame({
 
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-      {title && <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">{title}</p>}
+      {title && (
+        <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+          {title}
+        </p>
+      )}
       {prompt && <p className="mt-2 text-sm text-slate-300">{prompt}</p>}
       <div className="mt-4 grid gap-4 md:grid-cols-3">
         {cards.map((card) => {
@@ -67,8 +76,12 @@ export function AssemblyGame({
               )}
             >
               <p className="text-base font-semibold text-white">{card.title}</p>
-              {card.description && <p className="text-slate-300">{card.description}</p>}
-              {card.category && <p className="mt-1 text-xs text-slate-500">{card.category}</p>}
+              {card.description && (
+                <p className="text-slate-300">{card.description}</p>
+              )}
+              {card.category && (
+                <p className="mt-1 text-xs text-slate-500">{card.category}</p>
+              )}
             </button>
           );
         })}
@@ -80,7 +93,16 @@ export function AssemblyGame({
         <Button size="sm" variant="ghost" onClick={() => setSelection([])}>
           Réinitialiser
         </Button>
-        {selectedAll && <span className={cn("rounded-full border px-4 py-1 text-xs", accentMap[accent])}>{successCopy}</span>}
+        {selectedAll && (
+          <span
+            className={cn(
+              "rounded-full border px-4 py-1 text-xs",
+              accentMap[accent],
+            )}
+          >
+            {successCopy}
+          </span>
+        )}
       </div>
     </div>
   );

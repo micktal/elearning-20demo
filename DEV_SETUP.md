@@ -32,7 +32,7 @@ Enabling Sentry
 
   pnpm add @sentry/browser
 
-  Then set VITE_SENTRY_DSN in your .env or environment variables. Alternatively, load Sentry via a script tag that defines window.Sentry and set window.__SENTRY_DSN__.
+  Then set VITE_SENTRY_DSN in your .env or environment variables. Alternatively, load Sentry via a script tag that defines window.Sentry and set window.**SENTRY_DSN**.
 
 Notes
 

@@ -84,7 +84,9 @@ export default function OnboardingConflicts() {
           </p>
 
           {/* MÉTHODE */}
-          <h2 className="mt-8 text-xl font-semibold">La méthode HelioNova en 3 phases</h2>
+          <h2 className="mt-8 text-xl font-semibold">
+            La méthode HelioNova en 3 phases
+          </h2>
 
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {deEscalationPhases.map((phase) => (
@@ -92,15 +94,24 @@ export default function OnboardingConflicts() {
                 key={phase.phase}
                 className="rounded-2xl border border-white/10 bg-white/5 p-5"
               >
-                <p className="text-sm font-semibold text-cyan-200">{phase.phase}</p>
-                <p className="mt-2 text-sm text-slate-300">{phase.description}</p>
+                <p className="text-sm font-semibold text-cyan-200">
+                  {phase.phase}
+                </p>
+                <p className="mt-2 text-sm text-slate-300">
+                  {phase.description}
+                </p>
               </div>
             ))}
           </div>
 
           {/* ACTIONS */}
           <div className="mt-12 flex flex-wrap gap-4">
-            <Button size="lg" onClick={() => navigate("/onboarding/conflits/conflict-verbal")}>Passer aux cas pratiques</Button>
+            <Button
+              size="lg"
+              onClick={() => navigate("/onboarding/conflits/conflict-verbal")}
+            >
+              Passer aux cas pratiques
+            </Button>
 
             <Button variant="ghost" size="lg" asChild>
               <Link to="/onboarding/simulations">← Retour</Link>

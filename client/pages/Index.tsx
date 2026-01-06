@@ -157,7 +157,10 @@ const microGames = [
     prompt: "Un incendie est signalé. Que faites-vous en priorité ?",
     answers: [
       { id: "filtrer", label: "Rester et chercher cause" },
-      { id: "alerter", label: "Alerter et évacuer vers le point de rassemblement" },
+      {
+        id: "alerter",
+        label: "Alerter et évacuer vers le point de rassemblement",
+      },
       { id: "filmer", label: "Filmer la scène pour preuve" },
     ],
     correct: "alerter",
@@ -208,7 +211,11 @@ export default function Index() {
     try {
       const game = microGames.find((g) => g.id === selectedGame);
       const correct = game?.correct === answerId;
-      trackEvent("microgame_attempt", { gameId: selectedGame, answerId, correct });
+      trackEvent("microgame_attempt", {
+        gameId: selectedGame,
+        answerId,
+        correct,
+      });
     } catch (e) {}
   };
 
@@ -262,10 +269,22 @@ export default function Index() {
 
             <div className="flex flex-col gap-4 sm:flex-row">
               <Button size="lg" asChild>
-                <Link to="/onboarding/intro" onClick={() => trackEvent("start_module", { module: "intro" })}>Démarrer le module</Link>
+                <Link
+                  to="/onboarding/intro"
+                  onClick={() =>
+                    trackEvent("start_module", { module: "intro" })
+                  }
+                >
+                  Démarrer le module
+                </Link>
               </Button>
               <Button variant="secondary" size="lg" asChild>
-                <Link to="/onboarding/intro" onClick={() => trackEvent("open_docs", { module: "intro" })}>Consulter la documentation</Link>
+                <Link
+                  to="/onboarding/intro"
+                  onClick={() => trackEvent("open_docs", { module: "intro" })}
+                >
+                  Consulter la documentation
+                </Link>
               </Button>
             </div>
 
@@ -408,10 +427,15 @@ export default function Index() {
         <div className="grid gap-8 md:grid-cols-2">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
             <h3 className="text-xl font-semibold">Jeux rapides</h3>
-            <p className="text-sm text-slate-300">Exercez vos réflexes en quelques secondes.</p>
+            <p className="text-sm text-slate-300">
+              Exercez vos réflexes en quelques secondes.
+            </p>
             <div className="mt-4 grid gap-3">
               {microGames.map((game) => (
-                <div key={game.id} className="rounded-2xl border border-white/10 p-4">
+                <div
+                  key={game.id}
+                  className="rounded-2xl border border-white/10 p-4"
+                >
                   <p className="font-semibold text-white">{game.title}</p>
                   <p className="text-sm text-slate-300">{game.prompt}</p>
                   <div className="mt-3 flex gap-2">
@@ -421,7 +445,9 @@ export default function Index() {
                         onClick={() => handleAnswer(a.id)}
                         className={cn(
                           "rounded-full px-3 py-1 text-xs",
-                          chosenAnswer === a.id ? "bg-cyan-400 text-slate-900" : "bg-white/5 text-slate-200",
+                          chosenAnswer === a.id
+                            ? "bg-cyan-400 text-slate-900"
+                            : "bg-white/5 text-slate-200",
                         )}
                       >
                         {a.label}
@@ -440,7 +466,10 @@ export default function Index() {
             <h3 className="text-xl font-semibold">Points sécurité</h3>
             <div className="mt-4 space-y-3">
               {safetyHighlights.map((h) => (
-                <div key={h.title} className="rounded-2xl border border-white/10 p-4 bg-slate-900/60">
+                <div
+                  key={h.title}
+                  className="rounded-2xl border border-white/10 p-4 bg-slate-900/60"
+                >
                   <p className="font-semibold text-white">{h.title}</p>
                   <p className="text-sm text-slate-300">{h.detail}</p>
                 </div>

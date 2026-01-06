@@ -11,10 +11,20 @@ import { ClassificationBoard } from "@/components/interactive/ClassificationBoar
 import { trackEvent } from "@/lib/analytics";
 
 // Lightweight mini-game component used inline for quick exercises
-function MiniGame({ game, onClose, onFinish }: { game: any; onClose: () => void; onFinish?: (score: number) => void }) {
+function MiniGame({
+  game,
+  onClose,
+  onFinish,
+}: {
+  game: any;
+  onClose: () => void;
+  onFinish?: (score: number) => void;
+}) {
   const [answerId, setAnswerId] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
-  const [timeLeft, setTimeLeft] = useState<number | null>(game?.duration ?? null);
+  const [timeLeft, setTimeLeft] = useState<number | null>(
+    game?.duration ?? null,
+  );
 
   useEffect(() => {
     if (!game?.duration || finished) return;
@@ -26,7 +36,9 @@ function MiniGame({ game, onClose, onFinish }: { game: any; onClose: () => void;
           clearInterval(t);
           // timeout - mark as failed
           setFinished(true);
-          try { trackEvent("mini_game_timeout", { gameId: game.id }); } catch (e) {}
+          try {
+            trackEvent("mini_game_timeout", { gameId: game.id });
+          } catch (e) {}
           if (onFinish) onFinish(0);
           return 0;
         }
@@ -43,7 +55,9 @@ function MiniGame({ game, onClose, onFinish }: { game: any; onClose: () => void;
     setAnswerId(id);
     const correct = id === game.correct;
     setFinished(true);
-    try { trackEvent("mini_game_attempt", { gameId: game.id, correct }); } catch (e) {}
+    try {
+      trackEvent("mini_game_attempt", { gameId: game.id, correct });
+    } catch (e) {}
     if (onFinish) onFinish(correct ? 1 : 0);
   };
 
@@ -52,7 +66,9 @@ function MiniGame({ game, onClose, onFinish }: { game: any; onClose: () => void;
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-white">Jeu : {game.title}</h3>
         {timeLeft !== null && (
-          <div className="text-sm text-slate-300">Temps restant : {timeLeft}s</div>
+          <div className="text-sm text-slate-300">
+            Temps restant : {timeLeft}s
+          </div>
         )}
       </div>
 
@@ -66,11 +82,19 @@ function MiniGame({ game, onClose, onFinish }: { game: any; onClose: () => void;
             onClick={() => handleAnswer(opt.id)}
             disabled={finished}
             className={`w-full rounded-md px-4 py-2 text-left text-sm ${
-              finished ? (opt.id === game.correct ? "bg-emerald-600/20 border-emerald-400" : opt.id === answerId ? "bg-rose-600/20 border-rose-400" : "bg-white/5") : "bg-white/5"
+              finished
+                ? opt.id === game.correct
+                  ? "bg-emerald-600/20 border-emerald-400"
+                  : opt.id === answerId
+                    ? "bg-rose-600/20 border-rose-400"
+                    : "bg-white/5"
+                : "bg-white/5"
             } border`}
           >
             <div className="font-medium text-white">{opt.label}</div>
-            {opt.hint && <div className="text-xs text-slate-300 mt-1">{opt.hint}</div>}
+            {opt.hint && (
+              <div className="text-xs text-slate-300 mt-1">{opt.hint}</div>
+            )}
           </button>
         ))}
       </div>
@@ -78,16 +102,25 @@ function MiniGame({ game, onClose, onFinish }: { game: any; onClose: () => void;
       {finished && (
         <div className="mt-4 text-sm">
           {answerId === game.correct ? (
-            <p className="text-emerald-300">Bravo — {game.success ?? "Bonne réponse"}</p>
+            <p className="text-emerald-300">
+              Bravo — {game.success ?? "Bonne réponse"}
+            </p>
           ) : (
-            <p className="text-rose-300">Raté — {game.failure ?? "Réponse incorrecte"}</p>
+            <p className="text-rose-300">
+              Raté — {game.failure ?? "Réponse incorrecte"}
+            </p>
           )}
         </div>
       )}
 
       <div className="mt-4 flex gap-2">
         <button
-          onClick={() => { try { trackEvent("mini_game_close", { gameId: game.id }); } catch (e) {} onClose(); }}
+          onClick={() => {
+            try {
+              trackEvent("mini_game_close", { gameId: game.id });
+            } catch (e) {}
+            onClose();
+          }}
           className="rounded-md bg-white/6 px-3 py-2 text-sm text-white"
         >
           Fermer
@@ -144,7 +177,8 @@ const safetyScenarios = [
         { id: "signature", label: "Signature complète du responsable" },
       ],
       correct: "urgent",
-      success: "Bien vu — les demandes d'identifiants sont des signaux d'alerte.",
+      success:
+        "Bien vu — les demandes d'identifiants sont des signaux d'alerte.",
       failure: "Méfiez-vous des demandes d'identifiants ou d'actions urgentes.",
     },
     // Activity: classification - sort signals into suspicious vs normal
@@ -159,7 +193,11 @@ const safetyScenarios = [
         { id: "sender", label: "Expéditeur inconnu" },
         { id: "tone", label: "Ton urgent" },
       ],
-      correctMapping: { link: "suspicious", sender: "suspicious", tone: "suspicious" },
+      correctMapping: {
+        link: "suspicious",
+        sender: "suspicious",
+        tone: "suspicious",
+      },
     },
   },
   {
@@ -175,15 +213,18 @@ const safetyScenarios = [
     game: {
       id: "game-visiteur-1",
       title: "Scénario visiteur",
-      question: "Quelle est la meilleure pratique si un visiteur arrive sans badge?",
+      question:
+        "Quelle est la meilleure pratique si un visiteur arrive sans badge?",
       options: [
         { id: "laisser", label: "Le laisser entrer" },
         { id: "refuser", label: "Refuser et appeler la sécurité" },
         { id: "accueil", label: "Délivrer un badge et accompagner" },
       ],
       correct: "accueil",
-      success: "Accompagner le visiteur et délivrer un badge protège tout le monde.",
-      failure: "Ne laissez pas un visiteur sans accompagnement dans une zone sensible.",
+      success:
+        "Accompagner le visiteur et délivrer un badge protège tout le monde.",
+      failure:
+        "Ne laissez pas un visiteur sans accompagnement dans une zone sensible.",
     },
     // activity: drag & drop - order the welcome steps
     activity: {
@@ -212,21 +253,28 @@ const conflictScenarios = [
         label: "Intervenir en privé pour clarifier",
         ok: true,
       },
-      { id: "punir", label: "Sanctionner publiquement", ok: false, branch: "conflict-punish" },
+      {
+        id: "punir",
+        label: "Sanctionner publiquement",
+        ok: false,
+        branch: "conflict-punish",
+      },
     ],
     feedback:
       "Intervenir en privé permet de désamorcer la situation et préserver la dignité des personnes.",
     game: {
       id: "game-conflict-1",
       title: "Dé-escalade rapide",
-      question: "Quelle est la meilleure première action pour désamorcer une dispute en public?",
+      question:
+        "Quelle est la meilleure première action pour désamorcer une dispute en public?",
       options: [
         { id: "ignorer", label: "Ignorer" },
         { id: "intervenir", label: "Demander un échange en privé" },
         { id: "punir", label: "Réprimander publiquement" },
       ],
       correct: "intervenir",
-      success: "C'est la meilleure façon de protéger les personnes et la dynamique d'équipe.",
+      success:
+        "C'est la meilleure façon de protéger les personnes et la dynamique d'équipe.",
       failure: "Une réponse publique peut aggraver la situation.",
     },
     // activity: classify appropriate handling steps
@@ -241,19 +289,25 @@ const conflictScenarios = [
         { id: "note", label: "Prendre des notes les faits" },
         { id: "announce", label: "Faire une annonce publique" },
       ],
-      correctMapping: { separate: "immediate", note: "followup", announce: "followup" },
+      correctMapping: {
+        separate: "immediate",
+        note: "followup",
+        announce: "followup",
+      },
     },
   },
   {
     id: "conflict-punish",
     title: "Conséquences d'une sanction publique",
-    context: "Sanctionner publiquement peut provoquer démotivation et perte de confiance. Que feriez-vous ensuite?",
+    context:
+      "Sanctionner publiquement peut provoquer démotivation et perte de confiance. Que feriez-vous ensuite?",
     options: [
       { id: "apology", label: "Présenter des excuses et réparer", ok: true },
-      { id: "defend", label: "Défendre la décision" , ok: false},
+      { id: "defend", label: "Défendre la décision", ok: false },
       { id: "ignore", label: "Ignorer les conséquences", ok: false },
     ],
-    feedback: "Réparer la relation et documenter les faits est essentiel pour la confiance à long terme.",
+    feedback:
+      "Réparer la relation et documenter les faits est essentiel pour la confiance à long terme.",
   },
   {
     id: "conflict-manager",
@@ -270,7 +324,8 @@ const conflictScenarios = [
     game: {
       id: "game-conflict-manager-1",
       title: "Documenter un incident",
-      question: "Quelle action est la plus appropriée quand un manager dépasse les limites?",
+      question:
+        "Quelle action est la plus appropriée quand un manager dépasse les limites?",
       options: [
         { id: "defendre", label: "Prendre parti sans vérifier" },
         { id: "escalade", label: "Documenter les faits et informer RH/Comex" },
@@ -278,7 +333,8 @@ const conflictScenarios = [
       ],
       correct: "escalade",
       success: "Documenter permet une gestion équitable et professionnelle.",
-      failure: "Ne pas documenter peut nuire à l'impartialité des actions futures.",
+      failure:
+        "Ne pas documenter peut nuire à l'impartialité des actions futures.",
     },
   },
   {
@@ -304,7 +360,8 @@ const conflictScenarios = [
     game: {
       id: "game-conflict-client-1",
       title: "Gérer un client mécontent",
-      question: "Quelle est la meilleure approche quand un client est en colère?",
+      question:
+        "Quelle est la meilleure approche quand un client est en colère?",
       options: [
         { id: "retourner", label: "Se défendre vivement" },
         { id: "calmer", label: "Proposer un espace calme et écouter" },
@@ -338,15 +395,18 @@ const fireScenarios = [
     game: {
       id: "game-incendie-1",
       title: "Réagir face à la fumée",
-      question: "Quelle est la première action à prendre si vous voyez de la fumée?",
+      question:
+        "Quelle est la première action à prendre si vous voyez de la fumée?",
       options: [
         { id: "ignorer", label: "Surveiller sans rien dire" },
         { id: "alerter", label: "Alerter et évacuer" },
         { id: "retirer", label: "Tenter d'éteindre seul" },
       ],
       correct: "alerter",
-      success: "Alerter et évacuer protège les personnes et facilite l'intervention.",
-      failure: "Ne tentez pas d'intervenir seul si la situation est incertaine.",
+      success:
+        "Alerter et évacuer protège les personnes et facilite l'intervention.",
+      failure:
+        "Ne tentez pas d'intervenir seul si la situation est incertaine.",
       // timed variant: respond within 12 seconds
       duration: 12,
     },
@@ -381,7 +441,10 @@ const fireScenarios = [
       question: "Lors d'une alerte, que faites-vous en priorité?",
       options: [
         { id: "panique", label: "Courir vers la sortie la plus proche" },
-        { id: "suivre", label: "Suivre les consignes et points de rassemblement" },
+        {
+          id: "suivre",
+          label: "Suivre les consignes et points de rassemblement",
+        },
         { id: "reprendre", label: "Retourner pour un objet personnel" },
       ],
       correct: "suivre",
@@ -409,7 +472,8 @@ export default function OnboardingSimulations() {
   if (moduleKey === "incendie") scenarios = fireScenarios;
 
   // compute current module id based on path
-  const currentModuleId = (moduleKey ?? (isConflicts ? "conflits" : "simulations")) as any;
+  const currentModuleId = (moduleKey ??
+    (isConflicts ? "conflits" : "simulations")) as any;
   const nextMod = getNextModule(currentModuleId) ?? null;
   const prevMod = getPreviousModule(currentModuleId) ?? null;
   const nextPath = nextMod?.path ?? null;
@@ -425,16 +489,25 @@ export default function OnboardingSimulations() {
     "/onboarding/epi": "visiteur",
   };
 
-  const initialId = requested ?? pathScenarioId ?? pathFallbackMap[path] ?? scenarios[0].id;
+  const initialId =
+    requested ?? pathScenarioId ?? pathFallbackMap[path] ?? scenarios[0].id;
 
   const [activeId, setActiveId] = useState(initialId);
   const [answer, setAnswer] = useState<string | null>(null);
   const [gameOpen, setGameOpen] = useState(false);
   const [activeGame, setActiveGame] = useState<any>(null);
-  const [externalResponses, setExternalResponses] = useState<Record<string, boolean> | undefined>(undefined);
+  const [externalResponses, setExternalResponses] = useState<
+    Record<string, boolean> | undefined
+  >(undefined);
 
-  const scenario = useMemo(() => scenarios.find((s) => s.id === activeId) ?? scenarios[0], [activeId, scenarios]);
-  const correct = useMemo(() => scenario.options.find((o) => o.ok)?.id, [scenario]);
+  const scenario = useMemo(
+    () => scenarios.find((s) => s.id === activeId) ?? scenarios[0],
+    [activeId, scenarios],
+  );
+  const correct = useMemo(
+    () => scenario.options.find((o) => o.ok)?.id,
+    [scenario],
+  );
 
   useEffect(() => {
     setAnswer(null);
@@ -456,7 +529,9 @@ export default function OnboardingSimulations() {
     const inOther = otherScenarios.some((s) => s.id === requested);
 
     if (inOther) {
-      toast.error("Ce scénario appartient à un autre module. Redirection vers le scénario par défaut.");
+      toast.error(
+        "Ce scénario appartient à un autre module. Redirection vers le scénario par défaut.",
+      );
     }
   }, [requested, activeId, scenarios, isConflicts]);
 
@@ -467,8 +542,12 @@ export default function OnboardingSimulations() {
       <main className="px-6 pb-24 pt-16">
         <section className="mx-auto max-w-6xl grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <article className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 p-8">
-            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Étape · Simulations</p>
-            <h1 className="mt-4 text-3xl font-semibold text-white">{scenario.title}</h1>
+            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+              Étape · Simulations
+            </p>
+            <h1 className="mt-4 text-3xl font-semibold text-white">
+              {scenario.title}
+            </h1>
             <p className="mt-3 text-slate-300">{scenario.context}</p>
 
             <div className="mt-6 grid gap-4 md:grid-cols-3">
@@ -479,14 +558,24 @@ export default function OnboardingSimulations() {
                   onClick={() => {
                     // branch handling
                     if ((opt as any).branch) {
-                      try { trackEvent("branch_choice", { from: scenario.id, choice: opt.id, to: (opt as any).branch }); } catch (e) {}
+                      try {
+                        trackEvent("branch_choice", {
+                          from: scenario.id,
+                          choice: opt.id,
+                          to: (opt as any).branch,
+                        });
+                      } catch (e) {}
                       setActiveId((opt as any).branch);
                       return;
                     }
                     setAnswer(opt.id);
                   }}
                   className={`rounded-2xl border border-white/10 p-4 text-left text-sm transition ${
-                    answer === opt.id ? (opt.ok ? "border-emerald-400 bg-emerald-500/10" : "border-rose-500 bg-rose-500/10") : "bg-white/5"
+                    answer === opt.id
+                      ? opt.ok
+                        ? "border-emerald-400 bg-emerald-500/10"
+                        : "border-rose-500 bg-rose-500/10"
+                      : "bg-white/5"
                   }`}
                 >
                   <p className="font-semibold text-white">{opt.label}</p>
@@ -497,9 +586,13 @@ export default function OnboardingSimulations() {
             {answer && (
               <div className="mt-6 rounded-2xl border p-4 text-sm text-slate-200">
                 {answer === correct ? (
-                  <p className="text-emerald-300">Bonne réponse — {scenario.feedback}</p>
+                  <p className="text-emerald-300">
+                    Bonne réponse — {scenario.feedback}
+                  </p>
                 ) : (
-                  <p className="text-rose-300">Réponse incorrecte — {scenario.feedback}</p>
+                  <p className="text-rose-300">
+                    Réponse incorrecte — {scenario.feedback}
+                  </p>
                 )}
               </div>
             )}
@@ -510,7 +603,12 @@ export default function OnboardingSimulations() {
                 <Button
                   size="md"
                   onClick={() => {
-                    try { trackEvent("mini_game_start", { gameId: scenario.game.id, module: currentModuleId }); } catch (e) {}
+                    try {
+                      trackEvent("mini_game_start", {
+                        gameId: scenario.game.id,
+                        module: currentModuleId,
+                      });
+                    } catch (e) {}
                     setActiveGame(scenario.game);
                     setGameOpen(true);
                   }}
@@ -527,11 +625,25 @@ export default function OnboardingSimulations() {
                         setActiveGame(null);
                       }}
                       onFinish={(score) => {
-                        try { trackEvent("mini_game_finish", { gameId: activeGame?.id, score, module: currentModuleId }); } catch (e) {}
+                        try {
+                          trackEvent("mini_game_finish", {
+                            gameId: activeGame?.id,
+                            score,
+                            module: currentModuleId,
+                          });
+                        } catch (e) {}
                         // if user succeeded at least one mini-game, mark 'pratique' as done in the UI checklist
                         if (score && score > 0) {
-                          setExternalResponses((prev) => ({ ...(prev || {}), pratique: true }));
-                          try { trackEvent("practice_marked", { module: currentModuleId, gameId: activeGame?.id }); } catch (e) {}
+                          setExternalResponses((prev) => ({
+                            ...(prev || {}),
+                            pratique: true,
+                          }));
+                          try {
+                            trackEvent("practice_marked", {
+                              module: currentModuleId,
+                              gameId: activeGame?.id,
+                            });
+                          } catch (e) {}
                         }
                       }}
                     />
@@ -545,12 +657,23 @@ export default function OnboardingSimulations() {
               <div className="mt-6">
                 <DragReorderBoard
                   title={"Exercice : ordonner les étapes"}
-                  description={"Placez les étapes dans l'ordre correct pour accueillir un visiteur."}
+                  description={
+                    "Placez les étapes dans l'ordre correct pour accueillir un visiteur."
+                  }
                   items={scenario.activity.items}
                   correctOrder={scenario.activity.correctOrder}
                   onSolved={() => {
-                    try { trackEvent("activity_solved", { type: "reorder", module: currentModuleId, scenario: scenario.id }); } catch (e) {}
-                    setExternalResponses((prev) => ({ ...(prev || {}), pratique: true }));
+                    try {
+                      trackEvent("activity_solved", {
+                        type: "reorder",
+                        module: currentModuleId,
+                        scenario: scenario.id,
+                      });
+                    } catch (e) {}
+                    setExternalResponses((prev) => ({
+                      ...(prev || {}),
+                      pratique: true,
+                    }));
                     toast.success("Exercice réussi — pratique cochée");
                   }}
                 />
@@ -566,8 +689,17 @@ export default function OnboardingSimulations() {
                   items={scenario.activity.items}
                   correctMapping={scenario.activity.correctMapping}
                   onSolved={() => {
-                    try { trackEvent("activity_solved", { type: "classify", module: currentModuleId, scenario: scenario.id }); } catch (e) {}
-                    setExternalResponses((prev) => ({ ...(prev || {}), pratique: true }));
+                    try {
+                      trackEvent("activity_solved", {
+                        type: "classify",
+                        module: currentModuleId,
+                        scenario: scenario.id,
+                      });
+                    } catch (e) {}
+                    setExternalResponses((prev) => ({
+                      ...(prev || {}),
+                      pratique: true,
+                    }));
                     toast.success("Exercice réussi — pratique cochée");
                   }}
                 />
@@ -590,12 +722,23 @@ export default function OnboardingSimulations() {
           </article>
 
           <aside className="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <h2 className="text-xl font-semibold text-white">Complétion du module</h2>
-            <p className="text-sm text-slate-300 mt-1">Validez le module une fois que vous avez terminé les simulations.</p>
+            <h2 className="text-xl font-semibold text-white">
+              Complétion du module
+            </h2>
+            <p className="text-sm text-slate-300 mt-1">
+              Validez le module une fois que vous avez terminé les simulations.
+            </p>
             <div className="mt-6">
               <ModuleCompletionCard
                 moduleId={"simulations" as any}
-                checklist={[{ id: "read", label: "J'ai lu les consignes" }, { id: "pratique", label: "J'ai réalisé les mises en situation" }, { id: "quiz", label: "J'ai passé le quiz" }]}
+                checklist={[
+                  { id: "read", label: "J'ai lu les consignes" },
+                  {
+                    id: "pratique",
+                    label: "J'ai réalisé les mises en situation",
+                  },
+                  { id: "quiz", label: "J'ai passé le quiz" },
+                ]}
                 description="Vérifiez que vous avez complété les éléments requis pour valider ce module."
                 externalResponses={externalResponses}
               />

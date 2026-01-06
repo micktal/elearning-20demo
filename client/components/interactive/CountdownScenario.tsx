@@ -22,7 +22,12 @@ const statusClasses: Record<CountdownOption["status"], string> = {
   risk: "border-rose-500 bg-rose-500/10 text-rose-100",
 };
 
-export function CountdownScenario({ title, prompt, options, duration = 20 }: CountdownScenarioProps) {
+export function CountdownScenario({
+  title,
+  prompt,
+  options,
+  duration = 20,
+}: CountdownScenarioProps) {
   const [timeLeft, setTimeLeft] = useState(duration);
   const [started, setStarted] = useState(false);
   const [choice, setChoice] = useState<string | null>(null);
@@ -39,14 +44,23 @@ export function CountdownScenario({ title, prompt, options, duration = 20 }: Cou
     setChoice(null);
   };
 
-  const feedback = useMemo(() => options.find((option) => option.id === choice), [options, choice]);
+  const feedback = useMemo(
+    () => options.find((option) => option.id === choice),
+    [options, choice],
+  );
 
   return (
     <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 p-6">
-      {title && <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">{title}</p>}
+      {title && (
+        <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+          {title}
+        </p>
+      )}
       <div className="mt-2 flex flex-wrap items-center gap-3">
         <h3 className="text-2xl font-semibold text-white">{prompt}</h3>
-        <span className="rounded-full border border-white/10 px-4 py-1 text-sm text-slate-300">Timer : {timeLeft}s</span>
+        <span className="rounded-full border border-white/10 px-4 py-1 text-sm text-slate-300">
+          Timer : {timeLeft}s
+        </span>
         <Button size="sm" variant="secondary" onClick={handleStart}>
           {started ? "Rejouer" : "Lancer"}
         </Button>
@@ -70,7 +84,12 @@ export function CountdownScenario({ title, prompt, options, duration = 20 }: Cou
         ))}
       </div>
       {feedback && (
-        <div className={cn("mt-4 rounded-2xl border px-4 py-3 text-sm", statusClasses[feedback.status])}>
+        <div
+          className={cn(
+            "mt-4 rounded-2xl border px-4 py-3 text-sm",
+            statusClasses[feedback.status],
+          )}
+        >
           Décision sélectionnée : {feedback.impact}
         </div>
       )}

@@ -14,7 +14,9 @@ export type GuidedDiscoveryProps = {
 };
 
 export function GuidedDiscovery({ title, intro, steps }: GuidedDiscoveryProps) {
-  const [unlocked, setUnlocked] = useState<string[]>(steps.length ? [steps[0].id] : []);
+  const [unlocked, setUnlocked] = useState<string[]>(
+    steps.length ? [steps[0].id] : [],
+  );
   const [activeStep, setActiveStep] = useState(steps[0]?.id ?? "");
 
   const handleClick = (stepId: string) => {
@@ -31,7 +33,11 @@ export function GuidedDiscovery({ title, intro, steps }: GuidedDiscoveryProps) {
 
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-      {title && <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">{title}</p>}
+      {title && (
+        <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+          {title}
+        </p>
+      )}
       {intro && <p className="mt-2 text-sm text-slate-300">{intro}</p>}
       <div className="mt-4 grid gap-4 md:grid-cols-[260px_1fr]">
         <div className="space-y-3">
@@ -52,7 +58,9 @@ export function GuidedDiscovery({ title, intro, steps }: GuidedDiscoveryProps) {
                 )}
                 disabled={!isUnlocked}
               >
-                <p className="text-xs uppercase tracking-[0.4em]">Étape {index + 1}</p>
+                <p className="text-xs uppercase tracking-[0.4em]">
+                  Étape {index + 1}
+                </p>
                 <p className="text-base font-semibold">{step.label}</p>
               </button>
             );

@@ -15,13 +15,21 @@ export type InteractiveCampusMapProps = {
   zones: CampusZone[];
 };
 
-export function InteractiveCampusMap({ title, intro, zones }: InteractiveCampusMapProps) {
+export function InteractiveCampusMap({
+  title,
+  intro,
+  zones,
+}: InteractiveCampusMapProps) {
   const [activeZone, setActiveZone] = useState(zones[0]?.id ?? "");
   const currentZone = zones.find((zone) => zone.id === activeZone) ?? zones[0];
 
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-      {title && <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">{title}</p>}
+      {title && (
+        <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+          {title}
+        </p>
+      )}
       {intro && <p className="mt-2 text-sm text-slate-300">{intro}</p>}
       <div className="mt-6 grid gap-4 lg:grid-cols-[320px_1fr]">
         <div className="grid grid-cols-2 gap-3">
@@ -37,7 +45,9 @@ export function InteractiveCampusMap({ title, intro, zones }: InteractiveCampusM
                   : "border-white/10 bg-slate-900/40 text-slate-200 hover:bg-white/10",
               )}
             >
-              <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Zone</p>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">
+                Zone
+              </p>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-base font-semibold">{zone.label}</p>

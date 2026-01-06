@@ -91,7 +91,12 @@ export default function OnboardingProtocols() {
             <Button
               size="lg"
               onClick={() => {
-                try { trackEvent("start_simulation", { module: "protocoles", scenario: "badge" }); } catch (e) {}
+                try {
+                  trackEvent("start_simulation", {
+                    module: "protocoles",
+                    scenario: "badge",
+                  });
+                } catch (e) {}
                 navigate("/onboarding/protocoles/badge");
               }}
             >

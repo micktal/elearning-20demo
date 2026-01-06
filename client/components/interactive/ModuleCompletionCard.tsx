@@ -24,7 +24,9 @@ export function ModuleCompletionCard({
 }: ModuleCompletionCardProps) {
   const { markModuleComplete, isModuleCompleted, getModuleScore } =
     useModuleProgress();
-  const [responses, setResponses] = useState<Record<string, boolean>>(() => ({}));
+  const [responses, setResponses] = useState<Record<string, boolean>>(
+    () => ({}),
+  );
 
   // Merge external responses when provided (e.g., mini-game completion signals)
   useEffect(() => {
@@ -73,8 +75,13 @@ export function ModuleCompletionCard({
   }, [alreadyValidated]);
 
   return (
-    <div className={cn("rounded-3xl border border-white/10 bg-white/5 p-6", justValidated && "ring-2 ring-emerald-400/40")}
-         aria-live="polite">
+    <div
+      className={cn(
+        "rounded-3xl border border-white/10 bg-white/5 p-6",
+        justValidated && "ring-2 ring-emerald-400/40",
+      )}
+      aria-live="polite"
+    >
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
@@ -93,27 +100,45 @@ export function ModuleCompletionCard({
             <Button variant="ghost" size="sm" onClick={() => setResponses({})}>
               Réinitialiser
             </Button>
-            <Button size="sm" onClick={handleValidate} disabled={!ready || alreadyValidated}>
+            <Button
+              size="sm"
+              onClick={handleValidate}
+              disabled={!ready || alreadyValidated}
+            >
               {alreadyValidated ? "Validé" : "Valider"}
             </Button>
           </div>
           {alreadyValidated && (
-            <p className="mt-2 text-sm text-slate-400">Score enregistré : {storedScore}%</p>
+            <p className="mt-2 text-sm text-slate-400">
+              Score enregistré : {storedScore}%
+            </p>
           )}
           {nextModule && (
-            <p className="mt-2 text-sm text-slate-400">Module suivant : {nextModule.label}</p>
+            <p className="mt-2 text-sm text-slate-400">
+              Module suivant : {nextModule.label}
+            </p>
           )}
         </div>
       </div>
 
       <div className="mt-6 grid gap-3">
         {checklist.map((item) => (
-          <label key={item.id} className={cn("flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3 text-sm", responses[item.id] && "bg-slate-900/70") }>
+          <label
+            key={item.id}
+            className={cn(
+              "flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3 text-sm",
+              responses[item.id] && "bg-slate-900/70",
+            )}
+          >
             <div>
               <p className="font-semibold text-white">{item.label}</p>
             </div>
             <div>
-              <input type="checkbox" checked={!!responses[item.id]} onChange={() => handleToggle(item.id)} />
+              <input
+                type="checkbox"
+                checked={!!responses[item.id]}
+                onChange={() => handleToggle(item.id)}
+              />
             </div>
           </label>
         ))}

@@ -222,10 +222,16 @@ export default function OnboardingPpe() {
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">{gear.zone}</p>
-                        <p className="mt-1 text-sm text-slate-300">{gear.exposure}</p>
+                        <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+                          {gear.zone}
+                        </p>
+                        <p className="mt-1 text-sm text-slate-300">
+                          {gear.exposure}
+                        </p>
                       </div>
-                      <div className="text-xs text-slate-400">{gear.insight}</div>
+                      <div className="text-xs text-slate-400">
+                        {gear.insight}
+                      </div>
                     </div>
                   </button>
                 ))}
@@ -234,7 +240,11 @@ export default function OnboardingPpe() {
           </div>
 
           <div className="mt-8">
-            <ModuleCompletionCard moduleId={moduleId} checklist={epiChecklist} description="Assurez-vous d'avoir lu et compris le protocole EPI pour votre poste." />
+            <ModuleCompletionCard
+              moduleId={moduleId}
+              checklist={epiChecklist}
+              description="Assurez-vous d'avoir lu et compris le protocole EPI pour votre poste."
+            />
           </div>
         </section>
       </main>

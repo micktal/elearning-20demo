@@ -17,7 +17,10 @@ export type DragReorderBoardProps = {
   onSolved?: () => void;
 };
 
-const accentClasses: Record<NonNullable<DragReorderBoardProps["accent"]>, string> = {
+const accentClasses: Record<
+  NonNullable<DragReorderBoardProps["accent"]>,
+  string
+> = {
   cyan: "border-cyan-400 bg-cyan-400/10",
   amber: "border-amber-400 bg-amber-400/10",
   emerald: "border-emerald-400 bg-emerald-400/10",
@@ -34,7 +37,13 @@ export function DragReorderBoard({
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [order, setOrder] = useState<string[]>(() => shuffle(items));
 
-  const orderedItems = useMemo(() => order.map((id) => items.find((item) => item.id === id)).filter(Boolean) as DragReorderItem[], [order, items]);
+  const orderedItems = useMemo(
+    () =>
+      order
+        .map((id) => items.find((item) => item.id === id))
+        .filter(Boolean) as DragReorderItem[],
+    [order, items],
+  );
 
   const isSolved = useMemo(
     () =>
@@ -63,8 +72,14 @@ export function DragReorderBoard({
 
   return (
     <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
-      {title && <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">{title}</p>}
-      {description && <p className="mt-1 text-sm text-slate-300">{description}</p>}
+      {title && (
+        <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+          {title}
+        </p>
+      )}
+      {description && (
+        <p className="mt-1 text-sm text-slate-300">{description}</p>
+      )}
       <div className="mt-4 space-y-3">
         {orderedItems.map((item, index) => (
           <div
@@ -78,10 +93,14 @@ export function DragReorderBoard({
               draggedId === item.id && "opacity-80",
             )}
           >
-            <span className="mt-0.5 text-xs font-semibold text-cyan-200">{index + 1}</span>
+            <span className="mt-0.5 text-xs font-semibold text-cyan-200">
+              {index + 1}
+            </span>
             <div>
               <p className="font-semibold text-white">{item.label}</p>
-              {item.detail && <p className="text-xs text-slate-300">{item.detail}</p>}
+              {item.detail && (
+                <p className="text-xs text-slate-300">{item.detail}</p>
+              )}
             </div>
           </div>
         ))}
@@ -95,7 +114,14 @@ export function DragReorderBoard({
           Réinitialiser l'ordre
         </button>
         {isSolved && (
-          <span className={cn("rounded-full px-4 py-1 text-xs font-semibold", accentClasses[accent])}>{successCopy}</span>
+          <span
+            className={cn(
+              "rounded-full px-4 py-1 text-xs font-semibold",
+              accentClasses[accent],
+            )}
+          >
+            {successCopy}
+          </span>
         )}
       </div>
     </div>
@@ -103,7 +129,5 @@ export function DragReorderBoard({
 }
 
 function shuffle(items: DragReorderItem[]) {
-  return [...items]
-    .sort(() => Math.random() - 0.5)
-    .map((item) => item.id);
+  return [...items].sort(() => Math.random() - 0.5).map((item) => item.id);
 }

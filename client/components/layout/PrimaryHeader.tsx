@@ -16,27 +16,38 @@ export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
   const location = useLocation();
 
   // Quick preview mode: add ?preview=all to the URL to unlock all modules for demo/debug
-  const previewAll = new URLSearchParams(location.search).get("preview") === "all";
+  const previewAll =
+    new URLSearchParams(location.search).get("preview") === "all";
 
   const totalModules = moduleSequence.length;
-  const completedCount = moduleSequence.reduce((count, module) => (statuses[module.id]?.completed ? count + 1 : count), 0);
-  const completionRatio = totalModules === 0 ? 0 : completedCount / totalModules;
+  const completedCount = moduleSequence.reduce(
+    (count, module) => (statuses[module.id]?.completed ? count + 1 : count),
+    0,
+  );
+  const completionRatio =
+    totalModules === 0 ? 0 : completedCount / totalModules;
   const trackerWidth = Math.max(8, completionRatio * 100);
 
-  const nextModule = moduleSequence.find((module) => !statuses[module.id]?.completed);
+  const nextModule = moduleSequence.find(
+    (module) => !statuses[module.id]?.completed,
+  );
   const resumePath = nextModule ? nextModule.path : "/onboarding/dashboard";
   const resumeLabel = nextModule ? "Reprendre le parcours" : "Programme validé";
 
   const capsuleBase = cn(
     "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] transition",
-    isDark ? "border-white/10 text-slate-100" : "border-slate-300 text-slate-700",
+    isDark
+      ? "border-white/10 text-slate-100"
+      : "border-slate-300 text-slate-700",
   );
 
   return (
     <header
       className={cn(
         "sticky top-0 z-30 w-full border-b backdrop-blur-xl",
-        isDark ? "bg-slate-950/70 border-white/5" : "bg-white/80 border-slate-200",
+        isDark
+          ? "bg-slate-950/70 border-white/5"
+          : "bg-white/80 border-slate-200",
       )}
     >
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-4 lg:flex-row lg:items-center lg:justify-between">
@@ -45,9 +56,21 @@ export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
             <LogoMark tone={isDark ? "dark" : "light"} />
           </Link>
           <div className="hidden md:flex flex-col gap-1">
-            <span className={cn("text-[11px] uppercase tracking-[0.4em]", isDark ? "text-slate-400" : "text-slate-500")}>Parcours</span>
+            <span
+              className={cn(
+                "text-[11px] uppercase tracking-[0.4em]",
+                isDark ? "text-slate-400" : "text-slate-500",
+              )}
+            >
+              Parcours
+            </span>
             <div className="flex items-center gap-3 text-xs">
-              <span className={cn("font-semibold", isDark ? "text-white" : "text-slate-800")}>
+              <span
+                className={cn(
+                  "font-semibold",
+                  isDark ? "text-white" : "text-slate-800",
+                )}
+              >
                 {completedCount}/{totalModules} modules validés
               </span>
               <div
@@ -77,10 +100,21 @@ export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
             )}
             aria-label="Navigation des modules"
           >
-            <div className={cn("text-[11px] uppercase tracking-[0.35em]", isDark ? "text-slate-500" : "text-slate-500")}>Séquence immersive</div>
+            <div
+              className={cn(
+                "text-[11px] uppercase tracking-[0.35em]",
+                isDark ? "text-slate-500" : "text-slate-500",
+              )}
+            >
+              Séquence immersive
+            </div>
             <div className="mt-2 flex flex-wrap gap-2">
               {moduleSequence.map((module) => {
-                const unlocked = previewAll || (initialized ? isModuleUnlocked(module.id) : module.id === "intro");
+                const unlocked =
+                  previewAll ||
+                  (initialized
+                    ? isModuleUnlocked(module.id)
+                    : module.id === "intro");
                 const completed = statuses[module.id]?.completed;
 
                 if (!unlocked) {
@@ -89,7 +123,9 @@ export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
                       key={module.id}
                       className={cn(
                         capsuleBase,
-                        isDark ? "text-slate-500/70 border-white/5" : "text-slate-400 border-slate-200",
+                        isDark
+                          ? "text-slate-500/70 border-white/5"
+                          : "text-slate-400 border-slate-200",
                       )}
                     >
                       <Lock className="h-3 w-3" aria-hidden />
@@ -105,7 +141,8 @@ export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
                     className={cn(
                       capsuleBase,
                       "hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/5",
-                      completed && "border-emerald-300/80 text-emerald-100 bg-emerald-500/10",
+                      completed &&
+                        "border-emerald-300/80 text-emerald-100 bg-emerald-500/10",
                       !isDark && "hover:border-slate-400 hover:bg-slate-50",
                     )}
                   >

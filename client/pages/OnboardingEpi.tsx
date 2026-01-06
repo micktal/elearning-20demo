@@ -54,7 +54,9 @@ export default function OnboardingEpi() {
                 className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center"
               >
                 <p className="text-sm text-slate-300">{item.label}</p>
-                <p className="mt-1 text-2xl font-semibold text-white">{item.value}</p>
+                <p className="mt-1 text-2xl font-semibold text-white">
+                  {item.value}
+                </p>
               </div>
             ))}
           </div>
@@ -81,7 +83,20 @@ export default function OnboardingEpi() {
           </div>
 
           <div className="mt-12 flex flex-wrap gap-4">
-            <Button size="lg" onClick={() => { try { trackEvent("start_simulation", { module: "epi", scenario: "visiteur" }); } catch (e) {} navigate("/onboarding/epi/visiteur"); }}>Pratique : visiteur sans badge</Button>
+            <Button
+              size="lg"
+              onClick={() => {
+                try {
+                  trackEvent("start_simulation", {
+                    module: "epi",
+                    scenario: "visiteur",
+                  });
+                } catch (e) {}
+                navigate("/onboarding/epi/visiteur");
+              }}
+            >
+              Pratique : visiteur sans badge
+            </Button>
             <Button variant="ghost" size="lg" asChild>
               <Link to="/onboarding/incendie">← Module précédent</Link>
             </Button>

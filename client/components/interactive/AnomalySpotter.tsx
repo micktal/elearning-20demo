@@ -15,17 +15,34 @@ export type AnomalySpotterProps = {
   points: AnomalyPoint[];
 };
 
-export function AnomalySpotter({ imageUrl, title, intro, points }: AnomalySpotterProps) {
+export function AnomalySpotter({
+  imageUrl,
+  title,
+  intro,
+  points,
+}: AnomalySpotterProps) {
   const [found, setFound] = useState<Record<string, boolean>>({});
-  const completed = useMemo(() => points.every((point) => found[point.id]), [points, found]);
+  const completed = useMemo(
+    () => points.every((point) => found[point.id]),
+    [points, found],
+  );
 
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-      {title && <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">{title}</p>}
+      {title && (
+        <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
+          {title}
+        </p>
+      )}
       {intro && <p className="mt-2 text-sm text-slate-300">{intro}</p>}
       <div className="mt-4 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/40">
-          <img src={imageUrl} alt="Scène à analyser" className="h-full w-full object-cover" loading="lazy" />
+          <img
+            src={imageUrl}
+            alt="Scène à analyser"
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
           {points.map((point) => (
             <button
               key={point.id}
@@ -37,7 +54,9 @@ export function AnomalySpotter({ imageUrl, title, intro, points }: AnomalySpotte
                   : "border-white/60 bg-slate-900/80 text-white/80 hover:border-cyan-400",
               )}
               style={point.position}
-              onClick={() => setFound((prev) => ({ ...prev, [point.id]: true }))}
+              onClick={() =>
+                setFound((prev) => ({ ...prev, [point.id]: true }))
+              }
             >
               {found[point.id] ? "✔" : "?"}
             </button>
@@ -59,7 +78,9 @@ export function AnomalySpotter({ imageUrl, title, intro, points }: AnomalySpotte
             >
               <p className="font-semibold text-white">{point.label}</p>
               <p className="text-slate-300">{point.description}</p>
-              <p className="mt-1 text-xs text-slate-500">Cliquez sur la scène pour signaler.</p>
+              <p className="mt-1 text-xs text-slate-500">
+                Cliquez sur la scène pour signaler.
+              </p>
             </div>
           ))}
         </div>
