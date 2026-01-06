@@ -171,6 +171,16 @@ const safetyScenarios = [
       success: "Accompagner le visiteur et délivrer un badge protège tout le monde.",
       failure: "Ne laissez pas un visiteur sans accompagnement dans une zone sensible.",
     },
+    // activity: drag & drop - order the welcome steps
+    activity: {
+      type: "reorder",
+      items: [
+        { id: "identify", label: "Identifier le visiteur et son motif" },
+        { id: "badge", label: "Délivrer un badge invité" },
+        { id: "escort", label: "Accompagner vers la zone" },
+      ],
+      correctOrder: ["identify", "badge", "escort"],
+    },
   },
 ];
 
