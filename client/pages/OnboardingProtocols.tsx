@@ -91,7 +91,10 @@ export default function OnboardingProtocols() {
           <div className="mt-12 flex flex-wrap gap-4">
             <Button
               size="lg"
-              onClick={() => navigate("/onboarding/protocoles/badge")}
+              onClick={() => {
+                try { trackEvent("start_simulation", { module: "protocoles", scenario: "badge" }); } catch (e) {}
+                navigate("/onboarding/protocoles/badge");
+              }}
             >
               Passer à la mise en situation
             </Button>
