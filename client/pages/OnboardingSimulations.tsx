@@ -476,7 +476,15 @@ export default function OnboardingSimulations() {
                 <button
                   key={opt.id}
                   type="button"
-                  onClick={() => setAnswer(opt.id)}
+                  onClick={() => {
+                    // branch handling
+                    if ((opt as any).branch) {
+                      try { trackEvent("branch_choice", { from: scenario.id, choice: opt.id, to: (opt as any).branch }); } catch (e) {}
+                      setActiveId((opt as any).branch);
+                      return;
+                    }
+                    setAnswer(opt.id);
+                  }}
                   className={`rounded-2xl border border-white/10 p-4 text-left text-sm transition ${
                     answer === opt.id ? (opt.ok ? "border-emerald-400 bg-emerald-500/10" : "border-rose-500 bg-rose-500/10") : "bg-white/5"
                   }`}
