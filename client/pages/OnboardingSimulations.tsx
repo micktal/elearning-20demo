@@ -147,6 +147,20 @@ const safetyScenarios = [
       success: "Bien vu — les demandes d'identifiants sont des signaux d'alerte.",
       failure: "Méfiez-vous des demandes d'identifiants ou d'actions urgentes.",
     },
+    // Activity: classification - sort signals into suspicious vs normal
+    activity: {
+      type: "classify",
+      categories: [
+        { id: "suspicious", label: "Suspicious" },
+        { id: "normal", label: "Normal" },
+      ],
+      items: [
+        { id: "link", label: "Lien externe inconnu" },
+        { id: "sender", label: "Expéditeur inconnu" },
+        { id: "tone", label: "Ton urgent" },
+      ],
+      correctMapping: { link: "suspicious", sender: "suspicious", tone: "suspicious" },
+    },
   },
   {
     id: "visiteur",
