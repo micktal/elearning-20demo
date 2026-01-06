@@ -104,6 +104,19 @@ const safetyScenarios = [
       { id: "signal", label: "Signaler et alerter SecOps", ok: true },
     ],
     feedback: "Le signalement rapide alimente la protection collective.",
+    game: {
+      id: "game-phishing-1",
+      title: "Reconnaître le phishing",
+      question: "Quel signe indique que l'email est probablement un phishing?",
+      options: [
+        { id: "urgent", label: "Ton urgent et demande d'identifiants" },
+        { id: "greeting", label: "Salutation amicale ordinaire" },
+        { id: "signature", label: "Signature complète du responsable" },
+      ],
+      correct: "urgent",
+      success: "Bien vu — les demandes d'identifiants sont des signaux d'alerte.",
+      failure: "Méfiez-vous des demandes d'identifiants ou d'actions urgentes.",
+    },
   },
   {
     id: "visiteur",
@@ -115,6 +128,19 @@ const safetyScenarios = [
       { id: "accueil", label: "Délivrer un badge et accompagner", ok: true },
     ],
     feedback: "L’accompagnement protège la conformité et l’expérience client.",
+    game: {
+      id: "game-visiteur-1",
+      title: "Scénario visiteur",
+      question: "Quelle est la meilleure pratique si un visiteur arrive sans badge?",
+      options: [
+        { id: "laisser", label: "Le laisser entrer" },
+        { id: "refuser", label: "Refuser et appeler la sécurité" },
+        { id: "accueil", label: "Délivrer un badge et accompagner" },
+      ],
+      correct: "accueil",
+      success: "Accompagner le visiteur et délivrer un badge protège tout le monde.",
+      failure: "Ne laissez pas un visiteur sans accompagnement dans une zone sensible.",
+    },
   },
 ];
 
