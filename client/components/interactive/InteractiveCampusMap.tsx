@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export type CampusZone = {
@@ -39,19 +38,20 @@ export function InteractiveCampusMap({ title, intro, zones }: InteractiveCampusM
               )}
             >
               <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Zone</p>
-              <p className="text-base font-semibold">{zone.label}</p>
-              <p className="text-xs text-slate-400">{zone.access}</p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-base font-semibold">{zone.label}</p>
+                  <p className="text-xs text-slate-400">{zone.access}</p>
+                </div>
+                <div className="text-xs text-slate-500">{zone.icon}</div>
+              </div>
             </button>
           ))}
         </div>
         {currentZone && (
-          <article className="rounded-3xl border border-white/10 bg-slate-900/80 p-5">
-            <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Brief</p>
-            <h3 className="mt-1 text-2xl font-semibold text-white">{currentZone.label}</h3>
-            <p className="mt-3 text-sm text-slate-200">{currentZone.description}</p>
-            <div className="mt-4 rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-xs text-slate-400">
-              Accès · {currentZone.access}
-            </div>
+          <article className="rounded-2xl border border-white/10 bg-slate-900/80 p-5 text-sm text-slate-200">
+            <h3 className="text-lg font-semibold">{currentZone.label}</h3>
+            <p className="mt-2">{currentZone.description}</p>
           </article>
         )}
       </div>
