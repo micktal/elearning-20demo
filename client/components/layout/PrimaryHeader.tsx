@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { moduleSequence } from "@/lib/moduleProgress";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 type PrimaryHeaderProps = {
   theme?: "light" | "dark";
@@ -13,6 +13,10 @@ type PrimaryHeaderProps = {
 export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
   const isDark = theme === "dark";
   const { initialized, isModuleUnlocked, statuses } = useModuleProgress();
+  const location = useLocation();
+
+  // Quick preview mode: add ?preview=all to the URL to unlock all modules for demo/debug
+  const previewAll = new URLSearchParams(location.search).get("preview") === "all";
 
   const totalModules = moduleSequence.length;
   const completedCount = moduleSequence.reduce((count, module) => (statuses[module.id]?.completed ? count + 1 : count), 0);
@@ -76,7 +80,7 @@ export function PrimaryHeader({ theme = "dark" }: PrimaryHeaderProps) {
             <div className={cn("text-[11px] uppercase tracking-[0.35em]", isDark ? "text-slate-500" : "text-slate-500")}>Séquence immersive</div>
             <div className="mt-2 flex flex-wrap gap-2">
               {moduleSequence.map((module) => {
-                const unlocked = initialized ? isModuleUnlocked(module.id) : module.id === "intro";
+                const unlocked = previewAll || (initialized ? isModuleUnlocked(module.id) : module.id === "intro");
                 const completed = statuses[module.id]?.completed;
 
                 if (!unlocked) {
