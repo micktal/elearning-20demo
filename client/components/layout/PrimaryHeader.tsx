@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
 import { LogoMark } from "@/components/branding/LogoMark";
 import { Button } from "@/components/ui/button";
 import { moduleSequence } from "@/lib/moduleProgress";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 type PrimaryHeaderProps = {
   theme?: "light" | "dark";
