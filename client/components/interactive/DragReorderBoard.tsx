@@ -15,6 +15,7 @@ export type DragReorderBoardProps = {
   correctOrder: string[];
   successCopy?: string;
   accent?: "cyan" | "amber" | "emerald";
+  onSolved?: () => void;
 };
 
 const accentClasses: Record<NonNullable<DragReorderBoardProps["accent"]>, string> = {
