@@ -1,5 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
-import { useMemo, useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getNextModule, getPreviousModule } from "@/lib/moduleProgress";
@@ -221,199 +220,16 @@ export default function OnboardingSimulations() {
     const inOther = otherScenarios.some((s) => s.id === requested);
 
     if (inOther) {
-      // notify user and redirect to the canonical path for this module's first scenario
-      toast(
-        `Le scénario demandé appartient à un autre module. Affichage des cas de ${isConflicts ? "gestion des conflits" : "sécurité"}.`,
-      );
-
-      const fallbackId = scenarios[0].id;
-      const targetPath = moduleKey
-        ? `/onboarding/${moduleKey}/${fallbackId}`
-        : `/onboarding/simulations?scenario=${fallbackId}`;
-
-      navigate(targetPath, { replace: true });
-      setActiveId(fallbackId);
-      return;
+      toast.error("Ce scénario appartient à un autre module. Redirection vers le scénario par défaut.");
     }
-
-    // If the requested id isn't found anywhere, silently ignore and keep current activeId
-  }, [requested, scenarios, activeId, isConflicts, navigate]);
+  }, [requested, activeId, scenarios, isConflicts]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <PrimaryHeader theme="dark" />
-
-      <main className="mx-auto max-w-5xl px-6 pb-24 pt-20">
-        <section className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-10">
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
-            Module · Simulations
-          </p>
-
-          <h1 className="mt-4 text-4xl font-semibold">
-            Tester vos réflexes essentiels
-          </h1>
-
-          <p className="mt-4 max-w-2xl text-slate-300">
-            Choisissez la bonne conduite à tenir dans chaque situation.
-          </p>
-
-          {moduleKey === "conflits" && (
-            <div className="mt-6 rounded-2xl overflow-hidden border border-white/10 bg-black">
-              <video
-                controls
-                className="w-full h-auto max-h-[420px] object-cover bg-black"
-                src="https://xnwexjnaiffdcifcnton.supabase.co/storage/v1/object/sign/pdf%20memo/gestion.mov?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mMWE2Y2M1ZS1kN2E2LTRjY2EtOTg1Ny1iOTc0Njg3NGQzNmUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZGYgbWVtby9nZXN0aW9uLm1vdiIsImlhdCI6MTc2Njk0MzA1MCwiZXhwIjoxNzk4NDc5MDUwfQ.4BhEJ0ZuiZPqrCrut3VX0VGW-iIkZtXeupQARWMwlsw"
-              />
-            </div>
-          )}
-
-          {/* Sélecteur scénario */}
-          <div className="mt-8 flex gap-3">
-            {scenarios.map((s) => (
-              <Button
-                key={s.id}
-                size="sm"
-                variant={s.id === activeId ? "default" : "secondary"}
-                onClick={() => {
-                  setActiveId(s.id);
-                }}
-              >
-                {s.title}
-              </Button>
-            ))}
-          </div>
-
-          {/* Simulation */}
-          <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6">
-            <h2 className="text-xl font-semibold">{scenario.title}</h2>
-            <p className="mt-2 text-slate-200">{scenario.context}</p>
-
-            <div className="mt-6 space-y-3">
-              {scenario.options.map((opt) => (
-                <button
-                  key={opt.id}
-                  onClick={() => setAnswer(opt.id)}
-                  className={`w-full rounded-xl border px-4 py-3 text-left transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400 ${
-                    answer === opt.id
-                      ? opt.ok
-                        ? "border-emerald-400 bg-emerald-400/20"
-                        : "border-rose-400 bg-rose-400/20"
-                      : "border-white/10 bg-white/5 hover:bg-white/10"
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-
-            {answer && (
-              <p
-                className={`mt-4 text-sm ${answer === correct ? "text-emerald-200" : "text-rose-200"}`}
-              >
-                {answer === correct
-                  ? scenario.feedback
-                  : "Reprenez les consignes avant de poursuivre."}
-              </p>
-            )}
-          </div>
-
-          <div className="mt-10 flex gap-4">
-            {nextPath ? (
-              <Button
-                size="lg"
-                onClick={(e) => {
-                  // ensure we don't navigate to a locked module; read fresh state from provider
-                  const nextId = nextMod?.id as any;
-                  // if module unlocking state isn't available yet, block and inform user
-                  if (!initialized) {
-                    toast("Veuillez patienter — synchronisation en cours...");
-                    return;
-                  }
-
-                  if (nextId && !isModuleUnlocked(nextId)) {
-                    toast(
-                      "Module verrouillé. Validez le module courant avant de poursuivre.",
-                    );
-                    return;
-                  }
-
-                  navigate(nextPath);
-                }}
-              >
-                Module suivant · {nextLabel}
-              </Button>
-            ) : (
-              <Button size="lg" disabled>
-                Module suivant
-              </Button>
-            )}
-
-            {prevPath ? (
-              <Button variant="ghost" asChild>
-                <Link to={prevPath}>← Consignes · {prevLabel}</Link>
-              </Button>
-            ) : (
-              <Button variant="ghost" disabled>
-                ← Consignes
-              </Button>
-            )}
-          </div>
-        </section>
-
-        <section className="mx-auto mt-14 max-w-5xl">
-          {/* Hide the module completion card for the explicit conflict 'conflict-verbal' scenario */}
-          {!(isConflicts && activeId === "conflict-verbal") && (
-            <ModuleCompletionCard
-              // derive moduleId from route (moduleKey) when available, otherwise fallback to 'simulations' or 'conflits'
-              moduleId={
-                (moduleKey as any) ?? (isConflicts ? "conflits" : "simulations")
-              }
-              checklist={
-                moduleKey === "conflits"
-                  ? [
-                      {
-                        id: "deescalade",
-                        label: "Je peux désamorcer un conflit verbal",
-                      },
-                      {
-                        id: "escalade",
-                        label: "Je sais quand escalader formellement",
-                      },
-                      {
-                        id: "client-gestion",
-                        label: "Je maîtrise l’accueil et la reprise client",
-                      },
-                    ]
-                  : moduleKey === "incendie"
-                    ? [
-                        { id: "alerte", label: "Je sais alerter et évacuer" },
-                        {
-                          id: "evac",
-                          label: "Je connais les points de rassemblement",
-                        },
-                        {
-                          id: "securite-humaine",
-                          label: "Je protège les personnes en priorité",
-                        },
-                      ]
-                    : [
-                        { id: "badge", label: "Je sais gérer un badge refusé" },
-                        { id: "mail", label: "Je sais signaler un phishing" },
-                        {
-                          id: "visit",
-                          label: "Je maîtrise l’accueil visiteur",
-                        },
-                      ]
-              }
-              description={
-                moduleKey === "conflits"
-                  ? "Validez vos réflexes de gestion de conflit."
-                  : moduleKey === "incendie"
-                    ? "Validez vos réflexes sécurité incendie."
-                    : "Validez vos réflexes avant de poursuivre."
-              }
-            />
-          )}
+      <main className="px-6 pb-24 pt-16">
+        <section className="mx-auto max-w-6xl">
+          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Étape · Simulations</p>
         </section>
       </main>
     </div>
