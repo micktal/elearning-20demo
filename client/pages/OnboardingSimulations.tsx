@@ -362,6 +362,37 @@ export default function OnboardingSimulations() {
               </div>
             )}
 
+            {/* Mini-game launcher */}
+            {scenario.game && (
+              <div className="mt-6">
+                <Button
+                  size="md"
+                  onClick={() => {
+                    try { trackEvent("mini_game_start", { gameId: scenario.game.id, module: currentModuleId }); } catch (e) {}
+                    setActiveGame(scenario.game);
+                    setGameOpen(true);
+                  }}
+                >
+                  Lancer le jeu
+                </Button>
+
+                {gameOpen && activeGame && (
+                  <div className="mt-4">
+                    <MiniGame
+                      game={activeGame}
+                      onClose={() => {
+                        setGameOpen(false);
+                        setActiveGame(null);
+                      }}
+                      onFinish={(score) => {
+                        try { trackEvent("mini_game_finish", { gameId: activeGame?.id, score, module: currentModuleId }); } catch (e) {}
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="mt-8 flex flex-wrap gap-3">
               {prevPath && (
                 <Button variant="ghost" size="lg" asChild>
