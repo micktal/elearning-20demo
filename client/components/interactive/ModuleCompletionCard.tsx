@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   moduleSequence,
   getNextModule,
@@ -38,18 +39,37 @@ export function ModuleCompletionCard({
   const alreadyValidated = isModuleCompleted(moduleId);
   const storedScore = getModuleScore(moduleId);
   const nextModule = getNextModule(moduleId);
+  const [justValidated, setJustValidated] = useState(false);
 
   const handleToggle = (id: string) => {
     setResponses((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleValidate = () => {
+  const handleValidate = useCallback(() => {
     if (!ready) return;
     markModuleComplete(moduleId, score || 100);
-  };
+    try {
+      setJustValidated(true);
+      // remove the visual state after a brief moment
+      window.setTimeout(() => setJustValidated(false), 1200);
+    } catch (e) {
+      // ignore
+    }
+  }, [markModuleComplete, moduleId, ready, score]);
+
+  useEffect(() => {
+    if (alreadyValidated) {
+      // ensure a short announcement for screen readers when module becomes validated
+      setJustValidated(true);
+      const t = window.setTimeout(() => setJustValidated(false), 1200);
+      return () => clearTimeout(t);
+    }
+    return;
+  }, [alreadyValidated]);
 
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+    <div className={cn("rounded-3xl border border-white/10 bg-white/5 p-6", justValidated && "ring-2 ring-emerald-400/40")}
+         aria-live="polite">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">
@@ -71,7 +91,7 @@ export function ModuleCompletionCard({
           </p>
           <Progress
             value={alreadyValidated ? storedScore : score}
-            className="mt-2 h-2 bg-white/10"
+            className="mt-2 h-2 bg-white/10 transition-all duration-200"
           />
         </div>
       </div>
@@ -92,6 +112,7 @@ export function ModuleCompletionCard({
               checked={responses[item.id] ?? false}
               onChange={() => handleToggle(item.id)}
               disabled={alreadyValidated}
+              aria-checked={responses[item.id] ?? false}
             />
             <span>{item.label}</span>
           </label>
@@ -100,7 +121,7 @@ export function ModuleCompletionCard({
 
       <div className="mt-6 flex flex-wrap gap-3">
         {!alreadyValidated && (
-          <Button size="lg" disabled={!ready} onClick={handleValidate}>
+          <Button size="lg" disabled={!ready} onClick={handleValidate} aria-label={ready ? "Valider le module" : "Complétez la checklist pour valider"}>
             Valider ce module
           </Button>
         )}
@@ -113,6 +134,11 @@ export function ModuleCompletionCard({
         >
           Réinitialiser les cases
         </Button>
+      </div>
+
+      {/* Accessibility announcement for screen readers */}
+      <div className="sr-only" role="status" aria-live="polite">
+        {justValidated && "Module validé. Vous pouvez poursuivre le parcours."}
       </div>
     </div>
   );
