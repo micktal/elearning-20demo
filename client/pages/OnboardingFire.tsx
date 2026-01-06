@@ -83,7 +83,7 @@ export default function OnboardingFire() {
 
           {/* ACTIONS */}
           <div className="mt-12 flex flex-wrap gap-4">
-            <Button size="lg" onClick={() => navigate("/onboarding/incendie/alerte")}>
+            <Button size="lg" onClick={() => { try { trackEvent("start_simulation", { module: "incendie", step: "alerte" }); } catch (e) {} navigate("/onboarding/incendie/alerte"); }}>
               Passer aux mises en situation
             </Button>
 
