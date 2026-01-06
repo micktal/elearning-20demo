@@ -25,6 +25,12 @@ export function ModuleCompletionCard({
     useModuleProgress();
   const [responses, setResponses] = useState<Record<string, boolean>>(() => ({}));
 
+  // Merge external responses when provided (e.g., mini-game completion signals)
+  useEffect(() => {
+    if (!externalResponses) return;
+    setResponses((prev) => ({ ...prev, ...externalResponses }));
+  }, [externalResponses]);
+
   const completedCount = useMemo(
     () => checklist.filter((item) => responses[item.id]).length,
     [checklist, responses],
