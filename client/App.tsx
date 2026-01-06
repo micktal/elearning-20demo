@@ -6,6 +6,11 @@ import "./global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import { initSentry } from "@/lib/sentry";
+import { ErrorBoundary } from "@/components/layout/ErrorBoundary";
+
+// Initialize Sentry if configured
+initSentry();
 import NotFound from "./pages/NotFound";
 import OnboardingIntro from "./pages/Onboarding";
 import OnboardingProtocols from "./pages/OnboardingProtocols";
@@ -21,11 +26,12 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ModuleProgressProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+    <ErrorBoundary>
+      <ModuleProgressProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
           {/* Scroll to top on every route change to ensure pages render from the top */}
           <ScrollToTop />
           <Routes>
@@ -88,8 +94,9 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-      </TooltipProvider>
-    </ModuleProgressProvider>
+        </TooltipProvider>
+      </ModuleProgressProvider>
+    </ErrorBoundary>
   </QueryClientProvider>
 );
 
