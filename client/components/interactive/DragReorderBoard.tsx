@@ -44,6 +44,10 @@ export function DragReorderBoard({
     [order, correctOrder],
   );
 
+  useEffect(() => {
+    if (isSolved && onSolved) onSolved();
+  }, [isSolved, onSolved]);
+
   const handleDrop = (targetId: string) => {
     if (!draggedId || draggedId === targetId) return;
     setOrder((prev) => {
