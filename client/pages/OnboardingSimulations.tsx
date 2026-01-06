@@ -212,7 +212,7 @@ const conflictScenarios = [
         label: "Intervenir en privé pour clarifier",
         ok: true,
       },
-      { id: "punir", label: "Sanctionner publiquement", ok: false },
+      { id: "punir", label: "Sanctionner publiquement", ok: false, branch: "conflict-punish" },
     ],
     feedback:
       "Intervenir en privé permet de désamorcer la situation et préserver la dignité des personnes.",
@@ -229,6 +229,31 @@ const conflictScenarios = [
       success: "C'est la meilleure façon de protéger les personnes et la dynamique d'équipe.",
       failure: "Une réponse publique peut aggraver la situation.",
     },
+    // activity: classify appropriate handling steps
+    activity: {
+      type: "classify",
+      categories: [
+        { id: "immediate", label: "Action immédiate" },
+        { id: "followup", label: "Suivi / Documenter" },
+      ],
+      items: [
+        { id: "separate", label: "Séparer et parler en privé" },
+        { id: "note", label: "Prendre des notes les faits" },
+        { id: "announce", label: "Faire une annonce publique" },
+      ],
+      correctMapping: { separate: "immediate", note: "followup", announce: "followup" },
+    },
+  },
+  {
+    id: "conflict-punish",
+    title: "Conséquences d'une sanction publique",
+    context: "Sanctionner publiquement peut provoquer démotivation et perte de confiance. Que feriez-vous ensuite?",
+    options: [
+      { id: "apology", label: "Présenter des excuses et réparer", ok: true },
+      { id: "defend", label: "Défendre la décision" , ok: false},
+      { id: "ignore", label: "Ignorer les conséquences", ok: false },
+    ],
+    feedback: "Réparer la relation et documenter les faits est essentiel pour la confiance à long terme.",
   },
   {
     id: "conflict-manager",
