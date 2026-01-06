@@ -1,6 +1,8 @@
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
+import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
+import { trackEvent } from "@/lib/analytics";
 
 const fireStats = [
   { label: "Priorité", value: "Protection des personnes" },
