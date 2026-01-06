@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { trackEvent } from "@/lib/analytics";
 import {
   getPreviousModule,
   moduleSequence,
@@ -87,6 +88,13 @@ export function ModuleProgressProvider({
           }
         } catch (e) {
           // ignore localStorage errors silently
+        }
+
+        // lightweight tracking event for telemetry
+        try {
+          trackEvent("module_complete", { moduleId, score });
+        } catch (e) {
+          // ignore analytics errors
         }
 
         return next;
