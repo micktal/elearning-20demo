@@ -216,6 +216,19 @@ const conflictScenarios = [
     ],
     feedback:
       "Documenter et alerter les bonnes instances garantit imparcialité et traçabilité.",
+    game: {
+      id: "game-conflict-manager-1",
+      title: "Documenter un incident",
+      question: "Quelle action est la plus appropriée quand un manager dépasse les limites?",
+      options: [
+        { id: "defendre", label: "Prendre parti sans vérifier" },
+        { id: "escalade", label: "Documenter les faits et informer RH/Comex" },
+        { id: "affronter", label: "Répondre sur le ton" },
+      ],
+      correct: "escalade",
+      success: "Documenter permet une gestion équitable et professionnelle.",
+      failure: "Ne pas documenter peut nuire à l'impartialité des actions futures.",
+    },
   },
   {
     id: "conflict-client",
@@ -237,6 +250,19 @@ const conflictScenarios = [
     ],
     feedback:
       "Calmer et écouter permet souvent de trouver un terrain d’entente rapidement.",
+    game: {
+      id: "game-conflict-client-1",
+      title: "Gérer un client mécontent",
+      question: "Quelle est la meilleure approche quand un client est en colère?",
+      options: [
+        { id: "retourner", label: "Se défendre vivement" },
+        { id: "calmer", label: "Proposer un espace calme et écouter" },
+        { id: "ignorer2", label: "Ignorer et espérer que ça passe" },
+      ],
+      correct: "calmer",
+      success: "Écouter et calmer désamorce souvent la situation.",
+      failure: "Ignorer ou riposter peut empirer la relation client.",
+    },
   },
 ];
 
