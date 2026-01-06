@@ -162,6 +162,19 @@ const conflictScenarios = [
     ],
     feedback:
       "Intervenir en privé permet de désamorcer la situation et préserver la dignité des personnes.",
+    game: {
+      id: "game-conflict-1",
+      title: "Dé-escalade rapide",
+      question: "Quelle est la meilleure première action pour désamorcer une dispute en public?",
+      options: [
+        { id: "ignorer", label: "Ignorer" },
+        { id: "intervenir", label: "Demander un échange en privé" },
+        { id: "punir", label: "Réprimander publiquement" },
+      ],
+      correct: "intervenir",
+      success: "C'est la meilleure façon de protéger les personnes et la dynamique d'équipe.",
+      failure: "Une réponse publique peut aggraver la situation.",
+    },
   },
   {
     id: "conflict-manager",
