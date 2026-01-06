@@ -296,6 +296,8 @@ export default function OnboardingSimulations() {
 
   const [activeId, setActiveId] = useState(initialId);
   const [answer, setAnswer] = useState<string | null>(null);
+  const [gameOpen, setGameOpen] = useState(false);
+  const [activeGame, setActiveGame] = useState<any>(null);
 
   const scenario = useMemo(() => scenarios.find((s) => s.id === activeId) ?? scenarios[0], [activeId, scenarios]);
   const correct = useMemo(() => scenario.options.find((o) => o.ok)?.id, [scenario]);
