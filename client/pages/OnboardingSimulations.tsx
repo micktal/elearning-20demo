@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { useModuleProgress } from "@/providers/ModuleProgressProvider";
 import { getNextModule, getPreviousModule } from "@/lib/moduleProgress";
 import { toast } from "sonner";
@@ -164,8 +164,7 @@ export default function OnboardingSimulations() {
   if (moduleKey === "incendie") scenarios = fireScenarios;
 
   // compute current module id based on path
-  const currentModuleId = (moduleKey ??
-    (isConflicts ? "conflits" : "simulations")) as any;
+  const currentModuleId = (moduleKey ?? (isConflicts ? "conflits" : "simulations")) as any;
   const nextMod = getNextModule(currentModuleId) ?? null;
   const prevMod = getPreviousModule(currentModuleId) ?? null;
   const nextPath = nextMod?.path ?? null;
@@ -181,20 +180,13 @@ export default function OnboardingSimulations() {
     "/onboarding/epi": "visiteur",
   };
 
-  const initialId =
-    requested ?? pathScenarioId ?? pathFallbackMap[path] ?? scenarios[0].id;
+  const initialId = requested ?? pathScenarioId ?? pathFallbackMap[path] ?? scenarios[0].id;
 
   const [activeId, setActiveId] = useState(initialId);
   const [answer, setAnswer] = useState<string | null>(null);
 
-  const scenario = useMemo(
-    () => scenarios.find((s) => s.id === activeId) ?? scenarios[0],
-    [activeId, scenarios],
-  );
-  const correct = useMemo(
-    () => scenario.options.find((o) => o.ok)?.id,
-    [scenario],
-  );
+  const scenario = useMemo(() => scenarios.find((s) => s.id === activeId) ?? scenarios[0], [activeId, scenarios]);
+  const correct = useMemo(() => scenario.options.find((o) => o.ok)?.id, [scenario]);
 
   useEffect(() => {
     setAnswer(null);
@@ -204,7 +196,6 @@ export default function OnboardingSimulations() {
   const { initialized, isModuleUnlocked } = useModuleProgress();
 
   useEffect(() => {
-    // if a requested scenario exists and differs from current, update
     if (!requested || requested === activeId) return;
 
     const exists = scenarios.some((s) => s.id === requested);
@@ -213,9 +204,6 @@ export default function OnboardingSimulations() {
       return;
     }
 
-    // The requested scenario does not belong to the current module's scenario set.
-    // If it's part of the OTHER set (e.g. safety when we are in conflicts), inform the user and
-    // navigate to a sensible fallback for the current module.
     const otherScenarios = isConflicts ? safetyScenarios : conflictScenarios;
     const inOther = otherScenarios.some((s) => s.id === requested);
 
@@ -227,9 +215,65 @@ export default function OnboardingSimulations() {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <PrimaryHeader theme="dark" />
+
       <main className="px-6 pb-24 pt-16">
-        <section className="mx-auto max-w-6xl">
-          <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Étape · Simulations</p>
+        <section className="mx-auto max-w-6xl grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <article className="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 p-8">
+            <p className="text-xs uppercase tracking-[0.5em] text-cyan-200">Étape · Simulations</p>
+            <h1 className="mt-4 text-3xl font-semibold text-white">{scenario.title}</h1>
+            <p className="mt-3 text-slate-300">{scenario.context}</p>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {scenario.options.map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => setAnswer(opt.id)}
+                  className={`rounded-2xl border border-white/10 p-4 text-left text-sm transition ${
+                    answer === opt.id ? (opt.ok ? "border-emerald-400 bg-emerald-500/10" : "border-rose-500 bg-rose-500/10") : "bg-white/5"
+                  }`}
+                >
+                  <p className="font-semibold text-white">{opt.label}</p>
+                </button>
+              ))}
+            </div>
+
+            {answer && (
+              <div className="mt-6 rounded-2xl border p-4 text-sm text-slate-200">
+                {answer === correct ? (
+                  <p className="text-emerald-300">Bonne réponse — {scenario.feedback}</p>
+                ) : (
+                  <p className="text-rose-300">Réponse incorrecte — {scenario.feedback}</p>
+                )}
+              </div>
+            )}
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              {prevPath && (
+                <Button variant="ghost" size="lg" asChild>
+                  <Link to={prevPath}>← {prevLabel}</Link>
+                </Button>
+              )}
+
+              {nextPath && (
+                <Button variant="secondary" size="lg" asChild>
+                  <Link to={nextPath}>{nextLabel} →</Link>
+                </Button>
+              )}
+            </div>
+          </article>
+
+          <aside className="rounded-3xl border border-white/10 bg-white/5 p-6">
+            <h2 className="text-xl font-semibold text-white">Complétion du module</h2>
+            <p className="text-sm text-slate-300 mt-1">Validez le module une fois que vous avez terminé les simulations.</p>
+            <div className="mt-6">
+              <ModuleCompletionCard
+                moduleId={"simulations" as any}
+                checklist={[{ id: "read", label: "J'ai lu les consignes" }, { id: "pratique", label: "J'ai réalisé les mises en situation" }, { id: "quiz", label: "J'ai passé le quiz" }]}
+                description="Vérifiez que vous avez complété les éléments requis pour valider ce module."
+              />
+            </div>
+          </aside>
         </section>
       </main>
     </div>
