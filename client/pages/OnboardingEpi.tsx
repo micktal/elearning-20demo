@@ -82,7 +82,7 @@ export default function OnboardingEpi() {
           </div>
 
           <div className="mt-12 flex flex-wrap gap-4">
-            <Button size="lg" onClick={() => navigate("/onboarding/epi/visiteur")}>Pratique : visiteur sans badge</Button>
+            <Button size="lg" onClick={() => { try { trackEvent("start_simulation", { module: "epi", scenario: "visiteur" }); } catch (e) {} navigate("/onboarding/epi/visiteur"); }}>Pratique : visiteur sans badge</Button>
             <Button variant="ghost" size="lg" asChild>
               <Link to="/onboarding/incendie">← Module précédent</Link>
             </Button>
