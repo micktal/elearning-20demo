@@ -10,7 +10,10 @@ export function initSentry() {
     if (!dsn) return;
 
     // dynamic import so Sentry is only included when configured
-    void import('@sentry/browser').then((Sentry) => {
+    // Use @vite-ignore to prevent Vite from statically analyzing this dynamic import
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    void import(/* @vite-ignore */ '@sentry/browser').then((Sentry) => {
       Sentry.init({
         dsn,
         release: (import.meta as any).env?.VITE_COMMIT_SHA || undefined,
