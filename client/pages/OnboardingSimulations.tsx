@@ -6,6 +6,66 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { PrimaryHeader } from "@/components/layout/PrimaryHeader";
 import { ModuleCompletionCard } from "@/components/interactive/ModuleCompletionCard";
+import { trackEvent } from "@/lib/analytics";
+
+// Lightweight mini-game component used inline for quick exercises
+function MiniGame({ game, onClose, onFinish }: { game: any; onClose: () => void; onFinish?: (score: number) => void }) {
+  const [answerId, setAnswerId] = useState<string | null>(null);
+  const [finished, setFinished] = useState(false);
+
+  if (!game) return null;
+
+  const handleAnswer = (id: string) => {
+    setAnswerId(id);
+    const correct = id === game.correct;
+    setFinished(true);
+    try { trackEvent("mini_game_attempt", { gameId: game.id, correct }); } catch (e) {}
+    if (onFinish) onFinish(correct ? 1 : 0);
+  };
+
+  return (
+    <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
+      <h3 className="text-lg font-semibold text-white">Jeu : {game.title}</h3>
+      <p className="mt-2 text-slate-300 text-sm">{game.question}</p>
+
+      <div className="mt-4 grid gap-3 md:grid-cols-1">
+        {game.options.map((opt: any) => (
+          <button
+            key={opt.id}
+            type="button"
+            onClick={() => handleAnswer(opt.id)}
+            disabled={finished}
+            className={`w-full rounded-md px-4 py-2 text-left text-sm ${
+              finished ? (opt.id === game.correct ? "bg-emerald-600/20 border-emerald-400" : opt.id === answerId ? "bg-rose-600/20 border-rose-400" : "bg-white/5") : "bg-white/5"
+            } border`}
+          >
+            <div className="font-medium text-white">{opt.label}</div>
+            {opt.hint && <div className="text-xs text-slate-300 mt-1">{opt.hint}</div>}
+          </button>
+        ))}
+      </div>
+
+      {finished && (
+        <div className="mt-4 text-sm">
+          {answerId === game.correct ? (
+            <p className="text-emerald-300">Bravo — {game.success ?? "Bonne réponse"}</p>
+          ) : (
+            <p className="text-rose-300">Raté — {game.failure ?? "Réponse incorrecte"}</p>
+          )}
+        </div>
+      )}
+
+      <div className="mt-4 flex gap-2">
+        <button
+          onClick={() => { try { trackEvent("mini_game_close", { gameId: game.id }); } catch (e) {} onClose(); }}
+          className="rounded-md bg-white/6 px-3 py-2 text-sm text-white"
+        >
+          Fermer
+        </button>
+      </div>
+    </div>
+  );
+}
 
 // General safety scenarios
 const safetyScenarios = [
