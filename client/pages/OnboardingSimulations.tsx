@@ -469,6 +469,11 @@ export default function OnboardingSimulations() {
                       }}
                       onFinish={(score) => {
                         try { trackEvent("mini_game_finish", { gameId: activeGame?.id, score, module: currentModuleId }); } catch (e) {}
+                        // if user succeeded at least one mini-game, mark 'pratique' as done in the UI checklist
+                        if (score && score > 0) {
+                          setExternalResponses((prev) => ({ ...(prev || {}), pratique: true }));
+                          try { trackEvent("practice_marked", { module: currentModuleId, gameId: activeGame?.id }); } catch (e) {}
+                        }
                       }}
                     />
                   </div>
