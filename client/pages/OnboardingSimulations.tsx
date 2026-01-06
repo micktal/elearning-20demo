@@ -12,10 +12,32 @@ import { trackEvent } from "@/lib/analytics";
 function MiniGame({ game, onClose, onFinish }: { game: any; onClose: () => void; onFinish?: (score: number) => void }) {
   const [answerId, setAnswerId] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<number | null>(game?.duration ?? null);
+
+  useEffect(() => {
+    if (!game?.duration || finished) return;
+    setTimeLeft(game.duration);
+    const t = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev === null) return null;
+        if (prev <= 1) {
+          clearInterval(t);
+          // timeout - mark as failed
+          setFinished(true);
+          try { trackEvent("mini_game_timeout", { gameId: game.id }); } catch (e) {}
+          if (onFinish) onFinish(0);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(t);
+  }, [game?.duration, finished, game, onFinish]);
 
   if (!game) return null;
 
   const handleAnswer = (id: string) => {
+    if (finished) return;
     setAnswerId(id);
     const correct = id === game.correct;
     setFinished(true);
@@ -25,7 +47,13 @@ function MiniGame({ game, onClose, onFinish }: { game: any; onClose: () => void;
 
   return (
     <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
-      <h3 className="text-lg font-semibold text-white">Jeu : {game.title}</h3>
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold text-white">Jeu : {game.title}</h3>
+        {timeLeft !== null && (
+          <div className="text-sm text-slate-300">Temps restant : {timeLeft}s</div>
+        )}
+      </div>
+
       <p className="mt-2 text-slate-300 text-sm">{game.question}</p>
 
       <div className="mt-4 grid gap-3 md:grid-cols-1">
